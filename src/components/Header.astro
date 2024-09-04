@@ -11,10 +11,10 @@ const GITHUB = "yaoshiu";
   <h1 text-xl font-handwrite h-full w-full flex justify-center items-center>
     <TypeWriter text={[WELCOME, TITLE]} client:load />
   </h1>
-  <div font="pixel" flex gap-4 justify-center>
-    <a href="/">cd ~</a>
-    <a href="/posts">/posts</a>
-    <a href="/projects">/projects</a>
+  <div font="pixel" flex gap-4 py-2 justify-center>
+    <a href="/" hover:underline>cd ~</a>
+    <a href="/posts" hover:underline>/posts</a>
+    <a href="/projects" hover:underline>/projects</a>
     <a
       href={`https://github.com/${GITHUB}`}
       aria-label="github"

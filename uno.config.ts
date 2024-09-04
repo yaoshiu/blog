@@ -58,4 +58,25 @@ export default defineConfig({
       },
     },
   },
+
+  preflights: [
+    {
+      getCSS: ({ theme }) =>
+        `:root {${Object.entries(theme.colors)
+          .map(function mapColors([key, value]): string {
+            if (typeof value === "string") {
+              return `--color-${key.split("-").reverse().join("-")}: ${value};`;
+            }
+            if (typeof value === "object" && value) {
+              return Object.entries(value)
+                .map(([currentKey, value]) =>
+                  mapColors([`${key}-${currentKey}`, value]),
+                )
+                .join("");
+            }
+            return "";
+          })
+          .join("")}}`,
+    },
+  ],
 });
