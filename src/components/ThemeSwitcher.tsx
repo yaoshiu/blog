@@ -8,9 +8,7 @@ export const ThemeSwitcher = () => {
       onClick={toggleDark}
       aria-label={`Switch to ${dark() ? "light" : "dark"} mode`}
     >
-      <div
-        class={dark() ? "i-pixelarticons:moon" : "i-pixelarticons:sun-alt"}
-      />
+      <div i-pixelarticons={dark() ? "moon" : "sun-alt"} />
     </button>
   );
 };

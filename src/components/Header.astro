@@ -11,15 +11,7 @@ const GITHUB = "yaoshiu";
   <h1 text-xl font-handwrite h-full w-full flex justify-center items-center>
     <TypeWriter text={[WELCOME, TITLE]} client:load />
   </h1>
-  <div
-    font="pixel"
-    w-max
-    flex
-    gap-4
-    justify-center
-    border="b border"
-    p="x-4 y-2"
-  >
+  <div font="pixel" flex gap-4 justify-center>
     <a href="/">cd ~</a>
     <a href="/posts">/posts</a>
     <a href="/projects">/projects</a>
@@ -29,7 +21,7 @@ const GITHUB = "yaoshiu";
       flex
       items-center
     >
-      <div class="i-pixelarticons:github"></div>
+      <div i-pixelarticons:github></div>
     </a>
     <ThemeSwitcher client:load />
   </div>
