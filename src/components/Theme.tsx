@@ -50,11 +50,5 @@ export const ThemeProvider: ParentComponent = (props) => {
     darkThemeMq?.removeEventListener("change", onMqChange);
   });
 
-  return (
-    <div classList={{ dark: dark() }}>
-      <div bg="bg dark:dark-bg" text="text-pri dark:dark-text-pri">
-        {props.children}
-      </div>
-    </div>
-  );
+  return <div classList={{ dark: dark() }}>{props.children}</div>;
 };
