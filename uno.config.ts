@@ -6,7 +6,6 @@ import {
   presetTypography,
   presetUno,
   presetWebFonts,
-  transformerAttributifyJsx,
 } from 'unocss';
 import colorSchemes from './colorSchemes';
 
