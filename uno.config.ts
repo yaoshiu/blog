@@ -12,7 +12,19 @@ import colorSchemes from './colorSchemes';
 export default defineConfig({
   presets: [
     presetUno(),
-    presetTypography(),
+    presetTypography({
+      cssExtend: {
+        a: {
+          color: 'rgb(var(--color-text-1))',
+          'border-bottom': '1px solid rgba(var(--color-text-1), 0.5)',
+          'text-decoration': 'none',
+          transition: 'border-bottom 0.15s ease-in-out',
+        },
+        'a:hover': {
+          'border-bottom': '1px solid rgba(var(--color-text-1), 1)',
+        },
+      },
+    }),
     presetWebFonts({
       provider: 'google',
       fonts: {
@@ -66,7 +78,11 @@ export default defineConfig({
         `:root {${Object.entries(theme.colors)
           .map(function mapColors([key, value]): string {
             if (typeof value === 'string') {
-              return `--color-${key}: ${value};`;
+              const color = value.replace(/#/, '');
+              const r = Number.parseInt(color.substring(0, 2), 16);
+              const g = Number.parseInt(color.substring(2, 4), 16);
+              const b = Number.parseInt(color.substring(4, 6), 16);
+              return `--color-${key}: ${r}, ${g}, ${b};`;
             }
             if (typeof value === 'object' && value) {
               return Object.entries(value)

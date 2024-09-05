@@ -88,47 +88,42 @@ const LEARNING = [
     </a>, majoring in Computer Science.
   </p>
 
-  <p>
-    My personal works:
+  <p>My personal works:</p>
+  <ul class="not-prose">
+    {
+      REPOS.map(({ repo, desc, icon }) => (
+        <li>
+          <RepoCard repo={repo} desc={desc} icon={icon} />
+        </li>
+      ))
+    }
+  </ul>
 
-    <ul class="not-prose">
-      {
-        REPOS.map(({ repo, desc, icon }) => (
-          <li>
-            <RepoCard repo={repo} desc={desc} icon={icon} />
-          </li>
-        ))
-      }
-    </ul>
-  </p>
-
-  <p>
-    I am learning:
-    <ul>
-      {
-        LEARNING.map(({ title, tags }) => (
-          <li>
-            <strong>
-              {title}
-              {tags ? ':' : ''}
-            </strong>
-            {tags && (
-              <ul class="not-prose" inline>
-                {tags.map(({ icon, name }) => (
-                  <li inline>
-                    <Tag>
-                      <svg class={icon} inline-block />
-                      {name}
-                    </Tag>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))
-      }
-    </ul>
-  </p>
+  <p>I am learning:</p>
+  <ul>
+    {
+      LEARNING.map(({ title, tags }) => (
+        <li>
+          <strong>
+            {title}
+            {tags ? ':' : ''}
+          </strong>
+          {tags && (
+            <ul class="not-prose" inline>
+              {tags.map(({ icon, name }) => (
+                <li inline>
+                  <Tag>
+                    <svg class={icon} inline-block />
+                    {name}
+                  </Tag>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))
+    }
+  </ul>
 
   <p>
     I often like to think of myself as a "creature driven by curiosity." When

@@ -23,11 +23,9 @@ const { title } = Astro.props;
         text="text-0 dark:dark-text-0"
       >
         <Header />
-        <div max-w-2xl p-4>
-          <article>
-            <div prose>
-              <slot />
-            </div>
+        <div p-4>
+          <article prose class="[&_*]:animate-fade-in">
+            <slot />
           </article>
           <Footer />
         </div>
