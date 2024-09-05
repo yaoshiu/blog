@@ -1,4 +1,4 @@
-import { createSignal, mergeProps, onMount } from "solid-js";
+import { createSignal, mergeProps, onMount } from 'solid-js';
 
 const TIMEOUT = 150;
 const DECTIMEOUT = 50;
@@ -20,7 +20,7 @@ export const TypeWriter = (props: {
     props,
   );
 
-  const [displayText, setDisplayText] = createSignal("");
+  const [displayText, setDisplayText] = createSignal('');
 
   onMount(() => {
     let index = -1;
@@ -37,7 +37,7 @@ export const TypeWriter = (props: {
         if (index < text.length - 1) {
           index = index + 1;
         }
-        currentText = text[index].replaceAll(" ", "\u00a0");
+        currentText = text[index].replaceAll(' ', '\u00a0');
         setTimeout(type, merged.dectimeout);
       }
     }
@@ -58,7 +58,7 @@ export const TypeWriter = (props: {
   return (
     <span>
       {displayText()}
-      <span animate-blink border="l text-pri dark:dark-text-pri" />
+      <span animate-blink border="l text-0 dark:dark-text-0" />
     </span>
   );
 };

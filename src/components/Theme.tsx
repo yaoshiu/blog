@@ -3,7 +3,7 @@ import {
   createSignal,
   onCleanup,
   onMount,
-} from "solid-js";
+} from 'solid-js';
 
 const [dark, setDark] = createSignal(false);
 
@@ -41,13 +41,13 @@ export const ThemeProvider: ParentComponent = (props) => {
   }
 
   onMount(() => {
-    darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+    darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
     onMqChange(darkThemeMq);
-    darkThemeMq.addEventListener("change", onMqChange);
+    darkThemeMq.addEventListener('change', onMqChange);
   });
 
   onCleanup(() => {
-    darkThemeMq?.removeEventListener("change", onMqChange);
+    darkThemeMq?.removeEventListener('change', onMqChange);
   });
 
   return <div classList={{ dark: dark() }}>{props.children}</div>;

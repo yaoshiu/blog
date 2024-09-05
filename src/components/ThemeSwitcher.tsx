@@ -1,14 +1,18 @@
-import { dark, toggleDark } from "./Theme";
+import type { JSX } from 'solid-js';
+import { dark, toggleDark } from './Theme';
 
-export const ThemeSwitcher = () => {
+export const ThemeSwitcher = (
+  props: JSX.ButtonHTMLAttributes<HTMLButtonElement>,
+) => {
   return (
     <button
+      {...props}
       type="button"
-      bg-transparent
       onClick={toggleDark}
-      aria-label={`Switch to ${dark() ? "light" : "dark"} mode`}
+      aria-label={`Switch to ${dark() ? 'light' : 'dark'} mode`}
+      bg="transparent"
     >
-      <div i-pixelarticons={dark() ? "moon" : "sun-alt"} />
+      <svg i-pixelarticons={dark() ? 'moon' : 'sun-alt'} />
     </button>
   );
 };
