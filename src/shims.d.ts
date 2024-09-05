@@ -6,8 +6,13 @@ declare module 'solid-js' {
   }
 }
 
+interface Prose {
+  prose?: string | boolean;
+}
+
 declare global {
   namespace astroHTML.JSX {
     interface HTMLAttributes extends AttributifyAttributes {}
+    interface HTMLAttributes extends Prose {}
   }
 }
