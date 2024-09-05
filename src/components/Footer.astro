@@ -1,0 +1,28 @@
+---
+interface Props {
+  url?: string;
+}
+
+const { url } = Astro.props;
+---
+
+<footer flex items-center gap-2 text-xs>
+  <a
+    flex
+    items-center
+    gap-2
+    font-medium
+    text-text-1
+    border="b opacity-50 dark:opacity-50 text-1 dark:dark-text-1 hover:opacity-100"
+    href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  >
+    CC BY-NC-SA 4.0
+    <div i-fa6-brands:creative-commons></div>
+    <div i-fa6-brands:creative-commons-by></div>
+    <div i-fa6-brands:creative-commons-nc></div>
+    <div i-fa6-brands:creative-commons-sa></div>
+  </a>
+  2024
+  <div i-fa6-regular:copyright></div>
+  Fay Ash
+</footer>

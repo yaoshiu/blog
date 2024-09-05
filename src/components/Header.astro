@@ -1,28 +1,62 @@
 ---
-import ThemeSwitcher from "./ThemeSwitcher";
-import TypeWriter from "./TypeWriter";
+import ThemeSwitcher from './ThemeSwitcher';
+import TypeWriter from './TypeWriter';
 
-const TITLE = "Fay Ash";
-const WELCOME = "Welcome";
-const GITHUB = "yaoshiu";
+const TITLE = 'Fay Ash';
+const WELCOME = 'Welcome';
+const GITHUB = 'yaoshiu';
+const STEAMID = 'fayash';
 ---
 
-<header h-50vh bg="layer dark:dark-layer" flex flex-col items-center>
+<header
+  h-50vh
+  bg-gradient-to-tl
+  from-button-0
+  to-button-1
+  dark="from-dark-button-0 to-dark-button-1"
+  flex="~ col"
+  items-center
+>
   <h1 text-xl font-handwrite h-full w-full flex justify-center items-center>
     <TypeWriter text={[WELCOME, TITLE]} client:load />
   </h1>
   <div font="pixel" flex gap-4 py-2 justify-center>
-    <a href="/" hover:underline>cd ~</a>
-    <a href="/posts" hover:underline>/posts</a>
-    <a href="/projects" hover:underline>/projects</a>
+    <a href="/" hover:underline> cd ~ </a>
+    <a href="/posts" hover:underline> /posts </a>
+    <a href="/projects" hover:underline> /projects </a>
+    <a
+      href="./friends"
+      aria-label="friends"
+      flex
+      items-center
+      hover:animate-flip
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <svg i-pixelarticons:contact></svg>
+    </a>
     <a
       href={`https://github.com/${GITHUB}`}
       aria-label="github"
       flex
       items-center
+      hover:animate-wobble
+      target="_blank"
+      rel="noopener noreferrer"
     >
-      <div i-pixelarticons:github></div>
+      <svg i-pixelarticons:github></svg>
     </a>
-    <ThemeSwitcher client:load />
+    <a
+      href={`https://steamcommunity.com/id/${STEAMID}`}
+      aria-label="steam"
+      flex
+      items-center
+      hover:animate-tada
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <svg i-pixelarticons:gamepad></svg>
+    </a>
+    <ThemeSwitcher hover:animate="spin" client:load />
   </div>
 </header>
