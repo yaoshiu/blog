@@ -20,6 +20,9 @@ export default defineConfig({
           'text-decoration': 'none',
           transition: 'border-bottom 0.15s ease-in-out',
         },
+        '.dark a': {
+          color: 'rbg(var(--color-dark-text-1))',
+        },
         'a:hover': {
           'border-bottom': '1px solid rgba(var(--color-text-1), 1)',
         },

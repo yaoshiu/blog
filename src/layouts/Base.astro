@@ -6,13 +6,14 @@ import { ThemeProvider } from '../components/Theme';
 
 interface Props {
   title: string;
+  description: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <html lang="en">
-  <Head {title} />
+  <Head {title} {description} />
   <body>
     <ThemeProvider client:load>
       <div
