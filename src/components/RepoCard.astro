@@ -16,20 +16,18 @@ const [, name] = repo.split('/');
 <div w-full px-2>
   <a
     href=`https://github.com/${repo}`
-    flex
-    items-center
-    justify-between
-    rounded-lg
+    flex="~ items-center justify-between"
+    class="rounded-lg
     p-4
     transition-shadow
-    duration-300
+    duration-300"
     shadow="~ dark:dark-primary hover:lg"
     bg="highlight dark:dark-accent-1"
   >
-    <h2 font-bold flex gap-2 items-center>
+    <h2 class="font-bold gap-2" flex="~ items-center">
       {icon && <Image src={icon} alt={repo} width="24" height="24" />}
       {name}:
     </h2>
-    <p text-sm>{desc}</p>
+    <p class="text-sm">{desc}</p>
   </a>
 </div>

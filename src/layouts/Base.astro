@@ -17,24 +17,23 @@ const { title, description } = Astro.props;
   <body>
     <ThemeProvider client:load>
       <div
-        flex="~ col"
-        font-sans
-        items-center
+        flex="~ col items-center"
+        class="font-sans"
         bg="background-0 dark:dark-background-0"
         text="text-0 dark:dark-text-0"
       >
         <Header />
         <div p-4>
-          <article prose class="[&_*]:animate-fade-in">
+          <article class="prose [&_*]:animate-fade-in">
             <slot />
           </article>
           <Footer />
         </div>
       </div>
     </ThemeProvider>
-    <!-- <script> -->
-    <!--   import { injectSpeedInsights } from '@vercel/speed-insights'; -->
-    <!--   injectSpeedInsights(); -->
-    <!-- </script> -->
+    <script>
+      import { injectSpeedInsights } from '@vercel/speed-insights';
+      injectSpeedInsights();
+    </script>
   </body>
 </html>

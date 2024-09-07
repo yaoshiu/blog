@@ -75,7 +75,7 @@ const LEARNING = [
 ---
 
 <Base title={TITLE} description={DESCRIPTION}>
-  <h2 mt-4>Fay Ash</h2>
+  <h2 class="mt-4">Fay Ash</h2>
 
   <p>
     Fay Ash here. I'm currently a student at the
@@ -112,9 +112,9 @@ const LEARNING = [
           {tags && (
             <ul class="not-prose" inline>
               {tags.map(({ icon, name }) => (
-                <li inline>
+                <li class="inline">
                   <Tag>
-                    <svg class={icon} inline-block />
+            <svg class=`${icon} inline-block` />
                     {name}
                   </Tag>
                 </li>
@@ -175,7 +175,7 @@ const LEARNING = [
       rel="noopener noreferrer"
     >
       <Tag>
-        <svg i-fa6-brands:steam inline-block></svg>
+        <svg class="i-fa6-brands:steam inline-block"></svg>
         Steam
       </Tag>
     </a>.
