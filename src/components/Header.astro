@@ -9,39 +9,39 @@ const STEAMID = 'fayash';
 ---
 
 <header
-  w-full
-  h-50vh
-  bg-gradient-to-tl
+  class="w-full
+  h-50vh"
+  bg-gradient="to-tl
   from-button-0
-  to-button-1
+  to-button-1"
   dark="from-dark-button-0 to-dark-button-1"
-  flex="~ col"
-  items-center
+  flex="~ col items-center"
 >
-  <h1 text-xl font-handwrite h-full w-full flex justify-center items-center>
+  <h1
+    class="text-xl font-handwrite h-full w-full"
+    flex="~ justify-center items-center"
+  >
     <TypeWriter text={[WELCOME, TITLE]} client:load />
   </h1>
-  <div font="pixel" flex gap-4 py-2 justify-center>
-    <a href="/" hover:underline> cd ~ </a>
-    <a href="/posts" hover:underline> /posts </a>
-    <a href="/projects" hover:underline> /projects </a>
+  <div class="font-pixel gap-4 py-2" flex="~ justify-center">
+    <a href="/" class="hover:underline"> cd ~ </a>
+    <a href="/posts" class="hover:underline"> /posts </a>
+    <a href="/projects" class="hover:underline"> /projects </a>
     <a
       href="./friends"
       aria-label="friends"
-      flex
-      items-center
-      hover:animate-flip
+      flex="~ items-center"
+      class="hover:animate-flip"
       target="_blank"
       rel="noopener noreferrer"
     >
-      <svg i-pixelarticons:contact></svg>
+      <svg class="i-pixelarticons:contact"></svg>
     </a>
     <a
       href={`https://github.com/${GITHUB}`}
       aria-label="github"
-      flex
-      items-center
-      hover:animate-wobble
+      flex="~ items-center"
+      class="hover:animate-wobble"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -50,14 +50,15 @@ const STEAMID = 'fayash';
     <a
       href={`https://steamcommunity.com/id/${STEAMID}`}
       aria-label="steam"
-      flex
-      items-center
-      hover:animate-tada
+      flex="~ items-center"
+      class="hover:animate-tada"
       target="_blank"
       rel="noopener noreferrer"
     >
-      <svg i-pixelarticons:gamepad></svg>
+      <svg class="i-pixelarticons:gamepad"></svg>
     </a>
-    <ThemeSwitcher hover:animate="spin" client:load />
+    <div class="hover:animate-spin" flex="~ items-center">
+      <ThemeSwitcher client:load />
+    </div>
   </div>
 </header>
