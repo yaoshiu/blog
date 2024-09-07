@@ -7,9 +7,9 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  adapter: vercel({
-    webAnalytics: { enabled: true },
-  }),
+  // adapter: vercel({
+  //   webAnalytics: { enabled: true },
+  // }),
   integrations: [
     solid(),
     unocss({
