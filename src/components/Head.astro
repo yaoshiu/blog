@@ -29,4 +29,14 @@ const imageURL = new URL(image, Astro.site);
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={imageURL.href} />
   <title>{title}</title>
+  <script is:inline>
+    function onMqChange({ matches }) {
+      document.documentElement.classList.toggle('dark', matches);
+    }
+
+    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+    onMqChange(darkThemeMq);
+
+    darkThemeMq.addEventListener('change', onMqChange);
+  </script>
 </head>
