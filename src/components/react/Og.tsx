@@ -11,45 +11,47 @@ export default async function Og(title?: string, fontSize = 64) {
   const caveat = await readFile(CAVEAT);
 
   return new ImageResponse(
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        height: '100%',
-      }}
-    >
+    (
       <div
         style={{
-          width: '100%',
-          height: '100%',
-          display: title ? 'flex' : 'none',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: colorSchemes.text[0],
-          backgroundColor: colorSchemes.background[0],
-          padding: fontSize,
-          fontFamily: 'sans',
-          fontSize,
-        }}
-      >
-        {title}
-      </div>
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          fontSize,
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: 'caveat',
-          color: colorSchemes.text[0],
-          backgroundColor: colorSchemes.primary,
+          width: '100%',
+          height: '100%',
         }}
       >
-        Fay Ash
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: title ? 'flex' : 'none',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: colorSchemes.text[0],
+            backgroundColor: colorSchemes.background[0],
+            padding: fontSize,
+            fontFamily: 'sans',
+            fontSize,
+          }}
+        >
+          {title}
+        </div>
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            fontSize,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'caveat',
+            color: colorSchemes.text[0],
+            backgroundColor: colorSchemes.primary,
+          }}
+        >
+          Fay Ash
+        </div>
       </div>
-    </div>,
+    ),
     {
       fonts: [
         {
