@@ -83,7 +83,7 @@ const LEARNING = [
 ];
 ---
 
-<Base title={TITLE} description={DESCRIPTION} image='/og.png'>
+<Base title={TITLE} description={DESCRIPTION} image="/og.png">
   <h2 class="mt-4">Fay Ash</h2>
 
   <p>
@@ -120,10 +120,10 @@ const LEARNING = [
           </strong>
           {tags && (
             <ul class="not-prose" inline>
-        {tags.map(({ icon, name, href }) => (
+              {tags.map(({ icon, name, href }) => (
                 <li class="inline">
-          <Tag {href}>
-            <svg class=`${icon} inline-block` />
+                  <Tag {href} target="_blank" rel="noopener noreferrer">
+                    <svg class={`${icon} inline-block`} />
                     {name}
                   </Tag>
                 </li>
@@ -179,9 +179,9 @@ const LEARNING = [
     enthusiast, you might just feel inclined to add me as a friend on
     <span class="not-prose">
       <Tag
-      href=`https://steamcommunity.com/id/${STEAMID}`
-      target="_blank"
-      rel="noopener noreferrer"
+        href=`https://steamcommunity.com/id/${STEAMID}`
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <svg class="i-fa6-brands:steam inline-block"></svg>
         Steam
