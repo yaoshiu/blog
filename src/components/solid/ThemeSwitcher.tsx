@@ -1,16 +1,16 @@
-import { dark, toggleDark } from './Theme';
+function toggleDark() {
+  document.documentElement.classList.toggle('dark');
+}
 
 export const ThemeSwitcher = () => {
   return (
     <button
       type="button"
       onClick={toggleDark}
-      aria-label={`Switch to ${dark() ? 'light' : 'dark'} mode`}
+      aria-label="Toggle dark/light mode"
       class="bg-transparent"
     >
-      <svg
-        class={dark() ? 'i-pixelarticons:moon' : 'i-pixelarticons:sun-alt'}
-      />
+      <svg class="i-pixelarticons:sun-alt dark:i-pixelarticons:moon" />
     </button>
   );
 };
