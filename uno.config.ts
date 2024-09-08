@@ -7,7 +7,7 @@ import {
   presetUno,
   presetWebFonts,
 } from 'unocss';
-import colorSchemes from './colorSchemes';
+import colorSchemes from 'colorSchemes';
 
 export default defineConfig({
   presets: [
@@ -31,14 +31,8 @@ export default defineConfig({
     presetWebFonts({
       provider: 'google',
       fonts: {
-        sans: {
-          name: 'Roboto',
-          weights: [100, 300, 400, 500, 700, 900],
-        },
-        code: {
-          name: 'Source Code Pro',
-          weights: [200, 300, 400, 500, 600, 700, 900],
-        },
+        sans: 'Noto Sans',
+        code: 'Source Code Pro',
         pixel: 'VT323',
         handwrite: 'Caveat',
       },
