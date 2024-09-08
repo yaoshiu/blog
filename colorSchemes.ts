@@ -2,7 +2,7 @@ const colorSchemes = {
   primary: '#FF6F61',
   accent: ['#006DFF', '#FFD700', '#40E0D0'],
   background: ['#F5F5F5', '#E1F5FE'],
-  text: ['#2C2C2C', '#707070'],
+  text: ['#2C2C2C', '#696969'],
   button: ['#FF6F61', '#0077FF'],
   subtle: '#FFD700',
   border: '#40E0D0',

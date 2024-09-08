@@ -25,22 +25,27 @@ const LEARNING = [
       {
         icon: 'i-devicon:solidjs',
         name: 'Solid',
+        href: 'https://www.solidjs.com/',
       },
       {
         icon: 'i-devicon:svelte',
         name: 'Svelte',
+        href: 'https://svelte.dev/',
       },
       {
         icon: 'i-devicon:astro',
         name: 'Astro',
+        href: 'https://astro.build/',
       },
       {
         icon: 'i-devicon:vuejs',
         name: 'Vue',
+        href: 'https://vuejs.org/',
       },
       {
         icon: 'i-devicon:react',
         name: 'React',
+        href: 'https://reactjs.org/',
       },
     ],
   },
@@ -50,18 +55,22 @@ const LEARNING = [
       {
         icon: 'i-devicon:python',
         name: 'Python',
+        href: 'https://www.python.org/',
       },
       {
         icon: 'i-devicon:rust',
         name: 'Rust',
+        href: 'https://www.rust-lang.org/',
       },
       {
         icon: 'i-devicon:cplusplus',
         name: 'C++',
+        href: 'https://isocpp.org/',
       },
       {
         icon: 'i-devicon:typescript',
         name: 'TypeScript',
+        href: 'https://www.typescriptlang.org/',
       },
     ],
   },
@@ -111,9 +120,9 @@ const LEARNING = [
           </strong>
           {tags && (
             <ul class="not-prose" inline>
-              {tags.map(({ icon, name }) => (
+        {tags.map(({ icon, name, href }) => (
                 <li class="inline">
-                  <Tag>
+          <Tag {href}>
             <svg class=`${icon} inline-block` />
                     {name}
                   </Tag>
@@ -168,17 +177,16 @@ const LEARNING = [
     and I swear by the <i>GTA</i> series (since <i>GTA: Vice City</i> and
     <i>San Andreas</i> were my gateways into gaming). So if you're a fellow gaming
     enthusiast, you might just feel inclined to add me as a friend on
-    <a
-      class="not-prose"
+    <span class="not-prose">
+      <Tag
       href=`https://steamcommunity.com/id/${STEAMID}`
       target="_blank"
       rel="noopener noreferrer"
-    >
-      <Tag>
+      >
         <svg class="i-fa6-brands:steam inline-block"></svg>
         Steam
       </Tag>
-    </a>.
+    </span>.
   </p>
 
   <p>
