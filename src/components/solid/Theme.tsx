@@ -22,7 +22,7 @@ export function toggleDark() {
  *
  * @example
  * ```tsx
- * import { ThemeProvider } from "./components/Theme";
+ * import { ThemeProvider } from "@components/Theme";
  *
  * const App = () => {
  *   return (

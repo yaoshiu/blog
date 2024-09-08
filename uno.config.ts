@@ -7,7 +7,7 @@ import {
   presetUno,
   presetWebFonts,
 } from 'unocss';
-import colorSchemes from './colorSchemes';
+import colorSchemes from 'colorSchemes';
 
 export default defineConfig({
   presets: [
