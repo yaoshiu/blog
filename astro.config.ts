@@ -5,13 +5,12 @@ import solid from '@astrojs/solid-js';
 import vercel from '@astrojs/vercel/static';
 import { defineConfig } from 'astro/config';
 import unocss from 'unocss/astro';
-import { loadEnv } from 'vite';
 
-const { SITE } = loadEnv(process.env.NODE_ENV ?? '', process.cwd(), '');
+const LOCAL = 'http://localhost:4321';
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE ?? SITE,
+  site: process.env.SITE ?? LOCAL,
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),
