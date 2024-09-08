@@ -9,9 +9,7 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  site: import.meta.env.VERCEL
-    ? `https://${import.meta.env.VERCEL_URL}`
-    : 'http://localhost:4321',
+  site: 'https://fayash.me',
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),

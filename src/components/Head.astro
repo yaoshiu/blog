@@ -1,11 +1,12 @@
 ---
-
 interface Props {
   title: string;
   description: string;
+  image: string;
+  type?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image, type } = Astro.props;
 ---
 
 <head>
@@ -15,5 +16,14 @@ const { title, description } = Astro.props;
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
   <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content={type ?? 'article'} />
+  <meta property="og:url" content={Astro.url} />
+  <meta property="og:image" content={image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
   <title>{title}</title>
 </head>
