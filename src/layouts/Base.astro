@@ -7,13 +7,15 @@ import { ThemeProvider } from '@components/solid/Theme';
 interface Props {
   title: string;
   description: string;
+  image: string;
+  type?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image, type } = Astro.props;
 ---
 
 <html lang="en">
-  <Head {title} {description} />
+  <Head {title} {description} {image} {type} />
   <body>
     <ThemeProvider client:load>
       <div

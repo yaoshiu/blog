@@ -7,6 +7,9 @@ interface Props {
 }
 
 const { title, description, image, type } = Astro.props;
+
+const ogURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
 ---
 
 <head>
@@ -19,11 +22,11 @@ const { title, description, image, type } = Astro.props;
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content={type ?? 'article'} />
-  <meta property="og:url" content={Astro.url} />
-  <meta property="og:image" content={image} />
+  <meta property="og:url" content={ogURL.href} />
+  <meta property="og:image" content={imageURL.href} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={image} />
+  <meta name="twitter:image" content={imageURL.href} />
   <title>{title}</title>
 </head>

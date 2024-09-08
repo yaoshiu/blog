@@ -1,15 +1,17 @@
+import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import solid from '@astrojs/solid-js';
 import vercel from '@astrojs/vercel/static';
 import { defineConfig } from 'astro/config';
 import unocss from 'unocss/astro';
+import { loadEnv } from 'vite';
 
-import mdx from '@astrojs/mdx';
+const { SITE } = loadEnv(process.env.NODE_ENV ?? '', process.cwd(), '');
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://fayash.me',
+  site: SITE,
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),

@@ -1,7 +1,6 @@
 /// <reference path="../.astro/types.d.ts" />
 interface ImportMetaEnv {
-  readonly VERCEL?: boolean;
-  readonly VERCEL_URL?: string;
+  readonly SITE: string;
 }
 
 interface ImportMeta {
