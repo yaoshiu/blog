@@ -1,4 +1,4 @@
-import { createSignal, onMount, Show } from 'solid-js';
+import { createSignal, onMount } from 'solid-js';
 
 const THRESHOLD = 500;
 const DURATION = 300;
@@ -16,7 +16,7 @@ export const ScrollTop = (props: { threshold?: number }) => {
 
         setShow(true);
         clearTimeout(timeout);
-        timeout = setTimeout(() => setEnter(true), DURATION);
+        timeout = setTimeout(() => setEnter(true), 0);
       } else {
         if (!enter()) return;
 
@@ -32,26 +32,25 @@ export const ScrollTop = (props: { threshold?: number }) => {
   };
 
   return (
-    <Show when={show()}>
-      <button
-        type="button"
-        class="bg-transparent
-        rounded-full
-        hover:bg-gray-300
-        flex items-center justify-center
-        size-10
-        transition-opacity"
-        hover-bg="neutral-300 dark:neutral-600 op-50 dark:op-50"
-        text="text-1 dark:dark-text-1"
-        style={{
-          opacity: enter() ? 1 : 0,
-          'transition-duration': `${DURATION}ms`,
-        }}
-        onClick={handleClick}
-      >
-        <svg class="i-fa6-solid:angle-up" />
-      </button>
-    </Show>
+    <button
+      type="button"
+      class="bg-transparent
+      rounded-full
+      hover:bg-gray-300
+      items-center justify-center
+      size-10
+      transition-opacity"
+      hover-bg="neutral-300 dark:neutral-600 op-50 dark:op-50"
+      text="text-1 dark:dark-text-1"
+      style={{
+        opacity: enter() ? 1 : 0,
+        'transition-duration': `${DURATION}ms`,
+        display: show() ? 'flex' : 'none',
+      }}
+      onClick={handleClick}
+    >
+      <svg class="i-fa6-solid:angle-up" />
+    </button>
   );
 };
 
