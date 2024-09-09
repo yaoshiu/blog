@@ -27,9 +27,14 @@ export const ScrollTop = (props: { threshold?: number }) => {
     }
   }
 
-  onMount(() => window.addEventListener('scroll', handleScroll));
+  onMount(() => {
+    window.addEventListener('scroll', handleScroll);
+  });
 
-  onCleanup(() => window.removeEventListener('scroll', handleScroll));
+  onCleanup(() => {
+    clearTimeout(timeout);
+    window.removeEventListener('scroll', handleScroll);
+  });
 
   const handleClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
