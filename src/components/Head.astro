@@ -39,4 +39,9 @@ const imageURL = new URL(image, Astro.site);
 
     darkThemeMq.addEventListener('change', onMqChange);
   </script>
+  <script>
+    import { injectSpeedInsights } from '@vercel/speed-insights';
+
+    injectSpeedInsights();
+  </script>
 </head>

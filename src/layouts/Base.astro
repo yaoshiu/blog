@@ -2,6 +2,7 @@
 import Footer from '@components/Footer.astro';
 import Head from '@components/Head.astro';
 import Header from '@components/Header.astro';
+import ScrollTop from '@components/solid/ScrollTop';
 
 interface Props {
   title: string;
@@ -15,24 +16,21 @@ const { title, description, image, type } = Astro.props;
 
 <html lang="en">
   <Head {title} {description} {image} {type} />
-  <body>
-    <div
-      flex="~ col items-center"
-      class="font-sans"
-      bg="background-0 dark:dark-background-0"
-      text="text-0 dark:dark-text-0"
-    >
-      <Header />
-      <div p-4>
-        <article class="prose [&_*]:animate-fade-in">
-          <slot />
-        </article>
-        <Footer />
-      </div>
+  <body
+    flex="~ col items-center"
+    class="font-sans"
+    bg="background-0 dark:dark-background-0"
+    text="text-0 dark:dark-text-0"
+  >
+    <Header />
+    <div p-4>
+      <article class="prose [&_*]:animate-fade-in">
+        <slot />
+      </article>
+      <Footer />
     </div>
-    <script>
-      import { injectSpeedInsights } from '@vercel/speed-insights';
-      injectSpeedInsights();
-    </script>
+    <div class="fixed bottom-4 right-4">
+      <ScrollTop client:load />
+    </div>
   </body>
 </html>

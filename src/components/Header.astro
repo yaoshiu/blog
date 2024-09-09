@@ -16,20 +16,21 @@ const STEAMID = 'fayash';
   flex="~ col items-center"
 >
   <h1
-    class="text-xl font-handwrite h-full w-full"
-    flex="~ justify-center items-center"
+    class="text-xl
+    font-handwrite
+    h-full w-full
+    flex justify-center items-center"
   >
     <TypeWriter text={[WELCOME, TITLE]} client:load />
   </h1>
-  <div class="font-pixel gap-4 py-2" flex="~ justify-center">
+  <div class="font-pixel gap-4 py-2 flex justify-center">
     <a href="/" class="hover:underline"> cd ~ </a>
     <a href="/posts" class="hover:underline"> /posts </a>
     <a href="/projects" class="hover:underline"> /projects </a>
     <a
       href="./friends"
       aria-label="friends"
-      flex="~ items-center"
-      class="hover:animate-flip"
+      class="hover:animate-flip flex items-center"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -38,8 +39,7 @@ const STEAMID = 'fayash';
     <a
       href={`https://github.com/${GITHUB}`}
       aria-label="github"
-      flex="~ items-center"
-      class="hover:animate-wobble"
+      class="hover:animate-wobble flex items-center"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -48,14 +48,13 @@ const STEAMID = 'fayash';
     <a
       href={`https://steamcommunity.com/id/${STEAMID}`}
       aria-label="steam"
-      flex="~ items-center"
-      class="hover:animate-tada"
+      class="hover:animate-tada flex items-center"
       target="_blank"
       rel="noopener noreferrer"
     >
       <svg class="i-pixelarticons:gamepad"></svg>
     </a>
-    <div class="hover:animate-spin" flex="~ items-center">
+    <div class="hover:animate-spin flex items-center">
       <ThemeSwitcher client:load />
     </div>
   </div>
