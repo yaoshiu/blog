@@ -31,7 +31,7 @@ export default defineConfig({
     presetWebFonts({
       provider: 'google',
       fonts: {
-        sans: 'Noto Sans',
+        sans: 'Inter',
         code: 'Source Code Pro',
         pixel: 'VT323',
         handwrite: 'Caveat',
