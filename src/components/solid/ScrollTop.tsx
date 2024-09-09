@@ -1,4 +1,4 @@
-import { createSignal, onMount, Show } from 'solid-js';
+import { createSignal, onCleanup, onMount, Show } from 'solid-js';
 
 const THRESHOLD = 500;
 const DURATION = 300;
@@ -9,25 +9,27 @@ export const ScrollTop = (props: { threshold?: number }) => {
 
   let timeout: NodeJS.Timeout;
 
-  onMount(() => {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > (props.threshold ?? THRESHOLD)) {
-        if (show()) return;
+  function handleScroll() {
+    if (window.scrollY > (props.threshold ?? THRESHOLD)) {
+      if (show()) return;
 
-        setShow(true);
-        clearTimeout(timeout);
-        requestAnimationFrame(() => {
-          setEnter(true);
-        });
-      } else {
-        if (!enter()) return;
+      setShow(true);
+      clearTimeout(timeout);
+      requestAnimationFrame(() => {
+        setEnter(true);
+      });
+    } else {
+      if (!enter()) return;
 
-        setEnter(false);
-        clearTimeout(timeout);
-        timeout = setTimeout(() => setShow(false), DURATION);
-      }
-    });
-  });
+      setEnter(false);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => setShow(false), DURATION);
+    }
+  }
+
+  onMount(() => window.addEventListener('scroll', handleScroll));
+
+  onCleanup(() => window.removeEventListener('scroll', handleScroll));
 
   const handleClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
