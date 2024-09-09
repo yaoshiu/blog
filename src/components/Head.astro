@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+
 interface Props {
   title: string;
   description: string;
@@ -14,6 +16,7 @@ const imageURL = new URL(image, Astro.site);
 
 <head>
   <meta charset="utf-8" />
+  <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
   <meta name="viewport" content="width=device-width" />
@@ -28,7 +31,7 @@ const imageURL = new URL(image, Astro.site);
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={imageURL.href} />
-  <title>{title}</title>
+  <ViewTransitions />
   <script is:inline>
     function onMqChange({ matches }) {
       document.documentElement.classList.toggle('dark', matches);
