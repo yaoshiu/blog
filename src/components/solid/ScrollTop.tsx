@@ -29,11 +29,11 @@ export const ScrollTop = (props: { threshold?: number }) => {
 
   onMount(() => {
     window.addEventListener('scroll', handleScroll);
-  });
 
-  onCleanup(() => {
-    clearTimeout(timeout);
-    window.removeEventListener('scroll', handleScroll);
+    onCleanup(() => {
+      clearTimeout(timeout);
+      window.removeEventListener('scroll', handleScroll);
+    });
   });
 
   const handleClick = () => {
@@ -46,8 +46,7 @@ export const ScrollTop = (props: { threshold?: number }) => {
         type="button"
         class="bg-transparent
         rounded-full
-        hover:bg-gray-300
-        items-center justify-center
+        flex items-center justify-center
         size-10
         transition-opacity"
         hover-bg="neutral-300 dark:neutral-600 op-50 dark:op-50"
