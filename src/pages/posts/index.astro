@@ -1,0 +1,47 @@
+---
+import Base from '@layouts/Base.astro';
+import SlideIn from '@components/SlideIn.astro';
+import { getCollection } from 'astro:content';
+import DayJS from '@components/solid/DayJS';
+
+const posts = await Promise.all(
+  (await getCollection('posts')).map((post) =>
+    post.render().then(({ remarkPluginFrontmatter }) => ({
+      ...post,
+      readingTime: remarkPluginFrontmatter.readingTime,
+    })),
+  ),
+);
+---
+
+<Base title="Posts" description="Posts of Fay Ash" image="/og.png">
+  <div class="prose">
+    <SlideIn>
+      <h1>Posts</h1>
+      <ol class="not-prose">
+        {
+          posts.map((post) => (
+            <li class="py-2">
+              <a
+                href={`/posts/${post.slug}`}
+                class="text-lg op-80 hover:op-100 transition-opacity"
+              >
+                {post.data.title}
+                <span class="ml-2" text="sm text-1 dark:dark-text-1">
+                  {post.readingTime}·
+                  <time datetime={post.data.publish.toISOString()}>
+                    <DayJS
+                      date={post.data.publish}
+                      format="MMM D, YYYY"
+                      client:visible
+                    />
+                  </time>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </SlideIn>
+  </div>
+</Base>

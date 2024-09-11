@@ -5,13 +5,15 @@
     "paths": {
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"]
+      "@layouts/*": ["src/layouts/*"],
+      "@schemas/*": ["src/schemas/*"]
     },
     "plugins": [
       {
         "name": "@astrojs/ts-plugin"
       }
     ],
+    "strictNullChecks": true,
     "strict": true,
     "target": "ESNext",
     "module": "ESNext",
