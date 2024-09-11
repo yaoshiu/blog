@@ -31,20 +31,30 @@ const imageURL = new URL(image, Astro.site);
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={imageURL.href} />
-  <ViewTransitions />
   <script is:inline>
-    function onMqChange({ matches }) {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function handleChange({ matches }) {
       document.documentElement.classList.toggle('dark', matches);
+      window.localStorage.setItem('theme', matches ? 'dark' : 'light');
     }
 
-    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
-    onMqChange(darkThemeMq);
+    handleChange(mq);
+    mq.addEventListener('change', handleChange);
 
-    darkThemeMq.addEventListener('change', onMqChange);
+    document.addEventListener('astro:after-swap', () => {
+      document.documentElement.classList.toggle(
+        'dark',
+        localStorage.theme === 'dark',
+      );
+    });
   </script>
+
   <script>
     import { injectSpeedInsights } from '@vercel/speed-insights';
 
     injectSpeedInsights();
   </script>
+
+  <ViewTransitions />
 </head>
