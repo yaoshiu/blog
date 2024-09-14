@@ -3,13 +3,17 @@ import { ImageResponse } from '@vercel/og';
 import colorSchemes from 'colorSchemes';
 import { readFile } from 'node:fs/promises';
 
-const NOTO_SANS = './src/assets/fonts/Noto_Sans/static/NotoSans-Bold.ttf';
+const BOLD = './src/assets/fonts/Noto_Sans/static/NotoSans-Bold.ttf';
+const REGULAR = './src/assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf';
 const CAVEAT = './src/assets/fonts/Caveat/static/Caveat-Regular.ttf';
 
-export default async function Og(title?: string, fontSize = 64) {
-  const sans = await readFile(NOTO_SANS);
-  const caveat = await readFile(CAVEAT);
+const TITLESIZE = 64;
 
+const bold = await readFile(BOLD);
+const caveat = await readFile(CAVEAT);
+const regular = await readFile(REGULAR);
+
+export default async function Og(title?: string) {
   return new ImageResponse(
     (
       <div
@@ -24,13 +28,14 @@ export default async function Og(title?: string, fontSize = 64) {
             width: '100%',
             height: '100%',
             display: title ? 'flex' : 'none',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             color: colorSchemes.text[0],
             backgroundColor: colorSchemes.background[0],
-            padding: fontSize,
-            fontFamily: 'sans',
-            fontSize,
+            padding: TITLESIZE,
+            fontFamily: 'bold',
+            fontSize: TITLESIZE,
           }}
         >
           {title}
@@ -39,7 +44,7 @@ export default async function Og(title?: string, fontSize = 64) {
           style={{
             width: '100%',
             height: '100%',
-            fontSize,
+            fontSize: TITLESIZE,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -55,8 +60,12 @@ export default async function Og(title?: string, fontSize = 64) {
     {
       fonts: [
         {
-          name: 'sans',
-          data: sans,
+          name: 'bold',
+          data: bold,
+        },
+        {
+          name: 'regular',
+          data: regular,
         },
         {
           name: 'caveat',

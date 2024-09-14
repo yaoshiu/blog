@@ -16,15 +16,34 @@ export default defineConfig({
       cssExtend: {
         a: {
           color: 'rgb(var(--color-text-1))',
-          'border-bottom': '1px solid rgba(var(--color-text-1), 0.5)',
+          '--border-opacity': '0.5',
+          'border-bottom':
+            '1px solid rgba(var(--color-text-1), var(--border-opacity))',
           'text-decoration': 'none',
           transition: 'border-bottom 0.15s ease-in-out',
         },
         '.dark a': {
-          color: 'rbg(var(--color-dark-text-1))',
+          color: 'rbg(var(--color-dark-text-1), var(--border-opacity))',
         },
         'a:hover': {
-          'border-bottom': '1px solid rgba(var(--color-text-1), 1)',
+          '--border-opacity': '1',
+        },
+        '.data-footnote-backref': {
+          'font-family': '"Inter"',
+        },
+        hr: {
+          'border-top': '1px solid rgba(var(--color-text-1), 0.1)',
+        },
+        '.dark hr': {
+          'border-top': '1px solid rgba(var(--color-dark-text-1), 0.1)',
+        },
+        blockquote: {
+          'border-left': '4px solid rgba(var(--color-text-1), 0.1)',
+          background: 'rgb(var(--color-background-1))',
+        },
+        '.dark blockquote': {
+          'border-left': '4px solid rgba(var(--color-dark-text-1), 0.1)',
+          background: 'rgb(var(--color-dark-background-1))',
         },
       },
     }),
@@ -32,7 +51,7 @@ export default defineConfig({
       provider: 'google',
       fonts: {
         sans: 'Inter',
-        code: 'Source Code Pro',
+        mono: 'Source Code Pro',
         pixel: 'VT323',
         handwrite: 'Caveat',
       },

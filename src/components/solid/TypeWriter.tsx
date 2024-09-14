@@ -22,12 +22,12 @@ export const TypeWriter = (props: {
 
   const [displayText, setDisplayText] = createSignal('');
 
-  onMount(() => {
-    let index = -1;
-    const text = Array.isArray(merged.text) ? merged.text : [merged.text];
-    let currentText: string;
-    let currentTextIndex = 0;
+  let index = -1;
+  const text = Array.isArray(merged.text) ? merged.text : [merged.text];
+  let currentText: string;
+  let currentTextIndex = 0;
 
+  onMount(() => {
     function erase() {
       if (currentTextIndex > 0) {
         setDisplayText(currentText.slice(0, currentTextIndex));

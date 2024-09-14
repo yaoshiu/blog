@@ -1,0 +1,25 @@
+<script>
+  import { animate, stagger } from 'motion';
+
+  const DURATION = 0.5;
+  const STAGGER = 0.05;
+
+  document.addEventListener('astro:page-load', () => {
+    animate(
+      '.slide-in > *',
+      {
+        opacity: 1,
+        x: ['0.5rem', 0],
+      },
+      {
+        duration: DURATION,
+        delay: stagger(STAGGER),
+        easing: 'ease-out',
+      },
+    );
+  });
+</script>
+
+<div class="slide-in [&>*]:op-0">
+  <slot />
+</div>

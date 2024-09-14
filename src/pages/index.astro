@@ -3,6 +3,7 @@ import prettyDer6y from '@assets/pretty-der6y.svg';
 import RepoCard from '@components/RepoCard.astro';
 import Tag from '@components/Tag.astro';
 import Base from '@layouts/Base.astro';
+import SlideIn from '@components/SlideIn.astro';
 
 const TITLE = 'Fay Ash';
 const REPOS = [
@@ -84,113 +85,118 @@ const LEARNING = [
 ---
 
 <Base title={TITLE} description={DESCRIPTION} image="/og.png">
-  <h2 class="mt-4">Fay Ash</h2>
+  <article class="prose">
+    <SlideIn>
+      <h1>Fay Ash</h1>
 
-  <p>
-    Fay Ash here. I'm currently a student at the
-    <a
-      href=`geo:${LOCATION.lat},${LOCATION.lng}`
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <span i-fa6-solid:location-dot inline-block></span>
-      <i>South West Petroleum University</i>
-    </a>, majoring in Computer Science.
-  </p>
+      <p>
+        Fay Ash here. I'm currently a student at the
+        <a
+          href=`geo:${LOCATION.lat},${LOCATION.lng}`
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span i-fa6-solid:location-dot inline-block></span>
+          <i>South West Petroleum University</i>
+        </a>, majoring in Computer Science.
+      </p>
 
-  <p>My personal works:</p>
-  <ul class="not-prose">
-    {
-      REPOS.map(({ repo, desc, icon }) => (
-        <li>
-          <RepoCard repo={repo} desc={desc} icon={icon} />
-        </li>
-      ))
-    }
-  </ul>
+      <p>My personal works:</p>
+      <ul class="not-prose">
+        {
+          REPOS.map(({ repo, desc, icon }) => (
+            <li>
+              <RepoCard repo={repo} desc={desc} icon={icon} />
+            </li>
+          ))
+        }
+      </ul>
 
-  <p>I am learning:</p>
-  <ul>
-    {
-      LEARNING.map(({ title, tags }) => (
-        <li>
-          <strong>
-            {title}
-            {tags ? ':' : ''}
-          </strong>
-          {tags && (
-            <ul class="not-prose" inline>
-              {tags.map(({ icon, name, href }) => (
-                <li class="inline">
-                  <Tag {href} target="_blank" rel="noopener noreferrer">
-                    <svg class={`${icon} inline-block`} />
-                    {name}
-                  </Tag>
-                </li>
-              ))}
-            </ul>
-          )}
-        </li>
-      ))
-    }
-  </ul>
+      <p>I am learning:</p>
+      <ul>
+        {
+          LEARNING.map(({ title, tags }) => (
+            <li>
+              <strong>
+                {title}
+                {tags ? ':' : ''}
+              </strong>
+              {tags && (
+                <ul class="not-prose" inline>
+                  {tags.map(({ icon, name, href }) => (
+                    <li class="inline">
+                      <Tag {href} target="_blank" rel="noopener noreferrer">
+                        <svg class={`${icon} inline-block`} />
+                        {name}
+                      </Tag>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
 
-  <p>
-    I often like to think of myself as a "creature driven by curiosity." When
-    something sparks my interest, I can immerse myself in it for days without a
-    wink of sleep. But if it doesn't captivate me, well, I might procrastinate
-    for days, weeks, or even years. If you happen to share my passions, I
-    believe you'll find something here that resonates with you. And if not, I
-    apologize in advance for not satisfying your taste - at least not for now.
-    But I'm always expanding my horizons, so perhaps one day you'll discover
-    something here that catches your eye.
-  </p>
+      <p>
+        I often like to think of myself as a "creature driven by curiosity."
+        When something sparks my interest, I can immerse myself in it for days
+        without a wink of sleep. But if it doesn't captivate me, well, I might
+        procrastinate for days, weeks, or even years. If you happen to share my
+        passions, I believe you'll find something here that resonates with you.
+        And if not, I apologize in advance for not satisfying your taste - at
+        least not for now. But I'm always expanding my horizons, so perhaps one
+        day you'll discover something here that catches your eye.
+      </p>
 
-  <p>
-    Outside of programming, I might not be the most exciting person. Though I've
-    dabbled a bit in image processing, I neither have the funds for a fancy
-    camera nor the energy to travel widely, so you likely won't see any
-    "photography masterpieces" here anytime soon. As a textbook nerd, I can't
-    claim any prowess in sports either. Most of my free time revolves around the
-    usual suspects: video games, music, and movies - a rather mainstream palette
-    of interests.
-  </p>
+      <p>
+        Outside of programming, I might not be the most exciting person. Though
+        I've dabbled a bit in image processing, I neither have the funds for a
+        fancy camera nor the energy to travel widely, so you likely won't see
+        any "photography masterpieces" here anytime soon. As a textbook nerd, I
+        can't claim any prowess in sports either. Most of my free time revolves
+        around the usual suspects: video games, music, and movies - a rather
+        mainstream palette of interests.
+      </p>
 
-  <p>
-    When it comes to music and film, I'm still somewhat of a novice. For the
-    first twenty years of my life, I only listened to pop music, and it's only
-    in the last couple of years that I've ventured into other popular genres.
-    I've been exploring notable albums from the 1960s and have only made it to
-    the mid-1980s so far. So, for now, you could call me a "progressive rock and
-    experimental music enthusiast" - yet another nerdy label to add to my
-    collection. Movies are a similar story. I haven't even finished the top ten
-    on the <i>Sight & Sound</i> list, and there are plenty of films I've struggled
-    to sit through. Perhaps my tastes are still a bit unrefined, but I've forced
-    myself through them for the sake of broadening my perspective.
-  </p>
+      <p>
+        When it comes to music and film, I'm still somewhat of a novice. For the
+        first twenty years of my life, I only listened to pop music, and it's
+        only in the last couple of years that I've ventured into other popular
+        genres. I've been exploring notable albums from the 1960s and have only
+        made it to the mid-1980s so far. So, for now, you could call me a
+        "progressive rock and experimental music enthusiast" - yet another nerdy
+        label to add to my collection. Movies are a similar story. I haven't
+        even finished the top ten on the <i>Sight & Sound</i> list, and there are
+        plenty of films I've struggled to sit through. Perhaps my tastes are still
+        a bit unrefined, but I've forced myself through them for the sake of broadening
+        my perspective.
+      </p>
 
-  <p>
-    But setting aside music and movies, I can confidently say I'm a seasoned
-    gamer. I've dabbled in everything from action and racing games to card
-    games, text adventures, and RPGs. My longest-running obsession is the
-    <i>Monster Hunter</i> series, my favorite is <i>Red Dead Redemption 2</i>,
-    and I swear by the <i>GTA</i> series (since <i>GTA: Vice City</i> and
-    <i>San Andreas</i> were my gateways into gaming). So if you're a fellow gaming
-    enthusiast, you might just feel inclined to add me as a friend on
-    <span class="not-prose">
-      <Tag
-        href=`https://steamcommunity.com/id/${STEAMID}`
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <svg class="i-fa6-brands:steam inline-block"></svg>
-        Steam
-      </Tag>
-    </span>.
-  </p>
+      <p>
+        But setting aside music and movies, I can confidently say I'm a seasoned
+        gamer. I've dabbled in everything from action and racing games to card
+        games, text adventures, and RPGs. My longest-running obsession is the
+        <i>Monster Hunter</i> series, my favorite is <i>Red Dead Redemption 2</i
+        >, and I swear by the <i>GTA</i> series (since <i>GTA: Vice City</i> and
+        <i>San Andreas</i> were my gateways into gaming). So if you're a fellow gaming
+        enthusiast, you might just feel inclined to add me as a friend on
+        <span class="not-prose">
+          <Tag
+            href=`https://steamcommunity.com/id/${STEAMID}`
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="i-fa6-brands:steam inline-block"></svg>
+            Steam
+          </Tag>
+        </span>.
+      </p>
 
-  <p>
-    That's about all there is to me. In any case, I hope you enjoy your time
-    here!
-  </p>
+      <p>
+        That's about all there is to me. In any case, I hope you enjoy your time
+        here!
+      </p>
+    </SlideIn>
+  </article>
 </Base>

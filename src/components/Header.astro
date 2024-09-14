@@ -21,7 +21,12 @@ const STEAMID = 'fayash';
     h-full w-full
     flex justify-center items-center"
   >
-    <TypeWriter text={[WELCOME, TITLE]} client:load />
+    <TypeWriter
+      text={[WELCOME, TITLE]}
+      client:load
+      transition:persist
+      transition:persist-props
+    />
   </h1>
   <div class="font-pixel gap-4 py-2 flex justify-center">
     <a href="/" class="hover:underline"> cd ~ </a>
@@ -31,8 +36,6 @@ const STEAMID = 'fayash';
       href="./friends"
       aria-label="friends"
       class="hover:animate-flip flex items-center"
-      target="_blank"
-      rel="noopener noreferrer"
     >
       <svg class="i-pixelarticons:contact"></svg>
     </a>
@@ -58,4 +61,16 @@ const STEAMID = 'fayash';
       <ThemeSwitcher client:load />
     </div>
   </div>
+
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      document.querySelectorAll('a').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          if (el.href === window.location.href) {
+            e.preventDefault();
+          }
+        });
+      });
+    });
+  </script>
 </header>

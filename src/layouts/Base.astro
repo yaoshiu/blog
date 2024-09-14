@@ -3,6 +3,8 @@ import Footer from '@components/Footer.astro';
 import Head from '@components/Head.astro';
 import Header from '@components/Header.astro';
 import ScrollTop from '@components/solid/ScrollTop';
+import 'katex/dist/katex.min.css';
+import 'rehype-callouts/theme/vitepress';
 
 interface Props {
   title: string;
@@ -14,23 +16,28 @@ interface Props {
 const { title, description, image, type } = Astro.props;
 ---
 
+<!-- Trick to prevent the flash -->
 <html lang="en">
   <Head {title} {description} {image} {type} />
   <body
-    flex="~ col items-center"
-    class="font-sans"
     bg="background-0 dark:dark-background-0"
+    flex="~ col items-center"
+    class="min-h-screen font-sans"
     text="text-0 dark:dark-text-0"
   >
     <Header />
-    <div p-4>
-      <article class="prose [&_*]:animate-fade-in">
+    <div
+      class="p-4 w-full max-w-prose flex-1"
+      flex="~ col"
+      transition:animate="fade"
+    >
+      <div class="flex-1">
         <slot />
-      </article>
+      </div>
       <Footer />
     </div>
     <div class="fixed bottom-4 right-4">
-      <ScrollTop client:only="solid-js" />
+      <ScrollTop client:load />
     </div>
   </body>
 </html>
