@@ -28,6 +28,8 @@ export const ScrollTop = (props: { threshold?: number }) => {
   }
 
   onMount(() => {
+    handleScroll();
+
     window.addEventListener('scroll', handleScroll);
 
     onCleanup(() => {
