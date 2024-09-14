@@ -7,6 +7,14 @@ import { defineConfig } from 'astro/config';
 import unocss from 'unocss/astro';
 import lastModified from './lastModified';
 import readingTime from './readingTime';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import {
+  remarkDefinitionList,
+  defListHastHandlers,
+} from 'remark-definition-list';
+import remarkGemoji from 'remark-gemoji';
+import rehypeCallouts from 'rehype-callouts';
 
 const LOCAL = 'http://localhost:4321';
 
@@ -14,7 +22,19 @@ const LOCAL = 'http://localhost:4321';
 export default defineConfig({
   site: process.env.SITE ?? LOCAL,
   markdown: {
-    remarkPlugins: [readingTime, lastModified],
+    remarkPlugins: [
+      readingTime,
+      lastModified,
+      remarkMath,
+      remarkDefinitionList,
+      remarkGemoji,
+    ],
+    rehypePlugins: [rehypeKatex, rehypeCallouts],
+    remarkRehype: {
+      handlers: {
+        ...defListHastHandlers,
+      },
+    },
   },
   adapter: vercel({
     webAnalytics: { enabled: true },

@@ -1,6 +1,5 @@
-import type { APIRoute } from 'astro';
 import Og from '@components/react/Og';
 
-export const GET: APIRoute = async () => {
+export async function GET() {
   return await Og();
 };

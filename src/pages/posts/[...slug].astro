@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import DayJS from '@components/solid/DayJS';
+import Base from '@layouts/Base.astro';
+import SlideIn from '@components/SlideIn.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+
+const {slug} = Astro.params;
+
+const { Content, remarkPluginFrontmatter } = await entry.render();
+
+console.log(remarkPluginFrontmatter);
+---
+
+<Base
+  title={entry.data.title}
+  description={entry.data.description}
+  image={`/posts/${slug}-og.png`}
+>
+  <div class="prose">
+    <div class="flex gap-4 items-center">
+      <h1>{entry.data.title}</h1>
+      <div
+        class="not-prose p-2"
+        border="l-4 text-1 dark:dark-text-1 op-30"
+        text="sm text-1 dark:dark-text-1"
+      >
+        <p>
+          {remarkPluginFrontmatter.readingTime} ·
+          <DayJS
+            date={entry.data.publish}
+            format="MMM D, YYYY"
+            client:visible
+          />
+        </p>
+        <p>
+          Last modified
+          <DayJS
+            date={remarkPluginFrontmatter.lastModified}
+            format="HH:mm, MMM D, YYYY"
+            client:visible
+          />
+        </p>
+      </div>
+    </div>
+    <SlideIn>
+      <Content />
+    </SlideIn>
+  </div>
+</Base>

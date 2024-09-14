@@ -15,7 +15,7 @@ const posts = await Promise.all(
 ---
 
 <Base title="Posts" description="Posts of Fay Ash" image="/og.png">
-  <div class="prose">
+  <div class="prose" text="sm sm:base">
     <SlideIn>
       <h1>Posts</h1>
       <ol class="not-prose">
@@ -24,11 +24,11 @@ const posts = await Promise.all(
             <li class="py-2">
               <a
                 href={`/posts/${post.slug}`}
-                class="text-lg op-80 hover:op-100 transition-opacity"
+                class="sm:text-lg op-80 hover:op-100 transition-opacity"
               >
                 {post.data.title}
-                <span class="ml-2" text="sm text-1 dark:dark-text-1">
-                  {post.readingTime}·
+                <span class="ml-2" text="sm md:xs text-1 dark:dark-text-1">
+                  {post.readingTime} ·
                   <time datetime={post.data.publish.toISOString()}>
                     <DayJS
                       date={post.data.publish}
