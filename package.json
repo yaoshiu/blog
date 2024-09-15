@@ -41,7 +41,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@iconify-json/devicon": "^1.2.0",
+    "@iconify-json/devicon": "^1.2.1",
     "@iconify-json/fa6-brands": "^1.2.0",
     "@iconify-json/fa6-regular": "^1.2.0",
     "@iconify-json/fa6-solid": "^1.2.0",
