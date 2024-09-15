@@ -3,10 +3,21 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@assets/*": ["src/assets/*"],
-      "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@schemas/*": ["src/schemas/*"]
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@schemas/*": [
+        "src/schemas/*"
+      ],
+      "@helpers/*": [
+        "src/helpers/*"
+      ]
     },
     "plugins": [
       {

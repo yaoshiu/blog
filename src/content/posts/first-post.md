@@ -1,7 +1,7 @@
 ---
 title: First Post
 description: This is the first post on the blog.
-publish: 2024-09-14
+published: 2024-09-14
 tags:
   - Astro
   - Blog

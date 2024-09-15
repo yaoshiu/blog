@@ -25,7 +25,8 @@ export default defineConfig({
         },
         '.dark a': {
           '--prose-a-color': 'var(--color-dark-text-1)',
-          'border-bottom': '1px solid rgba(var(--color-dark-text-1), var(--border-opacity))',
+          'border-bottom':
+            '1px solid rgba(var(--color-dark-text-1), var(--border-opacity))',
         },
         'a:hover': {
           '--border-opacity': '1',

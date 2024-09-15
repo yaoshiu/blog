@@ -29,9 +29,9 @@ const posts = await Promise.all(
                 {post.data.title}
                 <span class="ml-2" text="sm md:xs text-1 dark:dark-text-1">
                   {post.readingTime} ·
-                  <time datetime={post.data.publish.toISOString()}>
+                  <time datetime={post.data.published.toISOString()}>
                     <DayJS
-                      date={post.data.publish}
+                      date={post.data.published}
                       format="MMM D, YYYY"
                       client:visible
                     />

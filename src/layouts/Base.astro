@@ -11,14 +11,15 @@ interface Props {
   description: string;
   image: string;
   type?: string;
+  data?: Record<string, any>
 }
 
-const { title, description, image, type } = Astro.props;
+const { title, description, image, type, data } = Astro.props;
 ---
 
 <!-- Trick to prevent the flash -->
 <html lang="en">
-  <Head {title} {description} {image} {type} />
+  <Head {title} {description} {image} {type} {data} />
   <body
     bg="background-0 dark:dark-background-0"
     flex="~ col items-center"

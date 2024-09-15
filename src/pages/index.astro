@@ -4,6 +4,8 @@ import RepoCard from '@components/RepoCard.astro';
 import Tag from '@components/Tag.astro';
 import Base from '@layouts/Base.astro';
 import SlideIn from '@components/SlideIn.astro';
+import { getCollection } from 'astro:content';
+import postData from '@helpers/postData';
 
 const TITLE = 'Fay Ash';
 const REPOS = [
@@ -82,9 +84,28 @@ const LEARNING = [
     title: 'Machine Learning & Data Analysis',
   },
 ];
+
+const posts = await getCollection('posts');
+const postsData = await Promise.all(posts.map((entry) => postData({ entry, site: Astro.site })));
+
+
+const data = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "blogPost": postsData,
+  "headline": TITLE,
+  "image": new URL("/og.png", Astro.site),
+  "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "description": DESCRIPTION,
+  "author": {
+    "@type": "Person",
+    "name": "Fay Ash",
+    "url": Astro.site,
+  }
+}
 ---
 
-<Base title={TITLE} description={DESCRIPTION} image="/og.png">
+<Base title={TITLE} description={DESCRIPTION} image="/og.png" {data}>
   <article class="prose">
     <SlideIn>
       <h1>Fay Ash</h1>
