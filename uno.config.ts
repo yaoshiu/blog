@@ -15,7 +15,8 @@ export default defineConfig({
     presetTypography({
       cssExtend: {
         a: {
-          color: 'rgb(var(--color-text-1))',
+          color: 'rgb(var(--prose-a-color))',
+          '--prose-a-color': 'var(--color-text-1)',
           '--border-opacity': '0.5',
           'border-bottom':
             '1px solid rgba(var(--color-text-1), var(--border-opacity))',
@@ -23,7 +24,9 @@ export default defineConfig({
           transition: 'border-bottom 0.15s ease-in-out',
         },
         '.dark a': {
-          color: 'rbg(var(--color-dark-text-1), var(--border-opacity))',
+          '--prose-a-color': 'var(--color-dark-text-1)',
+          'border-bottom':
+            '1px solid rgba(var(--color-dark-text-1), var(--border-opacity))',
         },
         'a:hover': {
           '--border-opacity': '1',

@@ -3,19 +3,19 @@
   "version": "0.0.1",
   "devDependencies": {
     "@astrojs/check": "^0.9.3",
-    "@astrojs/mdx": "^3.1.5",
+    "@astrojs/mdx": "^3.1.6",
     "@astrojs/react": "^3.6.2",
     "@astrojs/sitemap": "^3.1.6",
     "@astrojs/solid-js": "^4.4.1",
     "@astrojs/ts-plugin": "^1.10.2",
     "@astrojs/vercel": "^7.8.1",
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^1.9.0",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@unocss/preset-web-fonts": "^0.62.3",
     "@unocss/reset": "^0.62.3",
     "@vercel/og": "^0.6.2",
-    "astro": "^4.15.4",
+    "astro": "^4.15.6",
     "mdast-util-to-string": "^4.0.0",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
@@ -30,7 +30,7 @@
     "solid-js": "^1.8.22",
     "typescript": "^5.6.2",
     "unocss": "^0.62.3",
-    "vercel": "^37.4.1"
+    "vercel": "^37.4.2"
   },
   "scripts": {
     "dev": "astro dev",
@@ -41,7 +41,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@iconify-json/devicon": "^1.2.0",
+    "@iconify-json/devicon": "^1.2.1",
     "@iconify-json/fa6-brands": "^1.2.0",
     "@iconify-json/fa6-regular": "^1.2.0",
     "@iconify-json/fa6-solid": "^1.2.0",

@@ -6,11 +6,12 @@ interface Props {
   description: string;
   image: string;
   type?: string;
+  data?: Record<string, any>,
 }
 
-const { title, description, image, type } = Astro.props;
+const { title, description, image, type, data } = Astro.props;
 
-const ogURL = new URL(Astro.url.pathname, Astro.site);
+const url = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 ---
 
@@ -25,12 +26,18 @@ const imageURL = new URL(image, Astro.site);
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content={type ?? 'article'} />
-  <meta property="og:url" content={ogURL.href} />
+  <meta property="og:url" content={url.href} />
   <meta property="og:image" content={imageURL.href} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={imageURL.href} />
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(data)}
+    is:inline
+  />
+
   <script is:inline>
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
