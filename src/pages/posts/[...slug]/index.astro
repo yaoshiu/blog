@@ -20,14 +20,12 @@ const {slug} = Astro.params;
 const { Content, remarkPluginFrontmatter } = await entry.render();
 
 const data = await postData({ entry, site: Astro.site })
-
-console.log(remarkPluginFrontmatter);
 ---
 
 <Base
   title={entry.data.title}
   description={entry.data.description}
-  image={`/posts/${slug}-og.png`}
+  image={`/posts/${slug}/og.png`}
   {data}
 >
   <div class="prose">
