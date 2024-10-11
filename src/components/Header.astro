@@ -29,16 +29,18 @@ const STEAMID = 'fayash';
     />
   </h1>
   <div class="font-pixel gap-4 py-2 flex justify-center">
-    <a href="/" class="hover:underline"> cd ~ </a>
-    <a href="/posts" class="hover:underline"> /posts </a>
-    <a href="/projects" class="hover:underline"> /projects </a>
-    <a
-      href="./friends"
-      aria-label="friends"
-      class="hover:animate-flip flex items-center"
-    >
-      <svg class="i-pixelarticons:contact"></svg>
-    </a>
+    <nav class="flex gap-4">
+      <a href="/" class="hover:underline"> cd ~ </a>
+      <a href="/posts" class="hover:underline"> /posts </a>
+      <a href="/projects" class="hover:underline"> /projects </a>
+      <a
+        href="./friends"
+        aria-label="friends"
+        class="hover:animate-flip flex items-center"
+      >
+        <svg class="i-pixelarticons:contact"></svg>
+      </a>
+    </nav>
     <a
       href={`https://github.com/${GITHUB}`}
       aria-label="github"
