@@ -65,9 +65,9 @@ const STEAMID = 'fayash';
   <script>
     document.addEventListener('astro:page-load', () => {
       document.querySelectorAll('a').forEach((el) => {
-        el.addEventListener('click', (e) => {
+        el.addEventListener('click', (ev) => {
           if (el.href === window.location.href) {
-            e.preventDefault();
+            ev.preventDefault();
           }
         });
       });
