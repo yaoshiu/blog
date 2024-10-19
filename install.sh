@@ -2,4 +2,6 @@
 
 curl -fsSL https://deno.land/install.sh | sh
 
-/vercel/.deno/bin/deno install --allow-scripts
+export PATH="/vercel/.deno/bin:$PATH"
+
+deno install --allow-scripts
