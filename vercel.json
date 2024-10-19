@@ -1,0 +1,4 @@
+{
+  "installCommand": "sh install.sh",
+  "buildCommand": "deno run build"
+}
