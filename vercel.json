@@ -1,3 +1,0 @@
-{
-  "installCommand": "deno install --allow-scripts"
-}
