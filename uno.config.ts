@@ -7,7 +7,7 @@ import {
   presetUno,
   presetWebFonts,
 } from 'unocss';
-import colorSchemes from 'colorSchemes';
+import colorSchemes from './colorSchemes';
 
 export default defineConfig({
   presets: [
@@ -60,9 +60,26 @@ export default defineConfig({
       },
       processors: createLocalFontProcessor(),
     }),
-    presetIcons(),
+    presetIcons({
+      collections: {
+        async devicon() {
+          return import('@iconify-json/devicon').then((i) => i.icons);
+        },
+        async 'fa6-brands'() {
+          return import('@iconify-json/fa6-brands').then((i) => i.icons);
+        },
+        async 'fa6-regular'() {
+          return import('@iconify-json/fa6-regular').then((i) => i.icons);
+        },
+        async 'fa6-solid'() {
+          return import('@iconify-json/fa6-solid').then((i) => i.icons);
+        },
+        async pixelarticons() {
+          return import('@iconify-json/pixelarticons').then((i) => i.icons);
+        },
+      },
+    }),
     presetAttributify(),
-    presetIcons(),
   ],
 
   theme: {
