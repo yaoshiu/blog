@@ -9,6 +9,8 @@ interface Props {
   data?: Record<string, unknown>;
 }
 
+const SITE_NAME = 'Fay Ash';
+
 const { title, description, image, type, data } = Astro.props;
 
 const url = new URL(Astro.url.pathname, Astro.site);
@@ -28,6 +30,7 @@ const imageURL = new URL(image, Astro.site);
   <meta property="og:type" content={type ?? 'article'} />
   <meta property="og:url" content={url.href} />
   <meta property="og:image" content={imageURL.href} />
+  <meta property="og:site_name" content={SITE_NAME} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />

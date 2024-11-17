@@ -58,6 +58,7 @@ export const ScrollTop = (props: { threshold?: number }) => {
           'transition-duration': `${DURATION}ms`,
         }}
         onClick={handleClick}
+        aria-label="Scroll to top"
       >
         <svg class="i-fa6-solid:angle-up" />
       </button>
