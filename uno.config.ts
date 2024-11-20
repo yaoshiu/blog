@@ -9,6 +9,20 @@ import {
 } from 'unocss';
 import colorSchemes from './colorSchemes';
 
+function mapColors([key, value]: [string, string | string[]]): string {
+  if (typeof value === 'string') {
+    const r = Number.parseInt(value.substring(1, 3), 16);
+    const g = Number.parseInt(value.substring(3, 5), 16);
+    const b = Number.parseInt(value.substring(5, 7), 16);
+    return `--color-${key}: ${r} ${g} ${b};`;
+  }
+  return Object.entries(value)
+    .map(([currentKey, value]: [string, string]) =>
+      mapColors([`${key}-${currentKey}`, value]),
+    )
+    .join('');
+}
+
 export default defineConfig({
   presets: [
     presetUno(),
@@ -19,14 +33,9 @@ export default defineConfig({
           '--prose-a-color': 'var(--color-text-1)',
           '--border-opacity': '0.5',
           'border-bottom':
-            '1px solid rgba(var(--color-text-1), var(--border-opacity))',
+            '1px solid rgb(var(--color-text-1) / var(--border-opacity))',
           'text-decoration': 'none',
           transition: 'border-bottom 0.15s ease-in-out',
-        },
-        '.dark a': {
-          '--prose-a-color': 'var(--color-dark-text-1)',
-          'border-bottom':
-            '1px solid rgba(var(--color-dark-text-1), var(--border-opacity))',
         },
         'a:hover': {
           '--border-opacity': '1',
@@ -35,18 +44,11 @@ export default defineConfig({
           'font-family': '"Inter"',
         },
         hr: {
-          'border-top': '1px solid rgba(var(--color-text-1), 0.1)',
-        },
-        '.dark hr': {
-          'border-top': '1px solid rgba(var(--color-dark-text-1), 0.1)',
+          'border-top': '1px solid rgb(var(--color-text-1) / 0.1)',
         },
         blockquote: {
-          'border-left': '4px solid rgba(var(--color-text-1), 0.1)',
+          'border-left': '4px solid rgb(var(--color-text-1) / 0.1)',
           background: 'rgb(var(--color-background-1))',
-        },
-        '.dark blockquote': {
-          'border-left': '4px solid rgba(var(--color-dark-text-1), 0.1)',
-          background: 'rgb(var(--color-dark-background-1))',
         },
       },
     }),
@@ -83,7 +85,18 @@ export default defineConfig({
   ],
 
   theme: {
-    colors: colorSchemes,
+    colors: Object.entries(colorSchemes).reduce(
+      (acc: Record<string, string | string[]>, [key, value]) => {
+        if (typeof value === 'string') {
+          acc[key] = `rgb(var(--color-${key}))`;
+        }
+        if (Array.isArray(value)) {
+          acc[key] = value.map((_, i) => `rgb(var(--color-${key}-${i}))`);
+        }
+        return acc;
+      },
+      {},
+    ),
 
     animation: {
       keyframes: {
@@ -110,26 +123,15 @@ export default defineConfig({
 
   preflights: [
     {
-      getCSS: ({ theme }) =>
-        `:root {${Object.entries(theme.colors)
-          .map(function mapColors([key, value]): string {
-            if (typeof value === 'string') {
-              const color = value.replace(/#/, '');
-              const r = Number.parseInt(color.substring(0, 2), 16);
-              const g = Number.parseInt(color.substring(2, 4), 16);
-              const b = Number.parseInt(color.substring(4, 6), 16);
-              return `--color-${key}: ${r}, ${g}, ${b};`;
-            }
-            if (typeof value === 'object' && value) {
-              return Object.entries(value)
-                .map(([currentKey, value]) =>
-                  mapColors([`${key}-${currentKey}`, value]),
-                )
-                .join('');
-            }
-            return '';
-          })
-          .join('')}}`,
+      getCSS: () =>
+        `:root {${Object.entries(colorSchemes)
+          .map(([key, value]) =>
+            typeof value === 'string' || Array.isArray(value)
+              ? mapColors([key, value])
+              : '',
+          )
+          .join('')}}
+      .dark {${Object.entries(colorSchemes.dark).map(mapColors).join('')}}`,
     },
   ],
 });
