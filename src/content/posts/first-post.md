@@ -14,4 +14,4 @@ This blog is built with [Astro](https://astro.build) and [Solid](https://solidjs
 
 You can find the source code of this blog on [GitHub](https://github.com/yaoshiu/blog). It will be my honor if you liked my blog and fork it to create yours. So feel free to use the code, I will publish it under MIT license (or maybe some of you would prefer to call it Expat License).
 
-I will write about my thoughts, my projects, and my life on this blog. I hope you will enjoy reading it.
+I will write about my thoughts, my projects, and my life on this blog. I hope you enjoy reading it.
