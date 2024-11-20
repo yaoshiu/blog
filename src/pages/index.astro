@@ -86,23 +86,24 @@ const LEARNING = [
 ];
 
 const posts = await getCollection('posts');
-const postsData = await Promise.all(posts.map((entry) => postData({ entry, site: Astro.site })));
-
+const postsData = await Promise.all(
+  posts.map((entry) => postData({ entry, site: Astro.site })),
+);
 
 const data = {
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "blogPost": postsData,
-  "headline": TITLE,
-  "image": new URL("/og.png", Astro.site),
-  "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-  "description": DESCRIPTION,
-  "author": {
-    "@type": "Person",
-    "name": "Fay Ash",
-    "url": Astro.site,
-  }
-}
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  blogPost: postsData,
+  headline: TITLE,
+  image: new URL('/og.png', Astro.site),
+  license: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
+  description: DESCRIPTION,
+  author: {
+    '@type': 'Person',
+    name: 'Fay Ash',
+    url: Astro.site,
+  },
+};
 ---
 
 <Base title={TITLE} description={DESCRIPTION} image="/og.png" {data}>
