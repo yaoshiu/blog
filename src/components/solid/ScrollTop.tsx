@@ -52,7 +52,7 @@ export const ScrollTop = (props: { threshold?: number }) => {
         size-10
         transition-opacity"
         hover-bg="neutral-300 dark:neutral-600 op-50 dark:op-50"
-        text="text-1 dark:dark-text-1"
+        text="text-1"
         style={{
           opacity: enter() ? 1 : 0,
           'transition-duration': `${DURATION}ms`,

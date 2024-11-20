@@ -19,16 +19,9 @@ const { title, description, image, type, data } = Astro.props;
 
 <html lang="en">
   <Head {title} {description} {image} {type} {data} />
-  <body
-    bg="background-0 dark:dark-background-0"
-    class="font-sans"
-    text="text-0 dark:dark-text-0"
-  >
+  <body bg="background-0" class="font-sans" text="text-0">
     <Header />
-    <main
-      class="p-4 w-full max-w-prose mx-auto"
-      transition:animate="fade"
-    >
+    <main class="p-4 w-full max-w-prose mx-auto" transition:animate="fade">
       <div class="flex-1">
         <slot />
       </div>

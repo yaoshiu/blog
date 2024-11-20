@@ -27,7 +27,7 @@ const posts = await Promise.all(
                 class="sm:text-lg op-80 hover:op-100 transition-opacity"
               >
                 {post.data.title}
-                <span class="ml-2" text="sm md:xs text-1 dark:dark-text-1">
+                <span class="ml-2" text="sm md:xs text-1">
                   {post.readingTime} ·
                   <time datetime={post.data.published.toISOString()}>
                     <DayJS

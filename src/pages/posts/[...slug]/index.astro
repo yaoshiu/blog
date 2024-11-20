@@ -15,11 +15,11 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 
-const {slug} = Astro.params;
+const { slug } = Astro.params;
 
 const { Content, remarkPluginFrontmatter } = await entry.render();
 
-const data = await postData({ entry, site: Astro.site })
+const data = await postData({ entry, site: Astro.site });
 ---
 
 <Base
@@ -31,11 +31,7 @@ const data = await postData({ entry, site: Astro.site })
   <div class="prose">
     <div class="flex gap-4 items-center">
       <h1>{entry.data.title}</h1>
-      <div
-        class="not-prose p-2"
-        border="l-4 text-1 dark:dark-text-1 op-30"
-        text="sm text-1 dark:dark-text-1"
-      >
+      <div class="not-prose p-2" border="l-4 text-1 op-30" text="sm text-1">
         <p>
           {remarkPluginFrontmatter.readingTime} ·
           <DayJS
