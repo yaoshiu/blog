@@ -22,6 +22,12 @@ const imageURL = new URL(image, Astro.site);
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Fay Ash"
+    href={new URL('rss.xml', Astro.site)}
+  />
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
   <meta name="description" content={description} />
