@@ -9,7 +9,14 @@ import {
 } from 'unocss';
 import colorSchemes from './colorSchemes';
 
-function mapColors([key, value]: [string, string | string[]]): string {
+type colorScheme = {
+  [key: string]: string | string[] | colorScheme;
+};
+
+function mapColors([key, value]: [
+  string,
+  string | string[] | colorScheme,
+]): string {
   if (typeof value === 'string') {
     const r = Number.parseInt(value.substring(1, 3), 16);
     const g = Number.parseInt(value.substring(3, 5), 16);
@@ -17,7 +24,7 @@ function mapColors([key, value]: [string, string | string[]]): string {
     return `--color-${key}: ${r} ${g} ${b};`;
   }
   return Object.entries(value)
-    .map(([currentKey, value]: [string, string]) =>
+    .map(([currentKey, value]: [string, string | string[] | colorScheme]) =>
       mapColors([`${key}-${currentKey}`, value]),
     )
     .join('');
@@ -124,13 +131,7 @@ export default defineConfig({
   preflights: [
     {
       getCSS: () =>
-        `:root {${Object.entries(colorSchemes)
-          .map(([key, value]) =>
-            typeof value === 'string' || Array.isArray(value)
-              ? mapColors([key, value])
-              : '',
-          )
-          .join('')}}
+        `:root {${Object.entries(colorSchemes).map(mapColors).join('')}}
       .dark {${Object.entries(colorSchemes.dark).map(mapColors).join('')}}`,
     },
   ],
