@@ -5,7 +5,7 @@
     "@astrojs/check": "0.9.4",
     "@astrojs/markdown-remark": "^5.3.0",
     "@astrojs/mdx": "3.1.9",
-    "@astrojs/react": "^3.6.2",
+    "@astrojs/react": "^3.6.3",
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "3.2.1",
     "@astrojs/solid-js": "4.4.3",
@@ -31,7 +31,7 @@
     "remark-math": "^6.0.0",
     "sharp": "^0.33.5",
     "solid-js": "^1.9.3",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.2",
     "unocss": "^0.62.4",
     "vercel": "^37.14.0"
   },
@@ -45,7 +45,7 @@
   "type": "module",
   "dependencies": {
     "@iconify-json/devicon": "^1.2.6",
-    "@iconify-json/fa6-brands": "^1.2.2",
+    "@iconify-json/fa6-brands": "^1.2.3",
     "@iconify-json/fa6-regular": "^1.2.2",
     "@iconify-json/fa6-solid": "^1.2.2",
     "@iconify-json/pixelarticons": "^1.2.1",
