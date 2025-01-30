@@ -1,5 +1,5 @@
 <script>
-  import { animate, stagger } from 'motion';
+  import { animate, stagger, type AnimationOptions } from 'motion';
 
   const DURATION = 0.5;
   const STAGGER = 0.05;
@@ -15,7 +15,7 @@
         duration: DURATION,
         delay: stagger(STAGGER),
         easing: 'ease-out',
-      },
+      } as AnimationOptions,
     );
   });
 </script>
