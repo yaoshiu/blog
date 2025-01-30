@@ -2,7 +2,7 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import solid from '@astrojs/solid-js';
-import vercel from '@astrojs/vercel/static';
+import vercel from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
 import unocss from 'unocss/astro';
 import lastModified from './lastModified';
@@ -36,9 +36,6 @@ export default defineConfig({
       },
     },
   },
-  adapter: vercel({
-    webAnalytics: { enabled: true },
-  }),
   integrations: [
     mdx(),
     react({ include: ['**/react/*'] }),
