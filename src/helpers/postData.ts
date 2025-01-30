@@ -4,7 +4,10 @@ import dayjs from 'dayjs';
 export default async function postData({
   entry,
   site,
-}: { entry: CollectionEntry<'posts'>; site?: URL }) {
+}: {
+  entry: CollectionEntry<'posts'>;
+  site?: URL;
+}) {
   const { remarkPluginFrontmatter } = await entry.render();
   return {
     '@context': 'https://schema.org',

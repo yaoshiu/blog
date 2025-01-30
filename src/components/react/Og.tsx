@@ -15,46 +15,48 @@ const regular = await readFile(REGULAR);
 
 export default async function Og(title?: string) {
   return new ImageResponse(
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        height: '100%',
-      }}
-    >
+    (
       <div
         style={{
-          width: '100%',
-          height: '100%',
-          display: title ? 'flex' : 'none',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: colorSchemes.text[0],
-          backgroundColor: colorSchemes.background[0],
-          padding: TITLESIZE,
-          fontFamily: 'bold',
-          fontSize: TITLESIZE,
-        }}
-      >
-        {title}
-      </div>
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          fontSize: TITLESIZE,
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontFamily: 'caveat',
-          color: colorSchemes.text[0],
-          backgroundColor: colorSchemes.primary,
+          width: '100%',
+          height: '100%',
         }}
       >
-        Fay Ash
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: title ? 'flex' : 'none',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: colorSchemes.text[0],
+            backgroundColor: colorSchemes.background[0],
+            padding: TITLESIZE,
+            fontFamily: 'bold',
+            fontSize: TITLESIZE,
+          }}
+        >
+          {title}
+        </div>
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            fontSize: TITLESIZE,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'caveat',
+            color: colorSchemes.text[0],
+            backgroundColor: colorSchemes.primary,
+          }}
+        >
+          Fay Ash
+        </div>
       </div>
-    </div>,
+    ),
     {
       fonts: [
         {
