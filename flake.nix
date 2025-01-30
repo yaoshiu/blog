@@ -13,7 +13,8 @@
       {
         devShell = pkgs.mkShell {
           packages = with pkgs; [
-            deno
+            bun
+            nodejs
           ];
         };
       }

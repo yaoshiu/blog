@@ -21,6 +21,12 @@ const LOCAL = 'http://localhost:4321';
 // https://astro.build/config
 export default defineConfig({
   site: process.env.SITE ?? LOCAL,
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+    imageService: true,
+  }),
   markdown: {
     remarkPlugins: [
       readingTime,
