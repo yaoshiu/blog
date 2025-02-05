@@ -1,5 +1,5 @@
 ---
-title: Build a Sing Box Server with Ansible and Docker Compose
+title: Build a Sing Box Server with Docker and Ansible
 description: This article briefly documents the process of deploying a sing-box server on a VPS using Ansible and Docker Compose, with automated subscription management implemented through Serenity.
 published: 2025-02-05
 tags:
