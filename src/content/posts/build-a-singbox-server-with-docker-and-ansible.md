@@ -149,4 +149,4 @@ The `docker-compose.yml` file requires templating to accommodate functional diff
         remove_orphans: true
 ```
 
-This is the core configuration workflow. The remaining files are intentionally straghtforward, with the entire project repository hosted on [GithUb](https://github.com/yaoshiu/vps-ansible). You can easily adapt it to your environment by simply modifying `var_files/secrets.yml` and `inventory.yml`.
+This is the core configuration workflow. The remaining files are intentionally straghtforward, with the entire project repository hosted on [GitHub](https://github.com/yaoshiu/vps-ansible). You can easily adapt it to your environment by simply modifying `var_files/secrets.yml` and `inventory.yml`.
