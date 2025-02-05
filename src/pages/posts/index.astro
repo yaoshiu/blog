@@ -10,7 +10,7 @@ const posts = await Promise.all(
       ...post,
       readingTime: remarkPluginFrontmatter.readingTime,
     })),
-  ),
+  ).reverse()
 );
 ---
 
