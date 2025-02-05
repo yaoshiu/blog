@@ -26,8 +26,8 @@ const posts = (await Promise.all(
                 href={`/posts/${post.slug}`}
                 class="sm:text-lg op-80 hover:op-100 transition-opacity"
               >
-                {post.data.title}
-                <span class="ml-2" text="sm md:xs text-1">
+                <div class="sm:inline-block">{post.data.title}</div>
+                <span class="sm:ml-2" text="sm md:xs text-1">
                   {post.readingTime} ·
                   <time datetime={post.data.published.toISOString()}>
                     <DayJS
