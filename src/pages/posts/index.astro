@@ -11,7 +11,7 @@ const posts = (await Promise.all(
       readingTime: remarkPluginFrontmatter.readingTime,
     })),
   )
-)).sort((a, b) => a.data.published.getDate() - b.data.published.getDate());
+)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 
 <Base title="Posts" description="Posts of Fay Ash" image="/og.png">
