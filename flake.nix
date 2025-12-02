@@ -23,6 +23,8 @@
           packages = with pkgs; [
             bun
             nodejs
+            typescript-language-server
+            astro-language-server
           ];
         };
 
