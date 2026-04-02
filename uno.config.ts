@@ -7,7 +7,7 @@ import {
   presetUno,
   presetWebFonts,
 } from 'unocss';
-import colorSchemes from './colorSchemes';
+import colorSchemes from './colorSchemes.ts';
 
 type colorScheme = {
   [key: string]: string | string[] | colorScheme;
