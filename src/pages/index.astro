@@ -8,7 +8,6 @@ import postData from '@helpers/postData';
 
 const TITLE = 'Fay Ash';
 const DESCRIPTION = "Fay Ash's personal website and blog.";
-const STEAMID = 'fayash';
 
 const REPOS =[
   {
@@ -78,14 +77,6 @@ const data = {
     <SlideIn>
       <h1>Fay Ash</h1>
 
-      <p>
-        Hi, Fay Ash here. I am a <strong>Systems and Platform Engineer</strong> based in Shanghai, China. 
-        My work revolves around untangling legacy infrastructures, optimizing cross-compilation toolchains, and exploring the elegant boundaries of <strong>Programming Language Theory (PLT)</strong>.
-      </p>
-
-      <p>
-        I am a builder driven by first principles. Whether it's reverse-engineering messy C++ build systems to achieve hermetic environments, or implementing continuation-passing style (CPS) interpreters in Haskell, I enjoy diving to the absolute bottom of the tech stack.
-      </p>
 
       <p>Selected works:</p>
       <ul class="not-prose">
@@ -98,7 +89,6 @@ const data = {
         }
       </ul>
 
-      <p>My technical stack and current focus:</p>
       <ul>
         {
           SKILLS.map(({ title, tags }) => (
@@ -120,32 +110,6 @@ const data = {
           ))
         }
       </ul>
-
-      <p>
-        Outside of the terminal, I often describe myself as a "creature driven by curiosity." When a problem captures my imagination—be it zero-cost abstractions or abstract algebra—I can immerse myself in it for days.
-      </p>
-
-      <p>
-        I'm also an avid consumer of progressive rock, experimental music from the 60s to the 80s, and classic cinema (slowly working my way through the <i>Sight & Sound</i> list). But above all, I am a seasoned gamer. My longest-running obsession is the <i>Monster Hunter</i> series, my all-time favorite is <i>Red Dead Redemption 2</i>, and I've been a loyal fan of the <i>GTA</i> franchise since Vice City.
-      </p>
-
-      <p>
-        If you share an interest in systems programming, obscure Lisp dialects, or just want to hunt some monsters together, feel free to connect with me or add me on
-        <span class="not-prose">
-          <Tag
-            href=`https://steamcommunity.com/id/${STEAMID}`
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="i-fa6-brands:steam inline-block"></span>
-            Steam
-          </Tag>
-        </span>.
-      </p>
-
-      <p>
-        Thanks for stopping by, and enjoy your time here!
-      </p>
     </SlideIn>
   </article>
 </Base>
