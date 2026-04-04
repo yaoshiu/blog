@@ -8,11 +8,13 @@ tags:
   - WASM
 ---
 
+No, not an operating system, Kernel is a Lisp dialect, an implementation can be found [here](https://klisp.org/).
+
 ## Context
 
-I've been interested in Haskell for quite a long time, but didn't manage to write a single line of code. I've been reading *LYAH([Lear You a Haskell for Great Good!](https://learnyouahaskell.github.io/))* for almost a year and got stuck before the Monad chapter. Back then every single section in LYAH seemed so complex for me that I needed hours to understand it. Actually I've restarted the book about twice or three times.
+I've been interested in Haskell for quite a long time, but didn't manage to write a single line of code. I've been reading *LYAH([Lear You a Haskell for Great Good!](https://learnyouahaskell.github.io/))* for almost a year and got stuck before the Monad chapter. Back then every single section in LYAH seemed so complex for me that I would need hours to understand it. Actually I've restarted the book about twice or three times.
 
-And there goes the opening.
+One day I was finally done of it. "Screw it, I'll just make something and learn on the way," I said.
 
 So I started this project, since a Lisp interpreter is something that can't go wrong when you're learning a programming language, and Haskell is well-suited for it.
 
@@ -24,17 +26,17 @@ If you'd like to try it first, here's a [live REPL](https://yaoshiu.github.io/op
 
 The initial target of this project was to make something much like Scheme, after all it's the "industrial standard" of Lisps, and this project was started as a practice, so Scheme was the perfect target at first.
 
-It all started quite well. Writing a parser for Lisp in Haskell was smooth. The evaluator with special forms, although felt verbose, was something I'd expected for an "interpreter".
+It all went quite well at the beginning. Writing a parser for Lisp in Haskell was smooth. The evaluator with special forms, although felt verbose, was something I'd expected for an "interpreter".
 
-I started struggling when I got to `begin`. Scheme has a very complex definition for `begin` and function body. `begin` behaves differently when it's in top-level, beginning of a function body, and an expression, because Scheme treats "statements" and "expressions" differently where a `define` statement isn't an expression. So `begin` is context-sensitive, and we would need some other state in our interpreter for it to know the context.
+I started struggling when I got to `begin`. Scheme has a very complex definition for `begin` and function body. `begin` behaves differently when it's in top-level, beginning of a function body, and an expression, because Scheme treats "statements" and "expressions" differently where a `define` statement isn't an expression. `begin` is context-sensitive, and we would need some other state in our interpreter for it to know the context.
 
-This just felt unacceptable for me, that I would need to create a special form that's even more "special" than others. And the way Scheme distinguishes "statements" and "expressions" was also somewhat unsettling to me. So I made my switch. I gave up creating something similar to Scheme, instead I started exploring something more minimal.
+This just felt unacceptable for me, that I would need to create a special form that's even more "special" than others. And the way Scheme distinguishes "statements" and "expressions" was also somewhat unsettling to me. It's totally understandable why Scheme is designed like this, these "special forms" are great for compile time static analysis and are necessary trade-offs when building an industrial language But, since I was just writing an interpreter, I wasn't going to accept that complexity. So I made my switch, I gave up creating something similar to Scheme, instead I started exploring something more minimal.
 
 The first change I made was to eliminate the "statement" concept, making the language a purely expression-based language could make my later steps easier, since we wouldn't have to think about how other components would behave when they were in different contexts. There were options for the `define` expression, which is to return the defined value or to return an empty value. For the sake of not writing something like `(define b (define a b))` I chose the latter. Eliminating the "statement" concept allowed me to make `begin` a very simple expression just for sequential execution.
 
 ## TCO / Monad Stack / ContT
 
-After parting ways with Scheme by making `define` from a statement to an expression, I completed a "functional core" for this language, with a static environment and a special form `lambda` to define functions. By the time this interpreter was still a direct-style interpreter. My monad stack looked like this:
+After parting ways with Scheme by making `define` from a statement to an expression, I completed a "functional core" for this language, with a lexical environment and a special form `lambda` to define functions. By the time this interpreter was still a direct-style interpreter. My monad stack looked like this:
 
 ```haskell
 newtype Eval a = Eval { unEval :: StateT Env (ExceptT EvalError IO) a }
@@ -56,7 +58,7 @@ Then I began to implement a fundamental feature of Lisps, which is Proper Tail C
  (loop))
 ```
 
-My interpreter failed at that. And cause was obvious: since I was using the `StateT` to manage environment states, my function application would have to store the current environment first, create a child environment based on the current environment, set the current environment to the child environment, apply the function, and then restore the stored environment. The last step, the "restoring", was the breaker of the Proper Tail Call, because it took the place of the "tail", which made everything that looked like the "tail" actually not the "tail".
+My interpreter failed at that. And the cause was obvious: since I was using the `StateT` to manage environment states, my function application would have to store the current environment first, create a child environment based on the current environment, set the current environment to the child environment, apply the function, and then restore the stored environment. The last step, the "restoring", was the breaker of the Proper Tail Call, because it took the place of the "tail", which made everything that looked like the "tail" actually not the "tail".
 
 The fix was simple and quite brute - which was to replace the `StateT` with `ReaderT` and `IORef`, this way we don't care about the environment after applying the function. The underlying reason is that `StateT` essentially is simply something like `state -> param -> (state, return)` while `ReaderT` is `env -> param -> return`, the absence of the `env` in the return value is the key to make a function call able to be a tail call.
 
@@ -65,13 +67,13 @@ Another important feature of Scheme is `call/cc`, which requires a CPS (Continua
 newtype ContT r m a = ContT { runContT :: (a -> m r) -> m r }
 ```
 
-All I needed to do was to simply modify my `Eval` monad stack and the `runEval` function, none of the other code would need to be changed and the `call/cc` was free to get. So my monad stack now looks like:
+All I needed to do was to simply modify my `Eval` monad stack and the `runEval` function, none of the other code would need to be changed and `call/cc` was free to get. So my monad stack then looked like:
 
 ```haskell
 newtype Eval a = Eval { unEval :: ReaderT Env (ExceptT EvalError (ContT EvalResult IO)) a }
 ```
 
-`ContT` also gave me another powerful tool, which is First-Class Continuation, or `call/cc` in Scheme. An example below:
+`ContT` also gave me another powerful tool, which was First-Class Continuation, or `call/cc` in Scheme. An example below:
 
 ```
 opus> (define a (let ((k (call/cc (lambda (k) k)))) (begin (displayln "hey!") k)))
@@ -87,7 +89,7 @@ opus> a
 1
 ```
 
-There's actually a better solution for it if you value performance. Since integrating `ContT` to the whole monad stack would transform all functions involving this monad to CPS, which caused a lot of closure allocation and brought performance overhead, we could only transform the `eval` to CPS and keep other parts direct-style in a more fine-grained way. But for this project, I'd value code simplicity over performance.
+There's actually a better solution for it if you valued performance. Since integrating `ContT` to the whole monad stack would transform all functions involving this monad to CPS, which caused a lot of closure allocation and brought performance overhead. We could only transform the `eval` to CPS and keep other parts direct-style in a more fine-grained way. But for this project, I'd value code simplicity over performance.
 
 ## The Kernel Programming Language
 
@@ -142,7 +144,7 @@ List &:= \text{NIL}\ |\ \text{Cons}\ \left<val\right>\ List \\
 \end{aligned}
 $$
 
-For not losing too much performance these functions are "optional", the underlying data is still ordinary number/list, but if it was applied as function it could behave in such ways.
+For not losing too much performance, these functions were "optional", the underlying data was still ordinary number/list, but if it was applied as function it could behave in such ways.
 
 The only thing left was "symbol", while traditional mathematics doesn't deal with such sort of thing, there isn't a definition for reference in both Scott Encoding and Church Encoding. So I had to create a definition for it myself, and it was: to bind a value to this symbol in the current environment, which is `define`.
 
@@ -194,7 +196,7 @@ It was quite a mess yeah? But even after implemented this I didn't gave up. I co
 
 Which is very impractical. And I started getting bored of writing primitives in two versions for such nonsense. I thought it's time to end this exploration, I've learned enough and I've been tired of it. So I finally rolled back to when it was simpler so I can explore some other interesting parts of this language.
 
-## Standard Library / Prelude / WASM
+## Standard Library / Prelude
 
 Exploring what this language can do was funny. It turned out that I didn't even have to implement `car` and `cdr` as primitives:
 
@@ -237,4 +239,31 @@ And we could even create a module system based on `$vau` and first-class environ
               (unwrap public)))))
 ```
 
-The full prelude is on [Github](https://github.com/yaoshiu/opus). And still, you can always try it without downloading a bit by visiting the [Live Demo](https://yaoshiu.github.io/opus).
+## First-Class Environment Causes Memory Leak
+
+When I tried to test the TCO performance in it I found out that, even though it didn't cause stack overflow which might be attributed to `ContT`, it causes memory leak:
+
+```lisp
+($begin
+ ($define! loop ($lambda () (loop)))
+ (loop))
+```
+
+The reason was that `_` was a valid symbol name. When we called a `$lambda`, it bound the caller's environment to `_` in closure's environment, and such applies to recursion. So when a function was called recursively, it accumulated this environment chain where a closure environment always held a reference to its caller environment which might be another closure environment.
+
+My solution for it was also quite simple, which was to just add a special case for `define` so that it dropped the value when the symbol was `_`.
+
+```haskell
+define :: SExpr -> SExpr -> Eval SExpr
+define (SSym "_") val = pure SNil
+define (SSym sym) val = do
+  Env {frame} <- ask
+  cell <- liftIO $ newIORef val
+  liftIO $ modifyIORef frame $ Map.insert sym cell
+  pure SNil
+define sym _ = throwError $ TypeError $ renderVal True sym <> " not a symbol"
+```
+
+## Source Code / WASM Live Demo
+
+The source code is on [Github](https://github.com/yaoshiu/opus). And still, you can always try it without downloading a bit by visiting the [Live Demo](https://yaoshiu.github.io/opus). By the way, I made a simple `readline` library for this live demo. You can test its boundaries with wide characters or emojis freely, I'd be appreciative if you sent me an issue when there's a bug. 
