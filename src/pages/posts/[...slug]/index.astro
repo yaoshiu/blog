@@ -16,12 +16,10 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-
 const { slug } = Astro.params;
 
 const { Content, remarkPluginFrontmatter } = await render(entry);
-const lastModified =
-  remarkPluginFrontmatter.lastModified || entry.data.published;
+const lastModified = remarkPluginFrontmatter.lastModified || entry.data.published;
 
 const data = await postData({ entry, site: Astro.site });
 ---
@@ -32,10 +30,10 @@ const data = await postData({ entry, site: Astro.site });
   image={`/posts/${slug}/og.png`}
   {data}
 >
-  <div class="prose">
+  <div class="prose dark:prose-invert">
     <div class="flex gap-4 items-center">
       <h1>{entry.data.title}</h1>
-      <div class="not-prose p-2" border="l-4 text-1 op-30" text="sm text-1">
+      <div class="not-prose p-2 border-l-4 border-text-1/30 text-sm text-text-1">
         <p>
           {remarkPluginFrontmatter.readingTime} ·
           <DayJS

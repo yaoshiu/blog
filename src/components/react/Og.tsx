@@ -1,19 +1,54 @@
 /** @jsxImportSource react */
 import { ImageResponse } from '@vercel/og';
-import colorSchemes from 'colorSchemes';
-import { readFile } from 'node:fs/promises';
+import colorSchemes from '@lib/colorSchemes';
+import signature from "@assets/signature.svg?raw";
 
-const BOLD = './src/assets/fonts/Noto_Sans/static/NotoSans-Bold.ttf';
-const REGULAR = './src/assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf';
-const CAVEAT = './src/assets/fonts/Caveat/static/Caveat-Regular.ttf';
+const SIZE = { width: 1200, height: 630 };
 
-const TITLESIZE = 64;
-
-const bold = await readFile(BOLD);
-const caveat = await readFile(CAVEAT);
-const regular = await readFile(REGULAR);
+function signatureUrl(color: string) {
+  const svg = signature.replace('currentColor', color);
+  return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+}
 
 export default async function Og(title?: string) {
+  if (title) {
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            height: '100%',
+            backgroundColor: colorSchemes.background[0],
+            padding: '80px',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              alignItems: 'center',
+              fontSize: 64,
+              fontWeight: 700,
+              color: colorSchemes.text[0],
+              lineHeight: 1.2,
+            }}
+          >
+            {title}
+          </div>
+          <img
+            src={signatureUrl(colorSchemes.primary)}
+            width={181}
+            height={60}
+            style={{ objectFit: 'contain', objectPosition: 'left' }}
+          />
+        </div>
+      ),
+      SIZE,
+    );
+  }
+
   return new ImageResponse(
     (
       <div
@@ -21,57 +56,19 @@ export default async function Og(title?: string) {
           display: 'flex',
           width: '100%',
           height: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: colorSchemes.primary,
         }}
       >
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            display: title ? 'flex' : 'none',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: colorSchemes.text[0],
-            backgroundColor: colorSchemes.background[0],
-            padding: TITLESIZE,
-            fontFamily: 'bold',
-            fontSize: TITLESIZE,
-          }}
-        >
-          {title}
-        </div>
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            fontSize: TITLESIZE,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'caveat',
-            color: colorSchemes.text[0],
-            backgroundColor: colorSchemes.primary,
-          }}
-        >
-          Fay Ash
-        </div>
+        <img
+          src={signatureUrl(colorSchemes.background[0])}
+          width={363}
+          height={120}
+          style={{ objectFit: 'contain' }}
+        />
       </div>
     ),
-    {
-      fonts: [
-        {
-          name: 'bold',
-          data: bold,
-        },
-        {
-          name: 'regular',
-          data: regular,
-        },
-        {
-          name: 'caveat',
-          data: caveat,
-        },
-      ],
-    },
+    SIZE,
   );
 }

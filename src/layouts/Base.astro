@@ -3,12 +3,7 @@ import Footer from '@components/Footer.astro';
 import Head from '@components/Head.astro';
 import Header from '@components/Header.astro';
 import ScrollTop from '@components/solid/ScrollTop';
-import '@fontsource-variable/caveat/wght.css';
-import '@fontsource-variable/inter/wght.css';
-import '@fontsource-variable/source-code-pro/wght.css';
-import '@fontsource/vt323/400.css';
-import 'katex/dist/katex.min.css';
-import 'rehype-callouts/theme/vitepress';
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -23,7 +18,7 @@ const { title, description, image, type, data } = Astro.props;
 
 <html lang="en">
   <Head {title} {description} {image} {type} {data} />
-  <body bg="background-0" class="font-sans" text="text-0">
+  <body class="bg-background-0 font-sans text-text-0">
     <Header />
     <main class="p-4 w-full max-w-prose mx-auto" transition:animate="fade">
       <div class="flex-1">

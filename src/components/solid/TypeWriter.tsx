@@ -58,7 +58,7 @@ export const TypeWriter = (props: {
   return (
     <span>
       {displayText()}
-      <span class="animate-blink" border="l text-0" />
+      <span class="animate-blink border-l border-text-0" />
     </span>
   );
 };

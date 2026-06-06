@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-iconify';
 import RepoCard from '@components/RepoCard.astro';
 import Tag from '@components/Tag.astro';
 import Base from '@layouts/Base.astro';
@@ -9,46 +10,46 @@ import postData from '@lib/postData';
 const TITLE = 'Fay Ash';
 const DESCRIPTION = "Fay Ash's personal website and blog.";
 
-const REPOS =[
+const REPOS = [
   {
     repo: 'yaoshiu/opus',
     desc: 'A minimal, statically-scoped Lisp dialect based on f-expressions, compiled to WebAssembly.',
-    icon: 'i-fa6-solid:code',
+    icon: 'fa6-solid:code',
   },
   {
     repo: 'yaoshiu/algebraic-ds',
     desc: 'Zero-cost abstract algebra data structures in Rust using compile-time branded types.',
-    icon: 'i-fa6-solid:cubes',
+    icon: 'fa6-solid:cubes',
   },
 ];
 
-const SKILLS =[
+const SKILLS = [
   {
     title: 'Systems & Infrastructure',
-    tags:[
-      { icon: 'i-devicon:nixos', name: 'Nix', href: 'https://nixos.org/' },
-      { icon: 'i-devicon:cplusplus', name: 'C++', href: 'https://isocpp.org/' },
-      { icon: 'i-devicon:linux', name: 'Linux OS', href: 'https://kernel.org/' },
-      { icon: 'i-devicon:docker', name: 'Containers', href: 'https://www.docker.com/' },
+    tags: [
+      { icon: 'devicon:nixos', name: 'Nix', href: 'https://nixos.org/' },
+      { icon: 'devicon:cplusplus', name: 'C++', href: 'https://isocpp.org/' },
+      { icon: 'devicon:linux', name: 'Linux OS', href: 'https://kernel.org/' },
+      { icon: 'devicon:docker', name: 'Containers', href: 'https://www.docker.com/' },
     ],
   },
   {
     title: 'Languages & Theory',
-    tags:[
-      { icon: 'i-devicon:rust', name: 'Rust', href: 'https://www.rust-lang.org/' },
-      { icon: 'i-devicon:haskell', name: 'Haskell', href: 'https://www.haskell.org/' },
-      { icon: 'i-devicon:python', name: 'Python', href: 'https://www.python.org/' },
-      { icon: 'i-devicon:typescript', name: 'TypeScript', href: 'https://www.typescriptlang.org/' },
+    tags: [
+      { icon: 'devicon:rust', name: 'Rust', href: 'https://www.rust-lang.org/' },
+      { icon: 'devicon:haskell', name: 'Haskell', href: 'https://www.haskell.org/' },
+      { icon: 'devicon:python', name: 'Python', href: 'https://www.python.org/' },
+      { icon: 'devicon:typescript', name: 'TypeScript', href: 'https://www.typescriptlang.org/' },
     ],
   },
   {
     title: 'Focus Areas',
-    tags:[
-      { icon: 'i-fa6-solid:microchip', name: 'Compilers & PLT', href: '#' },
-      { icon: 'i-fa6-solid:hammer', name: 'Build Systems', href: '#' },
-      { icon: 'i-fa6-solid:globe', name: 'WebAssembly', href: '#' },
+    tags: [
+      { icon: 'fa6-solid:microchip', name: 'Compilers & PLT', href: '#' },
+      { icon: 'fa6-solid:hammer', name: 'Build Systems', href: '#' },
+      { icon: 'fa6-solid:globe', name: 'WebAssembly', href: '#' },
     ],
-  }
+  },
 ];
 
 const posts = await getCollection('posts');
@@ -73,7 +74,7 @@ const data = {
 ---
 
 <Base title={TITLE} description={DESCRIPTION} image="/og.png" {data}>
-  <article class="prose">
+  <article class="prose dark:prose-invert">
     <SlideIn>
       <h1>Fay Ash</h1>
 
@@ -94,11 +95,11 @@ const data = {
             <li>
               <strong>{title}:</strong>
               {tags && (
-                <ul class="not-prose" inline>
+                <ul class="not-prose inline">
                   {tags.map(({ icon, name, href }) => (
                     <li class="inline">
                       <Tag {href} target="_blank" rel="noopener noreferrer">
-                        <span class={`${icon} inline-block`} />
+                        <Icon name={icon} class="inline-block" />
                         {name}
                       </Tag>
                     </li>

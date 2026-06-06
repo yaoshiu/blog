@@ -13,19 +13,14 @@ const { repo, desc, icon } = Astro.props;
 const [, name] = repo.split('/');
 ---
 
-<div w-full px-2>
+<div class="w-full px-2">
   <a
-    href=`https://github.com/${repo}`
-    class="flex items-center justify-between
-    rounded-lg
-    gap-4
-    p-4
-    hover:transition-all
-    duration-300
-    hover:scale-101"
-    shadow="~ dark:primary hover:lg"
-    bg="accent-0 dark:accent-1"
-    text="white dark:text-0"
+    href={`https://github.com/${repo}`}
+    class="flex items-center justify-between rounded-lg gap-4 p-4
+    duration-300 hover:scale-[1.01] hover:transition-all
+    shadow hover:shadow-lg
+    bg-accent-0 dark:bg-accent-1
+    text-white dark:text-text-0"
   >
     <h2 class="font-bold gap-2 flex items-center">
       {icon && <Image src={icon} alt={repo} width="24" height="24" />}

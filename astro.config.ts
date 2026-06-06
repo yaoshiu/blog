@@ -3,24 +3,24 @@ import { unified } from '@astrojs/markdown-remark';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import solid from '@astrojs/solid-js';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import unocss from 'unocss/astro';
-import lastModified from './src/lib/lastModified.ts';
-import readingTime from './src/lib/readingTime.ts';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-import {
-  remarkDefinitionList,
-  defListHastHandlers,
-} from 'remark-definition-list';
+import { remarkDefinitionList, defListHastHandlers } from 'remark-definition-list';
 import remarkGemoji from 'remark-gemoji';
 import rehypeCallouts from 'rehype-callouts';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
+import lastModified from './src/lib/lastModified.ts';
+import readingTime from './src/lib/readingTime.ts';
 
 const LOCAL = 'http://localhost:4321';
 
-// https://astro.build/config
 export default defineConfig({
   site: process.env.SITE ?? LOCAL,
+  vite: {
+    // @ts-expect-error
+    plugins: [tailwindcss()],
+  },
   markdown: {
     processor: unified({
       remarkPlugins: [
@@ -43,6 +43,5 @@ export default defineConfig({
     react({ include: ['**/react/*'] }),
     sitemap(),
     solid({ include: ['**/solid/*'] }),
-    unocss({ injectReset: '@unocss/reset/tailwind-compat.css' }),
   ],
 });
