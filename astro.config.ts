@@ -1,12 +1,12 @@
 import mdx from '@astrojs/mdx';
+import { unified } from '@astrojs/markdown-remark';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import solid from '@astrojs/solid-js';
-import vercelStatic from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
 import unocss from 'unocss/astro';
-import lastModified from './lastModified';
-import readingTime from './readingTime';
+import lastModified from './src/lib/lastModified.ts';
+import readingTime from './src/lib/readingTime.ts';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import {
@@ -21,26 +21,22 @@ const LOCAL = 'http://localhost:4321';
 // https://astro.build/config
 export default defineConfig({
   site: process.env.SITE ?? LOCAL,
-  adapter: vercelStatic({
-    webAnalytics: {
-      enabled: true,
-    },
-    imageService: true,
-  }),
   markdown: {
-    remarkPlugins: [
-      readingTime,
-      lastModified,
-      remarkMath,
-      remarkDefinitionList,
-      remarkGemoji,
-    ],
-    rehypePlugins: [rehypeKatex, rehypeCallouts],
-    remarkRehype: {
-      handlers: {
-        ...defListHastHandlers,
+    processor: unified({
+      remarkPlugins: [
+        readingTime,
+        lastModified,
+        remarkMath,
+        remarkDefinitionList,
+        remarkGemoji,
+      ],
+      rehypePlugins: [rehypeKatex, rehypeCallouts],
+      remarkRehype: {
+        handlers: {
+          ...defListHastHandlers,
+        },
       },
-    },
+    }),
   },
   integrations: [
     mdx(),

@@ -1,6 +1,9 @@
 # build output
 dist/
 .vercel
+.wrangler/
+public/og.png
+public/posts/**/og.png
 # generated types
 .astro/
 
