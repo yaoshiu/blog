@@ -9,7 +9,7 @@
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       "@schemas/*": ["src/schemas/*"],
-      "@helpers/*": ["src/helpers/*"]
+      "@lib/*": ["src/lib/*"]
     },
     "plugins": [
       {

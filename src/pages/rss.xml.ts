@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
+import { postSlug } from '@lib/posts';
 
 export const GET: APIRoute = async ({ site }) => {
   if (!site) {
@@ -13,11 +14,11 @@ export const GET: APIRoute = async ({ site }) => {
     title: 'Fay Ash',
     description: '',
     site,
-    items: posts.map(({ data: { title, published, description }, slug }) => ({
-      title,
-      pubDate: published,
-      description,
-      link: `/posts/${slug}`,
+    items: posts.map((post) => ({
+      title: post.data.title,
+      pubDate: post.data.published,
+      description: post.data.description,
+      link: `/posts/${postSlug(post)}`,
     })),
   });
 };

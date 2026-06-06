@@ -1,14 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import DayJS from '@components/solid/DayJS';
 import Base from '@layouts/Base.astro';
 import SlideIn from '@components/SlideIn.astro';
-import postData from '@helpers/postData';
+import Lightbox from '@components/Lightbox.astro';
+import postData from '@lib/postData';
+import { postSlug } from '@lib/posts';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
   return posts.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: postSlug(entry) },
     props: { entry },
   }));
 }
@@ -17,7 +19,9 @@ const { entry } = Astro.props;
 
 const { slug } = Astro.params;
 
-const { Content, remarkPluginFrontmatter } = await entry.render();
+const { Content, remarkPluginFrontmatter } = await render(entry);
+const lastModified =
+  remarkPluginFrontmatter.lastModified || entry.data.published;
 
 const data = await postData({ entry, site: Astro.site });
 ---
@@ -43,7 +47,7 @@ const data = await postData({ entry, site: Astro.site });
         <p>
           Last modified
           <DayJS
-            date={remarkPluginFrontmatter.lastModified}
+            date={lastModified}
             format="HH:mm, MMM D, YYYY"
             client:visible
           />
@@ -51,7 +55,9 @@ const data = await postData({ entry, site: Astro.site });
       </div>
     </div>
     <SlideIn>
-      <Content />
+      <Lightbox>
+        <Content />
+      </Lightbox>
     </SlideIn>
   </div>
 </Base>

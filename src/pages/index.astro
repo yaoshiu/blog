@@ -4,7 +4,7 @@ import Tag from '@components/Tag.astro';
 import Base from '@layouts/Base.astro';
 import SlideIn from '@components/SlideIn.astro';
 import { getCollection } from 'astro:content';
-import postData from '@helpers/postData';
+import postData from '@lib/postData';
 
 const TITLE = 'Fay Ash';
 const DESCRIPTION = "Fay Ash's personal website and blog.";
@@ -77,11 +77,10 @@ const data = {
     <SlideIn>
       <h1>Fay Ash</h1>
 
-
       <p>Selected works:</p>
       <ul class="not-prose">
         {
-          REPOS.map(({ repo, desc  }) => (
+          REPOS.map(({ repo, desc }) => (
             <li class="my-8">
               <RepoCard repo={repo} desc={desc} />
             </li>
@@ -99,7 +98,7 @@ const data = {
                   {tags.map(({ icon, name, href }) => (
                     <li class="inline">
                       <Tag {href} target="_blank" rel="noopener noreferrer">
-                        <span class={`${icon} inline-block`}></span>
+                        <span class={`${icon} inline-block`} />
                         {name}
                       </Tag>
                     </li>

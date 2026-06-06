@@ -1,0 +1,79 @@
+<script>
+  class ImageLightbox extends HTMLElement {
+    #dialog!: HTMLDialogElement;
+    #lightboxImg!: HTMLImageElement;
+    #lightboxCaption!: HTMLParagraphElement;
+    #gallery!: HTMLDivElement;
+
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.#dialog = this.querySelector(
+        '.lightbox-dialog',
+      ) as HTMLDialogElement;
+      this.#lightboxImg = this.querySelector(
+        '.lightbox-img',
+      ) as HTMLImageElement;
+      this.#lightboxCaption = this.querySelector(
+        '.lightbox-caption',
+      ) as HTMLParagraphElement;
+      this.#gallery = this.querySelector('.lightbox-gallery') as HTMLDivElement;
+
+      this.#gallery.addEventListener('click', this.#onHostClick);
+
+      this.#dialog.addEventListener('click', this.#onLightboxClick);
+    }
+
+    disconnectedCallback() {
+      this.#gallery.removeEventListener('click', this.#onHostClick);
+      this.#dialog.removeEventListener('click', this.#onLightboxClick);
+    }
+
+    #onHostClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const img = target.closest('img');
+
+      if (img) {
+        this.#lightboxImg.src = img.src;
+        this.#lightboxImg.alt = img.alt;
+        this.#lightboxCaption.textContent = img.alt;
+        this.#dialog.showModal();
+      }
+    };
+
+    #onLightboxClick = () => {
+      this.#dialog.close();
+    };
+  }
+
+  customElements.define('image-lightbox', ImageLightbox);
+</script>
+
+<image-lightbox>
+  <div class="lightbox-gallery">
+    <slot />
+  </div>
+  <dialog
+    class="lightbox-dialog
+    max-w-[90vw] max-h-[90vh] bg-transparent overflow-hidden outline-none
+    transition-[opacity,transform,display] [transition-behavior:allow-discrete] duration-300
+    scale-95 opacity-0
+    open:scale-100 open:opacity-100
+    [@starting-style]:open:scale-95 [@starting-style]:open:opacity-0
+    backdrop:transition-opacity backdrop:duration-300 backdrop:[transition-behavior:allow-discrete]
+    backdrop:opacity-0 open:backdrop:opacity-100 [@starting-style]:open:backdrop:opacity-0
+    backdrop:bg-black/10 backdrop:backdrop-blur-sm"
+  >
+    <div class="flex flex-col items-center max-h-[90vh]">
+      <img
+        class="lightbox-img
+        min-h-0 drop-shadow-2xl object-contain rounded-md bg-transparent"
+        src=""
+        alt="lightbox image"
+      />
+      <p class="lightbox-caption text-white text-shadow-xl empty:hidden"></p>
+    </div>
+  </dialog>
+</image-lightbox>

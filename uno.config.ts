@@ -1,13 +1,11 @@
-import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local';
 import {
   defineConfig,
   presetAttributify,
   presetIcons,
   presetTypography,
-  presetUno,
-  presetWebFonts,
+  presetWind3,
 } from 'unocss';
-import colorSchemes from './colorSchemes.ts';
+import colorSchemes from './src/lib/colorSchemes.ts';
 
 type colorScheme = {
   [key: string]: string | string[] | colorScheme;
@@ -32,7 +30,7 @@ function mapColors([key, value]: [
 
 export default defineConfig({
   presets: [
-    presetUno(),
+    presetWind3(),
     presetTypography({
       cssExtend: {
         a: {
@@ -48,7 +46,7 @@ export default defineConfig({
           '--border-opacity': '1',
         },
         '.data-footnote-backref': {
-          'font-family': '"Inter"',
+          'font-family': '"Inter Variable"',
         },
         hr: {
           'border-top': '1px solid rgb(var(--color-text-1) / 0.1)',
@@ -58,16 +56,6 @@ export default defineConfig({
           background: 'rgb(var(--color-background-1))',
         },
       },
-    }),
-    presetWebFonts({
-      provider: 'google',
-      fonts: {
-        sans: 'Inter',
-        mono: 'Source Code Pro',
-        pixel: 'VT323',
-        handwrite: 'Caveat',
-      },
-      processors: createLocalFontProcessor(),
     }),
     presetAttributify(),
     presetIcons({
@@ -92,6 +80,13 @@ export default defineConfig({
   ],
 
   theme: {
+    fontFamily: {
+      sans: '"Inter Variable", sans-serif',
+      mono: '"Source Code Pro Variable", monospace',
+      pixel: '"VT323", monospace',
+      handwrite: '"Caveat Variable", cursive',
+    },
+
     colors: Object.entries(colorSchemes).reduce(
       (acc: Record<string, string | string[]>, [key, value]) => {
         if (typeof value === 'string') {

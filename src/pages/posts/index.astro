@@ -1,16 +1,19 @@
 ---
 import Base from '@layouts/Base.astro';
 import SlideIn from '@components/SlideIn.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import DayJS from '@components/solid/DayJS';
+import { postSlug } from '@lib/posts';
 
 const posts = (await Promise.all(
-  (await getCollection('posts')).map((post) =>
-    post.render().then(({ remarkPluginFrontmatter }) => ({
+  (await getCollection('posts')).map(async (post) => {
+    const { remarkPluginFrontmatter } = await render(post);
+    return {
       ...post,
+      slug: postSlug(post),
       readingTime: remarkPluginFrontmatter.readingTime,
-    })),
-  )
+    };
+  }),
 )).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 
