@@ -5,13 +5,16 @@ import sitemap from '@astrojs/sitemap';
 import solid from '@astrojs/solid-js';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import { remarkDefinitionList, defListHastHandlers } from 'remark-definition-list';
+import {
+  remarkDefinitionList,
+  defListHastHandlers,
+} from 'remark-definition-list';
 import remarkGemoji from 'remark-gemoji';
 import rehypeCallouts from 'rehype-callouts';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
-import lastModified from './src/lib/lastModified.ts';
-import readingTime from './src/lib/readingTime.ts';
+import lastModified from './plugins/last-modified.ts';
+import readingTime from './plugins/reading-time.ts';
 
 const LOCAL = 'http://localhost:4321';
 
