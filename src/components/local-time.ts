@@ -1,54 +1,31 @@
-import BaseElement from "@components/base-element";
-import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
+import { BaseElement, element, property } from '@components/base-element';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+@element('local-time')
 export class LocalTime extends BaseElement {
   render() {
     let date = dayjs(this.date);
     if (this.guess) {
       date = date.tz(dayjs.tz.guess());
     }
-    return date.format(this.format);
+    return date.format(this.format ?? undefined);
   }
 
-  static get observedAttributes() {
-    return ["date", "format", "guess"];
+  rerender() {
+    this.shadowRoot!.innerHTML = this.render();
   }
 
-  get date() {
-    return this.getAttribute("date") || "";
-  }
+  @property({ onChange: 'rerender' })
+  accessor date!: string | null;
 
-  set date(val) {
-    this.setAttribute("date", val);
-    this.innerHTML = this.render();
-  }
+  @property({ onChange: 'rerender' })
+  accessor format!: string | null;
 
-  get format() {
-    return this.getAttribute("format") || "";
-  }
-
-  set format(val) {
-    this.setAttribute("format", val);
-    this.innerHTML = this.render();
-  }
-
-  get guess() {
-    return this.hasAttribute("guess");
-  }
-
-  set guess(val) {
-    if (val) {
-      this.setAttribute("guess", "");
-    } else {
-      this.removeAttribute("guess");
-    }
-    this.innerHTML = this.render();
-  }
+  @property({ onChange: 'rerender', type: Boolean })
+  accessor guess!: boolean;
 }
-
-customElements.define("local-time", LocalTime);

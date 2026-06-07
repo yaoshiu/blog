@@ -1,10 +1,10 @@
-import BaseElement from '@components/base-element';
+import { BaseElement, element, listen } from '@components/base-element';
 
+@element('image-lightbox')
 export class ImageLightbox extends BaseElement {
   #dialog!: HTMLDialogElement;
   #lightboxImg!: HTMLImageElement;
   #lightboxCaption!: HTMLParagraphElement;
-  #gallery!: HTMLDivElement;
 
   render() {
     return `
@@ -39,33 +39,21 @@ export class ImageLightbox extends BaseElement {
     this.#dialog = this.$('dialog')!;
     this.#lightboxImg = this.$('img')!;
     this.#lightboxCaption = this.$('caption')!;
-    this.#gallery = this.$('gallery')!;
-
-    this.#gallery.addEventListener('click', this.#onHostClick);
-
-    this.#dialog.addEventListener('click', this.#onLightboxClick);
   }
 
-  destroy() {
-    this.#gallery.removeEventListener('click', this.#onHostClick);
-    this.#dialog.removeEventListener('click', this.#onLightboxClick);
-  }
-
-  #onHostClick = (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    const img = target.closest('img');
-
+  @listen('#gallery', 'click')
+  onGalleryClick(e: MouseEvent) {
+    const img = (e.target as HTMLElement).closest('img');
     if (img) {
       this.#lightboxImg.src = img.src;
       this.#lightboxImg.alt = img.alt;
       this.#lightboxCaption.textContent = img.alt;
       this.#dialog.showModal();
     }
-  };
+  }
 
-  #onLightboxClick = () => {
+  @listen('#dialog', 'click')
+  onDialogClick() {
     this.#dialog.close();
-  };
+  }
 }
-
-customElements.define('image-lightbox', ImageLightbox);

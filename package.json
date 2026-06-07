@@ -14,6 +14,7 @@
     "@types/react-dom": "^19.2.3",
     "astro": "^6.4.4",
     "husky": "^9.1.7",
+    "iconify-icon": "^3.0.2",
     "lint-staged": "^17.0.7",
     "mdast-util-to-string": "^4.0.0",
     "playwright": "^1.60.0",
@@ -30,7 +31,8 @@
     "remark-math": "^6.0.0",
     "sharp": "^0.34.5",
     "solid-js": "^1.9.13",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "unplugin-icons": "^23.0.1"
   },
   "scripts": {
     "dev": "astro dev",

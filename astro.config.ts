@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import solid from '@astrojs/solid-js';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import Icons from 'unplugin-icons/vite';
 import {
   remarkDefinitionList,
   defListHastHandlers,
@@ -21,7 +22,8 @@ const LOCAL = 'http://localhost:4321';
 export default defineConfig({
   site: process.env.SITE ?? LOCAL,
   vite: {
-    plugins: [tailwindcss()],
+    esbuild: { target: 'es2022' },
+    plugins: [tailwindcss(), Icons({ compiler: 'solid' })],
   },
   markdown: {
     processor: unified({
@@ -44,6 +46,6 @@ export default defineConfig({
     mdx(),
     react({ include: ['**/react/*'] }),
     sitemap(),
-    solid({ include: ['**/solid/*'] }),
+    solid({ include: ['**/solid/*', /^~icons\//] }),
   ],
 });

@@ -1,6 +1,5 @@
 ---
 import { Icon } from 'astro-iconify';
-import ThemeSwitcher from './solid/ThemeSwitcher';
 import TypeWriter from './solid/TypeWriter';
 
 const TITLE = 'Fay Ash';
@@ -8,6 +7,10 @@ const WELCOME = 'Welcome';
 const GITHUB = 'yaoshiu';
 const STEAMID = 'fayash';
 ---
+
+<script>
+import '@components/theme-switcher';
+</script>
 
 <header class="w-full h-[50vh] bg-primary flex flex-col items-center">
   <div
@@ -52,7 +55,7 @@ const STEAMID = 'fayash';
       <Icon name="pixelarticons:gamepad" />
     </a>
     <div class="hover:animate-spin flex items-center">
-      <ThemeSwitcher client:load />
+      <theme-switcher></theme-switcher>
     </div>
   </div>
 

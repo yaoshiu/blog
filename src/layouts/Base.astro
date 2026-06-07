@@ -2,7 +2,6 @@
 import Footer from '@components/Footer.astro';
 import Head from '@components/Head.astro';
 import Header from '@components/Header.astro';
-import ScrollTop from '@components/solid/ScrollTop';
 import '@styles/global.css';
 
 interface Props {
@@ -16,6 +15,10 @@ interface Props {
 const { title, description, image, type, data } = Astro.props;
 ---
 
+<script>
+import "@components/scroll-top";
+</script>
+
 <html lang="en">
   <Head {title} {description} {image} {type} {data} />
   <body class="bg-background-0 font-sans text-text-0">
@@ -26,8 +29,6 @@ const { title, description, image, type, data } = Astro.props;
       </div>
       <Footer />
     </main>
-    <div class="fixed bottom-4 right-4">
-      <ScrollTop client:load />
-    </div>
+    <scroll-top></scroll-top>
   </body>
 </html>
