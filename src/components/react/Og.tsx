@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 import { ImageResponse } from '@vercel/og';
-import colorSchemes from '@lib/colorSchemes';
-import signature from "@assets/signature.svg?raw";
+import colorSchemes from '@lib/color-schemes';
+import signature from '@assets/signature.svg?raw';
 
 const SIZE = { width: 1200, height: 630 };
 
