@@ -12,5 +12,5 @@ export async function getStaticPaths() {
 }
 
 export const GET: APIRoute = async ({ props }) => {
-  return await Og( props.entry.data.title );
+  return await Og(props.entry.data.title);
 };

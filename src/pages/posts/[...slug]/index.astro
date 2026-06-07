@@ -1,10 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
-import DayJS from '@components/solid/DayJS';
 import Base from '@layouts/Base.astro';
-import SlideIn from '@components/SlideIn.astro';
-import Lightbox from '@components/Lightbox.astro';
-import postData from '@lib/postData';
+import postData from '@lib/post-data';
 import { postSlug } from '@lib/posts';
 
 export async function getStaticPaths() {
@@ -19,10 +16,18 @@ const { entry } = Astro.props;
 const { slug } = Astro.params;
 
 const { Content, remarkPluginFrontmatter } = await render(entry);
-const lastModified = remarkPluginFrontmatter.lastModified || entry.data.published;
 
-const data = await postData({ entry, site: Astro.site });
+
+const data = await postData({ entry, site: Astro.site});
+
+const lastModified = remarkPluginFrontmatter.lastModified || entry.data.published;
 ---
+
+<script>
+  import '@components/image-lightbox';
+  import '@components/slide-in';
+  import '@components/local-time';
+</script>
 
 <Base
   title={entry.data.title}
@@ -30,32 +35,22 @@ const data = await postData({ entry, site: Astro.site });
   image={`/posts/${slug}/og.png`}
   {data}
 >
-  <div class="prose dark:prose-invert">
-    <div class="flex gap-4 items-center">
-      <h1>{entry.data.title}</h1>
-      <div class="not-prose p-2 border-l-4 border-text-1/30 text-sm text-text-1">
+  <image-lightbox>
+    <div class="flex items-center gap-4">
+      <h1 class="text-4xl font-bold">{entry.data.title}</h1>
+      <div class="border-text-1/30 text-text-1 border-l-4 p-2 text-sm">
         <p>
           {remarkPluginFrontmatter.readingTime} ·
-          <DayJS
-            date={entry.data.published}
-            format="MMM D, YYYY"
-            client:visible
-          />
+          <local-time date={entry.data.published} format="MMM D, YYYY" guess />
         </p>
         <p>
           Last modified
-          <DayJS
-            date={lastModified}
-            format="HH:mm, MMM D, YYYY"
-            client:visible
-          />
+          <local-time date={lastModified} format="HH:mm, MMM D, YYYY" guess />
         </p>
       </div>
     </div>
-    <SlideIn>
-      <Lightbox>
-        <Content />
-      </Lightbox>
-    </SlideIn>
-  </div>
+    <slide-in class="prose dark:prose-invert block">
+      <Content />
+    </slide-in>
+  </image-lightbox>
 </Base>

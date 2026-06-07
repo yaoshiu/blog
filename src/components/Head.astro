@@ -50,20 +50,19 @@ const imageURL = new URL(image, Astro.site);
   <script is:inline>
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
-    function handleChange({ matches }) {
-      document.documentElement.classList.toggle('dark', matches);
-      window.localStorage.setItem('theme', matches ? 'dark' : 'light');
+    function applyTheme() {
+      const stored = localStorage.getItem('theme');
+      const isDark = stored ? stored === 'dark' : mq.matches;
+      document.documentElement.classList.toggle('dark', isDark);
     }
 
-    handleChange(mq);
-    mq.addEventListener('change', handleChange);
+    applyTheme();
 
-    document.addEventListener('astro:after-swap', () => {
-      document.documentElement.classList.toggle(
-        'dark',
-        localStorage.theme === 'dark',
-      );
+    mq.addEventListener('change', () => {
+      if (!localStorage.getItem('theme')) applyTheme();
     });
+
+    document.addEventListener('astro:after-swap', applyTheme);
   </script>
 
   <ClientRouter />

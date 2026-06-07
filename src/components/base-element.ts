@@ -1,4 +1,4 @@
-import globalStyle from '@styles/global.css?inline';
+import globalStyle from '@styles/shadow.css?inline';
 
 const globalSheet = new CSSStyleSheet();
 globalSheet.replaceSync(globalStyle);

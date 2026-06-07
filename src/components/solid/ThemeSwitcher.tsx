@@ -16,11 +16,12 @@ export default function ThemeSwitcher() {
   const [dark, setDark] = createSignal(false);
 
   onMount(() => {
-    setDark(localStorage.getItem('theme') === 'dark');
+    const stored = localStorage.getItem('theme');
+    setDark(stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
 
     createEffect(() => {
       document.documentElement.classList.toggle('dark', dark());
-      window.localStorage.setItem('theme', dark() ? 'dark' : 'light');
+      localStorage.setItem('theme', dark() ? 'dark' : 'light');
     });
   });
 

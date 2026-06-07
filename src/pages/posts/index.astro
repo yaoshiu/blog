@@ -1,8 +1,6 @@
 ---
 import Base from '@layouts/Base.astro';
-import SlideIn from '@components/SlideIn.astro';
 import { getCollection, render } from 'astro:content';
-import DayJS from '@components/solid/DayJS';
 import { postSlug } from '@lib/posts';
 
 const posts = (await Promise.all(
@@ -17,9 +15,14 @@ const posts = (await Promise.all(
 )).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 ---
 
+<script>
+  import '@components/slide-in';
+  import '@components/local-time';
+</script>
+
 <Base title="Posts" description="Posts of Fay Ash" image="/og.png">
   <div class="prose dark:prose-invert text-sm sm:text-base">
-    <SlideIn>
+    <slide-in>
       <h1>Posts</h1>
       <ol class="not-prose">
         {
@@ -27,17 +30,13 @@ const posts = (await Promise.all(
             <li class="py-2">
               <a
                 href={`/posts/${post.slug}`}
-                class="sm:text-lg opacity-80 hover:opacity-100 transition-opacity"
+                class="opacity-80 transition-opacity hover:opacity-100 sm:text-lg"
               >
                 <div class="sm:inline-block">{post.data.title}</div>
-                <span class="sm:ml-2 text-sm md:text-xs text-text-1">
+                <span class="text-text-1 text-sm sm:ml-2 md:text-xs">
                   {post.readingTime} ·
                   <time datetime={post.data.published.toISOString()}>
-                    <DayJS
-                      date={post.data.published}
-                      format="MMM D, YYYY"
-                      client:visible
-                    />
+                    <local-time date={post.data.published} format="MMM D, YYYY" guess />
                   </time>
                 </span>
               </a>
@@ -45,6 +44,6 @@ const posts = (await Promise.all(
           ))
         }
       </ol>
-    </SlideIn>
+    </slide-in>
   </div>
 </Base>

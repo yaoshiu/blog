@@ -21,7 +21,6 @@ const LOCAL = 'http://localhost:4321';
 export default defineConfig({
   site: process.env.SITE ?? LOCAL,
   vite: {
-    // @ts-expect-error
     plugins: [tailwindcss()],
   },
   markdown: {
