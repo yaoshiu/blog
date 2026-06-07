@@ -1,5 +1,7 @@
 {
   inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-astro.url = "github:yaoshiu/nixpkgs";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -10,13 +12,19 @@
     {
       self,
       nixpkgs,
+      nixpkgs-astro,
       flake-utils,
       treefmt-nix,
     }:
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs {
+          inherit system;
+        };
+        pkgs-astro = import nixpkgs-astro {
+          inherit system;
+        };
       in
       {
         devShell = pkgs.mkShell {
@@ -24,9 +32,12 @@
             bun
             nodejs
             typescript-language-server
-            astro-language-server
+            pkgs-astro.astro-language-server
+            tailwindcss-language-server
+            prettier
           ];
         };
+
 
         formatter = treefmt-nix.lib.mkWrapper pkgs {
           projectRootFile = "flake.nix";
@@ -50,7 +61,10 @@
 
           programs = {
             nixfmt.enable = true;
-            prettier.enable = true;
+            prettier = {
+              enable = true;
+              package = pkgs.prettier;
+            };
           };
         };
       }

@@ -1,0 +1,12 @@
+[language-server.tailwindcss-language-server]
+command = "tailwindcss-language-server"
+
+[[language]]
+name = "typescript"
+formatter = { command = "prettier", args = [ "--parser", "typescript" ] }
+language-servers = ["typescript-language-server", "tailwindcss-language-server"]
+
+[[language]]
+name = "astro"
+formatter = { command = "prettier", args = [ "--parser", "astro" ] }
+language-servers = [ "astro-ls", "tailwindcss-language-server" ]

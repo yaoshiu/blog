@@ -44,10 +44,12 @@ async function processImg() {
     '.svelte',
     '.html',
   ];
-  const codeFiles = files.filter(file => codeExts.includes(path.extname(file).toLowerCase()));
+  const codeFiles = files.filter((file) =>
+    codeExts.includes(path.extname(file).toLowerCase()),
+  );
 
   for (const code of codeFiles) {
-    let content = fs.readFileSync(code, "utf-8");
+    let content = fs.readFileSync(code, 'utf-8');
     let changed = false;
 
     for (const rep of reps) {
@@ -58,10 +60,10 @@ async function processImg() {
     }
 
     if (changed) {
-      fs.writeFileSync(code, content, "utf-8");
-      console.log(`${code} updated`)
+      fs.writeFileSync(code, content, 'utf-8');
+      console.log(`${code} updated`);
     }
   }
 }
 
-processImg().catch(console.error)
+processImg().catch(console.error);
