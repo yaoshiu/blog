@@ -8,6 +8,7 @@ const META_SYM: symbol =
 
 const ATTRS = 'observedAttrs' as const;
 const ATTR_HANDLERS = 'attrHandlers' as const;
+const LISTENERS = 'listeners' as const;
 
 type AttrHandlers = Record<string, string | symbol>;
 
@@ -45,6 +46,11 @@ function readAttrHandlers(meta: DecoratorMetadataObject): AttrHandlers {
   return v !== null && typeof v === 'object' && !Array.isArray(v)
     ? (v as AttrHandlers)
     : {};
+}
+
+function readListeners(meta: DecoratorMetadataObject): ListenerConfig[] {
+  const v = meta[LISTENERS];
+  return Array.isArray(v) ? (v as ListenerConfig[]) : [];
 }
 
 const classListeners = new WeakMap<object, ListenerConfig[]>();
@@ -214,8 +220,9 @@ export function property<
 export function element(name: string) {
   return function <T extends typeof BaseElement>(
     target: T,
-    _context: ClassDecoratorContext<T>,
+    context: ClassDecoratorContext<T>,
   ): void {
+    classListeners.set(target, readListeners(context.metadata));
     customElements.define(name, target as unknown as CustomElementConstructor);
   };
 }
@@ -228,17 +235,9 @@ export function listen<K extends keyof HTMLElementEventMap>(
     _method: (this: T, e: HTMLElementEventMap[K]) => void,
     context: ClassMethodDecoratorContext<T>,
   ): void {
-    const config: ListenerConfig = {
-      selector,
-      event: event as string,
-      methodName: context.name,
-    };
-    context.addInitializer(function (this: T) {
-      const ctor = this.constructor;
-      const existing = classListeners.get(ctor) ?? [];
-      if (!existing.some((c) => c.methodName === config.methodName)) {
-        classListeners.set(ctor, [...existing, config]);
-      }
-    });
+    context.metadata[LISTENERS] = [
+      ...readListeners(context.metadata),
+      { selector, event: event as string, methodName: context.name },
+    ];
   };
 }
