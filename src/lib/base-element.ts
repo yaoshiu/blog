@@ -8,6 +8,7 @@ const META_SYM: symbol =
 
 const ATTRS = 'observedAttrs' as const;
 const ATTR_HANDLERS = 'attrHandlers' as const;
+const LISTENERS = 'listeners' as const;
 
 type AttrHandlers = Record<string, string | symbol>;
 
@@ -47,9 +48,13 @@ function readAttrHandlers(meta: DecoratorMetadataObject): AttrHandlers {
     : {};
 }
 
+function readListeners(meta: DecoratorMetadataObject): ListenerConfig[] {
+  const v = meta[LISTENERS];
+  return Array.isArray(v) ? (v as ListenerConfig[]) : [];
+}
+
 interface CacheEntry { raw: string | null; val: unknown }
 
-const instanceListeners = new WeakMap<BaseElement, ListenerConfig[]>();
 const boundHandlers = new WeakMap<BaseElement, BoundEntry[]>();
 const templateCache = new WeakMap<object, HTMLTemplateElement>();
 const valueCache = new WeakMap<BaseElement, Map<string, CacheEntry>>();
@@ -93,7 +98,7 @@ export abstract class BaseElement extends HTMLElement {
     if (tmpl) this.shadowRoot!.appendChild(tmpl.content.cloneNode(true));
     this.mounted();
 
-    const configs = instanceListeners.get(this) ?? [];
+    const configs = readListeners(getMeta(this.constructor as unknown as object));
     if (configs.length > 0) {
       const bound: BoundEntry[] = [];
       for (const { selector, event, methodName } of configs) {
@@ -227,14 +232,9 @@ export function listen<K extends keyof HTMLElementEventMap>(
     _method: (this: T, e: HTMLElementEventMap[K]) => void,
     context: ClassMethodDecoratorContext<T>,
   ): void {
-    const config: ListenerConfig = {
-      selector,
-      event: event as string,
-      methodName: context.name,
-    };
-    context.addInitializer(function (this: T) {
-      const existing = instanceListeners.get(this) ?? [];
-      instanceListeners.set(this, [...existing, config]);
-    });
+    context.metadata[LISTENERS] = [
+      ...readListeners(context.metadata),
+      { selector, event: event as string, methodName: context.name },
+    ];
   };
 }
