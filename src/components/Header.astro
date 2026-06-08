@@ -1,6 +1,5 @@
 ---
 import { Icon } from 'astro-iconify';
-import TypeWriter from './solid/TypeWriter';
 
 const TITLE = 'Fay Ash';
 const WELCOME = 'Welcome';
@@ -10,18 +9,19 @@ const STEAMID = 'fayash';
 
 <script>
 import '@components/theme-switcher';
+import '@components/type-writer';
 </script>
 
 <header class="w-full h-[50vh] bg-primary flex flex-col items-center">
   <div
-    class="text-xl font-handwrite h-full w-full flex justify-center items-center"
+    class="h-full w-full flex justify-center items-center"
   >
-    <TypeWriter
-      text={[WELCOME, TITLE]}
-      client:load
-      transition:persist
-      transition:persist-props
-    />
+    <type-writer
+      text=`${WELCOME}|${TITLE}`
+      class="text-xl font-handwrite"
+      speed="150"
+      dec-speed="50"
+    ></type-writer>
   </div>
   <div class="font-pixel gap-4 py-2 flex justify-center">
     <nav class="flex gap-4">

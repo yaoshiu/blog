@@ -1,27 +1,61 @@
-import { BaseElement } from "@components/base-element";
+import { BaseElement, property, element } from '@lib/base-element';
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const numProperty = property({ fromAttr: (s) => (s ? Number(s) : 0) });
+
+@element('type-writer')
 export default class TypeWriter extends BaseElement {
   #span!: HTMLSpanElement;
+  #destroyed = false;
 
-  render() {
-    return `
+  @property({
+    fromAttr: (s) => (s ? s.split('|') : []),
+    toAttr: (v) => v.join('|'),
+  })
+  accessor text!: string[];
+
+  @numProperty
+  accessor speed!: number;
+
+  @numProperty
+  accessor decSpeed!: number;
+
+  @property({ fromAttr: (s) => s !== null, toAttr: (v) => (v ? '' : null) })
+  accessor infinite!: boolean;
+
+  mounted() {
+    this.shadowRoot!.innerHTML = `
       <div>
         <span id="span"></span>
+        <span class="animate-blink border-l border-text-0"></span>
       </div>
     `;
-  }
 
-  static get observedAttributes() {
-    return ["text", "speed", "infinite", "delspeed"];
-  }
-
-  get text() {
-    return this.getAttribute("text");
+    this.#span = this.$('span')!;
+    this.start();
   }
 
   async start() {
-    
+    let y = 0;
+    while (!this.#destroyed) {
+      const word = this.text[y];
+      for (let x = 0; x <= word.length; x++) {
+        if (this.#destroyed) return;
+        this.#span.innerText = word.slice(0, x);
+        await sleep(this.speed);
+      }
+      if (y === this.text.length - 1 && !this.infinite) break;
+      for (let x = word.length; x >= 0; x--) {
+        if (this.#destroyed) return;
+        this.#span.innerText = word.slice(0, x);
+        await sleep(this.decSpeed);
+      }
+      y = (y + 1) % this.text.length;
+    }
+  }
+
+  destroy() {
+    this.#destroyed = true;
   }
 }
