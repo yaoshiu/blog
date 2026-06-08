@@ -33,10 +33,10 @@ export class ScrollTop extends BaseElement {
   mounted() {
     this.#anchor = this.$('anchor')!;
 
+    const btn = this.$<HTMLButtonElement>('btn')!;
     this.#observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const btn = this.$<HTMLButtonElement>('btn')!;
           if (!entry.isIntersecting) {
             btn.classList.remove('invisible', 'opacity-0');
             btn.classList.add('opacity-100', 'visible');
