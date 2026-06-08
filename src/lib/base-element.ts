@@ -8,7 +8,6 @@ const META_SYM: symbol =
 
 const ATTRS = 'observedAttrs' as const;
 const ATTR_HANDLERS = 'attrHandlers' as const;
-const LISTENERS = 'listeners' as const;
 
 type AttrHandlers = Record<string, string | symbol>;
 
@@ -48,10 +47,7 @@ function readAttrHandlers(meta: DecoratorMetadataObject): AttrHandlers {
     : {};
 }
 
-function readListeners(meta: DecoratorMetadataObject): ListenerConfig[] {
-  const v = meta[LISTENERS];
-  return Array.isArray(v) ? (v as ListenerConfig[]) : [];
-}
+const classListeners = new WeakMap<object, ListenerConfig[]>();
 
 const boundHandlers = new WeakMap<BaseElement, BoundEntry[]>();
 const templateCache = new WeakMap<object, HTMLTemplateElement>();
@@ -59,7 +55,10 @@ const valueCache = new WeakMap<BaseElement, Map<string, unknown>>();
 
 function getValueCache(instance: BaseElement): Map<string, unknown> {
   let m = valueCache.get(instance);
-  if (!m) { m = new Map(); valueCache.set(instance, m); }
+  if (!m) {
+    m = new Map();
+    valueCache.set(instance, m);
+  }
   return m;
 }
 
@@ -96,7 +95,7 @@ export abstract class BaseElement extends HTMLElement {
     if (tmpl) this.shadowRoot!.appendChild(tmpl.content.cloneNode(true));
     this.mounted();
 
-    const configs = readListeners(getMeta(this.constructor as unknown as object));
+    const configs = classListeners.get(this.constructor) ?? [];
     if (configs.length > 0) {
       const bound: BoundEntry[] = [];
       for (const { selector, event, methodName } of configs) {
@@ -229,9 +228,17 @@ export function listen<K extends keyof HTMLElementEventMap>(
     _method: (this: T, e: HTMLElementEventMap[K]) => void,
     context: ClassMethodDecoratorContext<T>,
   ): void {
-    context.metadata[LISTENERS] = [
-      ...readListeners(context.metadata),
-      { selector, event: event as string, methodName: context.name },
-    ];
+    const config: ListenerConfig = {
+      selector,
+      event: event as string,
+      methodName: context.name,
+    };
+    context.addInitializer(function (this: T) {
+      const ctor = this.constructor;
+      const existing = classListeners.get(ctor) ?? [];
+      if (!existing.some((c) => c.methodName === config.methodName)) {
+        classListeners.set(ctor, [...existing, config]);
+      }
+    });
   };
 }
