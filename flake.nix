@@ -29,7 +29,7 @@
       {
         devShell = pkgs.mkShell {
           packages = with pkgs; [
-            (pnpm.override { nodejs = nodejs-slim_22; })
+            (pnpm.override { nodejs-slim = nodejs-slim_22; })
             bun
             nodejs
             typescript-language-server
@@ -38,7 +38,6 @@
             prettier
           ];
         };
-
 
         formatter = treefmt-nix.lib.mkWrapper pkgs {
           projectRootFile = "flake.nix";
