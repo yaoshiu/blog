@@ -6,7 +6,7 @@ const STAGGER = 0.05;
 
 @element('slide-in')
 export class SlideIn extends BaseElement {
-  static template = '<slot />';
+  static get template() { return '<slot />'; }
 
   mounted() {
     animate(Array.from(this.children), { opacity: [0, 1], x: ['0.5rem', 0] }, {

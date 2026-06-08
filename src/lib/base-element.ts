@@ -47,9 +47,18 @@ function readAttrHandlers(meta: DecoratorMetadataObject): AttrHandlers {
     : {};
 }
 
+interface CacheEntry { raw: string | null; val: unknown }
+
 const instanceListeners = new WeakMap<BaseElement, ListenerConfig[]>();
 const boundHandlers = new WeakMap<BaseElement, BoundEntry[]>();
 const templateCache = new WeakMap<object, HTMLTemplateElement>();
+const valueCache = new WeakMap<BaseElement, Map<string, CacheEntry>>();
+
+function getValueCache(instance: BaseElement): Map<string, CacheEntry> {
+  let m = valueCache.get(instance);
+  if (!m) { m = new Map(); valueCache.set(instance, m); }
+  return m;
+}
 
 function getTemplate(ctor: object): HTMLTemplateElement | null {
   const html = (ctor as { template?: string }).template;
@@ -175,7 +184,12 @@ export function property<
       get(this: T): V {
         const raw = this.getAttribute(k);
         if (fromAttr) {
-          return fromAttr(raw);
+          const cache = getValueCache(this);
+          const entry = cache.get(k);
+          if (entry && entry.raw === raw) return entry.val as V;
+          const val = fromAttr(raw);
+          cache.set(k, { raw, val });
+          return val;
         }
         return raw as V;
       },
