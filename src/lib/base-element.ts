@@ -51,8 +51,6 @@ const instanceListeners = new WeakMap<BaseElement, ListenerConfig[]>();
 const boundHandlers = new WeakMap<BaseElement, BoundEntry[]>();
 
 export abstract class BaseElement extends HTMLElement {
-  abstract render(): string;
-
   static get observedAttributes(): string[] {
     return readAttrs(getMeta(this));
   }
@@ -65,9 +63,7 @@ export abstract class BaseElement extends HTMLElement {
 
   connectedCallback() {
     this.shadowRoot!.adoptedStyleSheets = [globalSheet, ...this.styles()];
-    if (!this.shadowRoot!.innerHTML) {
-      this.shadowRoot!.innerHTML = this.render();
-    }
+    this.mounted();
 
     const configs = instanceListeners.get(this) ?? [];
     if (configs.length > 0) {
@@ -86,8 +82,6 @@ export abstract class BaseElement extends HTMLElement {
       }
       boundHandlers.set(this, bound);
     }
-
-    this.mounted();
   }
 
   destroy(): void {}
@@ -126,22 +120,21 @@ export abstract class BaseElement extends HTMLElement {
   }
 }
 
-type PropValue<
-  Type extends BooleanConstructor | StringConstructor | undefined,
-> = Type extends BooleanConstructor ? boolean : string | null;
-
 export function property<
   T extends BaseElement,
-  const OnChange extends keyof T,
-  const Type extends BooleanConstructor | StringConstructor | undefined =
-    undefined,
->(options?: { onChange?: OnChange; type?: Type }) {
-  const isBoolean = options?.type === Boolean;
+  V,
+  const OnChange extends keyof T = never,
+>(options?: {
+  onChange?: OnChange;
+  fromAttr?: (s: string | null) => V;
+  toAttr?: (v: V) => string | null;
+}) {
+  const { fromAttr, toAttr } = options ?? {};
 
   return function (
-    _target: ClassAccessorDecoratorTarget<T, PropValue<Type>>,
-    context: ClassAccessorDecoratorContext<T, PropValue<Type>>,
-  ): ClassAccessorDecoratorResult<T, PropValue<Type>> {
+    _target: ClassAccessorDecoratorTarget<T, V>,
+    context: ClassAccessorDecoratorContext<T, V>,
+  ): ClassAccessorDecoratorResult<T, V> {
     const k = toKebab(String(context.name));
     context.metadata[ATTRS] = [...readAttrs(context.metadata), k];
     if (options?.onChange !== undefined) {
@@ -152,15 +145,21 @@ export function property<
     }
 
     return {
-      get(this: T): PropValue<Type> {
-        return (
-          isBoolean ? this.hasAttribute(k) : this.getAttribute(k)
-        ) as PropValue<Type>;
+      get(this: T): V {
+        const raw = this.getAttribute(k);
+        if (fromAttr) {
+          return fromAttr(raw);
+        }
+        return raw as V;
       },
-      set(this: T, val: PropValue<Type>) {
-        if (isBoolean) {
-          this.toggleAttribute(k, Boolean(val));
-        } else if (val === null || val === false) {
+      set(this: T, val: V) {
+        if (toAttr) {
+          const s = toAttr(val);
+          if (s === null) this.removeAttribute(k);
+          else this.setAttribute(k, s);
+          return;
+        }
+        if (val === null || val === undefined) {
           this.removeAttribute(k);
         } else {
           this.setAttribute(k, String(val));
