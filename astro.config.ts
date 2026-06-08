@@ -2,10 +2,8 @@ import mdx from '@astrojs/mdx';
 import { unified } from '@astrojs/markdown-remark';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
-import solid from '@astrojs/solid-js';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import Icons from 'unplugin-icons/vite';
 import {
   remarkDefinitionList,
   defListHastHandlers,
@@ -23,7 +21,7 @@ export default defineConfig({
   site: process.env.SITE ?? LOCAL,
   vite: {
     esbuild: { target: 'es2022' },
-    plugins: [tailwindcss(), Icons({ compiler: 'solid' })],
+    plugins: [tailwindcss()],
   },
   markdown: {
     processor: unified({
@@ -46,6 +44,5 @@ export default defineConfig({
     mdx(),
     react({ include: ['**/react/*'] }),
     sitemap(),
-    solid({ include: ['**/solid/*', /^~icons\//] }),
   ],
 });
