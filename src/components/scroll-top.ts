@@ -12,7 +12,7 @@ export class ScrollTop extends BaseElement {
   }
 
   mounted() {
-    this.shadowRoot!.innerHTML = `
+    this.innerHTML = `
       <div
         id="anchor"
         class="absolute top-[256px] left-0 h-px w-px">

@@ -115,6 +115,14 @@ export abstract class BaseElement extends HTMLElement {
     this.attachShadow({ mode: 'open' });
   }
 
+  override get innerHTML(): string {
+    return this.shadowRoot!.innerHTML;
+  }
+
+  override set innerHTML(value: string) {
+    this.shadowRoot!.innerHTML = value;
+  }
+
   $<T extends HTMLElement = HTMLElement>(id: string): T | null {
     return (this.shadowRoot!.getElementById(id) as T) || null;
   }

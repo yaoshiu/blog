@@ -7,7 +7,7 @@ export class ImageLightbox extends BaseElement {
   #lightboxCaption!: HTMLParagraphElement;
 
   mounted() {
-    this.shadowRoot!.innerHTML = `
+    this.innerHTML = `
       <div id="gallery">
         <slot />
       </div>

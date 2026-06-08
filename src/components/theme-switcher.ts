@@ -6,7 +6,7 @@ export default class ThemeSwitcher extends BaseElement {
   #dark = false;
 
   mounted() {
-    this.shadowRoot!.innerHTML = `
+    this.innerHTML = `
       <button
         id="btn"
         type="button"

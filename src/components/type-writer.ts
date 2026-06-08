@@ -25,7 +25,7 @@ export default class TypeWriter extends BaseElement {
   accessor infinite!: boolean;
 
   mounted() {
-    this.shadowRoot!.innerHTML = `
+    this.innerHTML = `
       <div>
         <span id="span"></span>
         <span class="animate-blink border-l border-text-0"></span>

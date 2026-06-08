@@ -7,7 +7,7 @@ const STAGGER = 0.05;
 @element('slide-in')
 export class SlideIn extends BaseElement {
   mounted() {
-    this.shadowRoot!.innerHTML = '<slot />';
+    this.innerHTML = '<slot />';
     animate(Array.from(this.children), { opacity: [0, 1], x: ['0.5rem', 0] }, {
       duration: DURATION,
       delay: stagger(STAGGER),

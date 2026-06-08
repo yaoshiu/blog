@@ -17,7 +17,7 @@ export class LocalTime extends BaseElement {
     if (this.guess) {
       date = date.tz(dayjs.tz.guess());
     }
-    this.shadowRoot!.innerHTML = date.format(this.format ?? undefined);
+    this.innerHTML = date.format(this.format ?? undefined);
   }
 
   @property({ onChange: 'render' })
