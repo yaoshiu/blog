@@ -1,6 +1,8 @@
 packages:
   - .
 
+shamefullyHoist: true
+
 allowBuilds:
   esbuild: true
   sharp: true

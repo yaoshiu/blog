@@ -4,7 +4,6 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import { pathToFileURL } from 'url';
 import {
   remarkDefinitionList,
   defListHastHandlers,
@@ -22,24 +21,7 @@ export default defineConfig({
   site: process.env.SITE ?? LOCAL,
   vite: {
     esbuild: { target: 'es2022' },
-    plugins: [
-      tailwindcss(),
-      {
-        name: 'fix-create-require-url',
-        transform(code, id) {
-          if (code.includes('createRequire(import.meta.url)')) {
-            const fileUrl = pathToFileURL(id).href;
-            return {
-              code: code.replaceAll(
-                'createRequire(import.meta.url)',
-                `createRequire(${JSON.stringify(fileUrl)})`
-              ),
-              map: null,
-            };
-          }
-        },
-      },
-    ],
+    plugins: [tailwindcss()],
   },
   markdown: {
     processor: unified({
