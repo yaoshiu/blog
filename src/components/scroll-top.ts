@@ -3,21 +3,9 @@ import { BaseElement, element, listen } from '@lib/base-element';
 
 @element('scroll-top')
 export class ScrollTop extends BaseElement {
-  #anchor!: HTMLDivElement;
-  #observer!: IntersectionObserver;
-
-  @listen('#btn', 'click')
-  scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  mounted() {
-    this.innerHTML = `
-      <div
-        id="anchor"
-        class="absolute top-[256px] left-0 h-px w-px">
-      </div>
-
+  static get template() {
+    return `
+      <div id="anchor" class="absolute top-[256px] left-0 h-px w-px"></div>
       <button
         type="button"
         id="btn"
@@ -27,11 +15,22 @@ export class ScrollTop extends BaseElement {
         bg-transparent rounded-full size-10 cursor-pointer
         flex items-center justify-center
         text-text-1 hover:bg-neutral-300/50 dark:hover:bg-neutral-600/50"
-        aria-label="scroll to top">
+        aria-label="scroll to top"
+      >
         <iconify-icon icon="fa6-solid:angle-up"></iconify-icon>
       </button>
     `;
+  }
 
+  #anchor!: HTMLDivElement;
+  #observer!: IntersectionObserver;
+
+  @listen('#btn', 'click')
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  mounted() {
     this.#anchor = this.$('anchor')!;
 
     this.#observer = new IntersectionObserver(

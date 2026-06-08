@@ -49,8 +49,25 @@ function readAttrHandlers(meta: DecoratorMetadataObject): AttrHandlers {
 
 const instanceListeners = new WeakMap<BaseElement, ListenerConfig[]>();
 const boundHandlers = new WeakMap<BaseElement, BoundEntry[]>();
+const templateCache = new WeakMap<object, HTMLTemplateElement>();
+
+function getTemplate(ctor: object): HTMLTemplateElement | null {
+  const html = (ctor as { template?: string }).template;
+  if (!html) return null;
+  let t = templateCache.get(ctor);
+  if (!t) {
+    t = document.createElement('template');
+    t.innerHTML = html;
+    templateCache.set(ctor, t);
+  }
+  return t;
+}
 
 export abstract class BaseElement extends HTMLElement {
+  static get template(): string {
+    return '';
+  }
+
   static get observedAttributes(): string[] {
     return readAttrs(getMeta(this));
   }
@@ -63,6 +80,8 @@ export abstract class BaseElement extends HTMLElement {
 
   connectedCallback() {
     this.shadowRoot!.adoptedStyleSheets = [globalSheet, ...this.styles()];
+    const tmpl = getTemplate(this.constructor);
+    if (tmpl) this.shadowRoot!.appendChild(tmpl.content.cloneNode(true));
     this.mounted();
 
     const configs = instanceListeners.get(this) ?? [];

@@ -2,12 +2,8 @@ import { BaseElement, element, listen } from '@lib/base-element';
 
 @element('image-lightbox')
 export class ImageLightbox extends BaseElement {
-  #dialog!: HTMLDialogElement;
-  #lightboxImg!: HTMLImageElement;
-  #lightboxCaption!: HTMLParagraphElement;
-
-  mounted() {
-    this.innerHTML = `
+  static get template() {
+    return `
       <div id="gallery">
         <slot />
       </div>
@@ -34,7 +30,13 @@ export class ImageLightbox extends BaseElement {
         </div>
       </dialog>
     `;
+  }
 
+  #dialog!: HTMLDialogElement;
+  #lightboxImg!: HTMLImageElement;
+  #lightboxCaption!: HTMLParagraphElement;
+
+  mounted() {
     this.#dialog = this.$('dialog')!;
     this.#lightboxImg = this.$('img')!;
     this.#lightboxCaption = this.$('caption')!;

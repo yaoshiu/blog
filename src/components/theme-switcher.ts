@@ -3,17 +3,13 @@ import { BaseElement, element, listen } from '@lib/base-element';
 
 @element('theme-switcher')
 export default class ThemeSwitcher extends BaseElement {
+  static get template() {
+    return `<button id="btn" type="button" class="bg-transparent cursor-pointer p-0 leading-none flex"></button>`;
+  }
+
   #dark = false;
 
   mounted() {
-    this.innerHTML = `
-      <button
-        id="btn"
-        type="button"
-        class="bg-transparent cursor-pointer p-0 leading-none flex"
-      >
-      </button>
-    `;
     const stored = localStorage.getItem('theme');
     this.#dark = stored
       ? stored === 'dark'

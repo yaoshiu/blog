@@ -6,6 +6,15 @@ const numProperty = property({ fromAttr: (s) => (s ? Number(s) : 0) });
 
 @element('type-writer')
 export default class TypeWriter extends BaseElement {
+  static get template() {
+    return `
+      <div>
+        <span id="span"></span>
+        <span class="animate-blink border-l border-text-0"></span>
+      </div>
+    `;
+  }
+
   #span!: HTMLSpanElement;
   #destroyed = false;
 
@@ -25,13 +34,6 @@ export default class TypeWriter extends BaseElement {
   accessor infinite!: boolean;
 
   mounted() {
-    this.innerHTML = `
-      <div>
-        <span id="span"></span>
-        <span class="animate-blink border-l border-text-0"></span>
-      </div>
-    `;
-
     this.#span = this.$('span')!;
     this.start();
   }
