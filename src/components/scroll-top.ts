@@ -1,13 +1,18 @@
 import 'iconify-icon';
-import { BaseElement, element, listen } from '@components/base-element';
+import { BaseElement, element, listen } from '@lib/base-element';
 
 @element('scroll-top')
 export class ScrollTop extends BaseElement {
   #anchor!: HTMLDivElement;
   #observer!: IntersectionObserver;
 
-  render() {
-    return `
+  @listen('#btn', 'click')
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  mounted() {
+    this.shadowRoot!.innerHTML = `
       <div
         id="anchor"
         class="absolute top-[256px] left-0 h-px w-px">
@@ -26,14 +31,7 @@ export class ScrollTop extends BaseElement {
         <iconify-icon icon="fa6-solid:angle-up"></iconify-icon>
       </button>
     `;
-  }
 
-  @listen('#btn', 'click')
-  scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  mounted() {
     this.#anchor = this.$('anchor')!;
 
     this.#observer = new IntersectionObserver(

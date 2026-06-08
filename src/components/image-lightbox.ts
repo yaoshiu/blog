@@ -1,4 +1,4 @@
-import { BaseElement, element, listen } from '@components/base-element';
+import { BaseElement, element, listen } from '@lib/base-element';
 
 @element('image-lightbox')
 export class ImageLightbox extends BaseElement {
@@ -6,15 +6,16 @@ export class ImageLightbox extends BaseElement {
   #lightboxImg!: HTMLImageElement;
   #lightboxCaption!: HTMLParagraphElement;
 
-  render() {
-    return `
+  mounted() {
+    this.shadowRoot!.innerHTML = `
       <div id="gallery">
         <slot />
       </div>
+
       <dialog
         id="dialog"
         class="m-auto max-w-[90vw] max-h-[90vh] bg-transparent overflow-hidden outline-none
-        transition-[opacity,transform,display] transition-discrete duration-300
+        transition-all transition-discrete duration-300
         scale-95 opacity-0
         open:scale-100 open:opacity-100
         starting:open:scale-95 starting:open:opacity-0
@@ -33,9 +34,7 @@ export class ImageLightbox extends BaseElement {
         </div>
       </dialog>
     `;
-  }
 
-  mounted() {
     this.#dialog = this.$('dialog')!;
     this.#lightboxImg = this.$('img')!;
     this.#lightboxCaption = this.$('caption')!;
