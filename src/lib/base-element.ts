@@ -53,13 +53,11 @@ function readListeners(meta: DecoratorMetadataObject): ListenerConfig[] {
   return Array.isArray(v) ? (v as ListenerConfig[]) : [];
 }
 
-interface CacheEntry { raw: string | null; val: unknown }
-
 const boundHandlers = new WeakMap<BaseElement, BoundEntry[]>();
 const templateCache = new WeakMap<object, HTMLTemplateElement>();
-const valueCache = new WeakMap<BaseElement, Map<string, CacheEntry>>();
+const valueCache = new WeakMap<BaseElement, Map<string, unknown>>();
 
-function getValueCache(instance: BaseElement): Map<string, CacheEntry> {
+function getValueCache(instance: BaseElement): Map<string, unknown> {
   let m = valueCache.get(instance);
   if (!m) { m = new Map(); valueCache.set(instance, m); }
   return m;
@@ -135,6 +133,7 @@ export abstract class BaseElement extends HTMLElement {
     _oldValue: string | null,
     _newValue: string | null,
   ): void {
+    valueCache.get(this)?.delete(name);
     const onChange = readAttrHandlers(
       getMeta(this.constructor as unknown as object),
     )[name];
@@ -187,16 +186,14 @@ export function property<
 
     return {
       get(this: T): V {
-        const raw = this.getAttribute(k);
         if (fromAttr) {
           const cache = getValueCache(this);
-          const entry = cache.get(k);
-          if (entry && entry.raw === raw) return entry.val as V;
-          const val = fromAttr(raw);
-          cache.set(k, { raw, val });
+          if (cache.has(k)) return cache.get(k) as V;
+          const val = fromAttr(this.getAttribute(k));
+          cache.set(k, val);
           return val;
         }
-        return raw as V;
+        return this.getAttribute(k) as V;
       },
       set(this: T, val: V) {
         if (toAttr) {
