@@ -1,3 +1,5 @@
+export {};
+
 declare global {
   namespace astroHTML.JSX {
     interface HTMLAttributes {
