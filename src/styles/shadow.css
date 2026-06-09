@@ -1,3 +1,4 @@
 @import "tailwindcss";
+@plugin "@iconify/tailwind4";
 
 @custom-variant dark (:host-context(.dark) &);

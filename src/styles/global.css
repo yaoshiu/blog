@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
+@plugin "@iconify/tailwind4";
 
 @import '@fontsource-variable/caveat/wght.css';
 @import '@fontsource-variable/inter/wght.css';

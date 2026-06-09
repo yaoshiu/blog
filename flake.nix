@@ -30,7 +30,6 @@
         devShell = pkgs.mkShell {
           packages = with pkgs; [
             (pnpm.override { nodejs-slim = nodejs-slim_22; })
-            bun
             nodejs
             typescript-language-server
             pkgs-astro.astro-language-server

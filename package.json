@@ -40,7 +40,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "**/*": "bunx tsx scripts/optimize.ts"
+    "**/*": "pnpx tsx scripts/optimize.ts"
   },
   "type": "module",
   "dependencies": {
@@ -55,6 +55,7 @@
     "@iconify-json/fa6-regular": "^1.2.4",
     "@iconify-json/fa6-solid": "^1.2.4",
     "@iconify-json/pixelarticons": "^1.2.6",
+    "@iconify/tailwind4": "^1.2.3",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.0",
     "@vercel/og": "^0.11.1",
