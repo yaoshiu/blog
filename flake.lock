@@ -35,11 +35,11 @@
     },
     "nixpkgs-astro": {
       "locked": {
-        "lastModified": 1780922461,
-        "narHash": "sha256-8+vTL413jghosG7fYJFpTnqnpfpi336HyzGSCJ7W7Rc=",
+        "lastModified": 1780991864,
+        "narHash": "sha256-d8zQ4EvNmAsQnGf7IwZxiDPFKAPiKF0ctxablxenv60=",
         "owner": "yaoshiu",
         "repo": "nixpkgs",
-        "rev": "c24e88aeb77a6d0460f779e5dc5a73c1fff54d63",
+        "rev": "2dd0dce26793aa430a183abcc9200f5b49dc7e6c",
         "type": "github"
       },
       "original": {
