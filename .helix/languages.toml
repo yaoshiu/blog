@@ -1,0 +1,21 @@
+[[language]]
+name = "typescript"
+language-servers = ["deno-lsp", "tailwindcss-language-server"]
+
+[[language]]
+name = "vento"
+language-id = "html"
+language-servers = [
+  "deno-lsp",
+  "tailwindcss-language-server",
+  "vscode-html-language-server",
+  "superhtml",
+]
+
+[language-server.deno-lsp]
+command = "deno"
+args = ["lsp"]
+
+[language-server.tailwindcss-language-server]
+command = "tailwindcss-language-server"
+args = ["--stdio"]

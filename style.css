@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', 'Noto Sans SC', sans-serif;
+  --font-mono: 'Source Code Pro', monospace;
+  --font-pixel: 'VT323', monospace;
+  --font-handwrite: 'Caveat', cursive;
+
+  --color-primary: #ff6f61;
+  --color-accent-0: #006dff;
+  --color-accent-1: #ffd700;
+  --color-accent-2: #40e0d0;
+  --color-background-0: #f5f5f5;
+  --color-background-1: #e1f5fe;
+  --color-text-0: #2c2c2c;
+  --color-text-1: #696969;
+
+  --animate-blink: blink 1s step-end infinite;
+
+  @keyframes blink {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+.dark {
+  --color-primary: #cc007b;
+  --color-accent-0: #ccff00;
+  --color-accent-1: #6a0dad;
+  --color-accent-2: #00ffff;
+  --color-background-0: #121212;
+  --color-background-1: #1a1a2e;
+  --color-text-0: #eaeaea;
+  --color-text-1: #a8a8a8;
+}

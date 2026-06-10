@@ -1,0 +1,17 @@
+layout: layouts/base.vto
+
+site: Fay Ash's Blog
+lang: en
+
+metas:
+  site: =site
+  title: =title
+  lang: =lang
+  description: =description
+  robots: true
+  generator: true
+
+jsonLd:
+  "@type": WebSite
+  url: =url
+  name: =title

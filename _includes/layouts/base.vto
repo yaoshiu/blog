@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+  <head>
+    <title>{{ title }}</title>
+    <script src="/script.js" defer></script>
+    <script>
+      const mq = window.matchMedia("(prefers-color-scheme: dark)");
+
+      function applyTheme() {
+        const stored = localStorage.getItem("theme");
+        const isDark = stored == "dark";
+        if (isDark == mq.matches) {
+          localStorage.removeItem("theme");
+        }
+        document.documentElement.classList.toggle(
+          "dark",
+          stored ? isDark : mq.matches,
+        );
+      }
+
+      applyTheme();
+
+      mq.addEventListener("change", applyTheme);
+    </script>
+    <link rel="stylesheet" href="/style.css">
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="subscribe to my blog"
+      href="/feed.rss"
+    >
+  </head>
+  <body class="bg-background-0 font-sans text-text-0">
+    <header>
+      {{ comp.header() }}
+    </header>
+    <main class="p-4 w-full max-w-prose mx-auto">
+      {{ content }}
+    </main>
+    <footer class="p-4 w-full max-w-prose mx-auto">
+      {{ comp.footer() }}
+    </footer>
+  </body>
+</html>
