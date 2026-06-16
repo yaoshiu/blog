@@ -13,7 +13,7 @@ layout: layouts/base.vto
     class="border-l-4 flex flex-col justify-center gap-4 border-text-1/30 text-text-1 p-2 text-sm"
   >
     <span style="view-transition-name: post-reading-info-{{ basename }}">
-      {{ readingInfo.time }} words • {{ readingInfo.minutes }} mins read
+      {{ readingInfo.words }} words • {{ readingInfo.minutes }} mins read
     </span>
     <span style="view-transition-name: post-date-{{ basename }}">
       {{ date |> date("HUMAN_DATE") }}
