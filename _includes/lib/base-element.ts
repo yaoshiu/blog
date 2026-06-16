@@ -1,21 +1,10 @@
+import { toKebab } from "@/lib/utils.ts";
+
 const ATTRS = "attrs" as const;
 const ATTR_CALLBACKS = "attrCallbacks" as const;
 const LISTENERS = "listeners" as const;
 
-(Symbol as { metadata?: symbol }).metadata ??= Symbol.for('Symbol.metadata');
-
-async function fetchStyle(uri: string) {
-  const css = await fetch(uri).then((resp) => resp.text());
-  const sheet = new CSSStyleSheet();
-  await sheet.replace(css);
-  return sheet;
-}
-
-const globalSheet = fetchStyle("/style.css");
-
-function toKebab(s: string) {
-  return s.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
-}
+(Symbol as { metadata?: symbol }).metadata ??= Symbol.for("Symbol.metadata");
 
 function toArray<T>(a: unknown) {
   return Array.isArray(a) ? (a as T[]) : [];
@@ -54,14 +43,27 @@ function getAttrCache(instance: BaseElement): Map<string, unknown> {
   return m;
 }
 
-export abstract class BaseElement extends HTMLElement {
-  constructor() {
-    super();
-    if (!this.shadowRoot) {
-      this.attachShadow({ mode: "open" });
-    }
+let _globalSheet: CSSStyleSheet | undefined;
+
+function globalSheet() {
+  if (_globalSheet) {
+    return _globalSheet;
+  }
+  _globalSheet = new CSSStyleSheet();
+  const rules: string[] = [];
+  for (const sheet of document.styleSheets) {
+    try {
+      for (const rule of sheet.cssRules) {
+        rules.push(rule.cssText);
+      }
+    } catch { /* cross-origin, skip */ }
   }
 
+  _globalSheet.replaceSync(rules.join("\n"));
+  return _globalSheet;
+}
+
+export abstract class BaseElement extends HTMLElement {
   mounted?(): void;
 
   destroy?(): void;
@@ -70,24 +72,40 @@ export abstract class BaseElement extends HTMLElement {
     return toArray(this[Symbol.metadata]?.[ATTRS]);
   }
 
-  async connectedCallback() {
-    if (this.shadowRoot) {
-      this.shadowRoot.adoptedStyleSheets = [await globalSheet];
+  constructor() {
+    super();
+    if (!this.shadowRoot) {
+      this.attachShadow({ mode: "open" });
+    }
+  }
+
+  connectedCallback() {
+    if (!this.shadowRoot) {
+      return;
     }
 
-    const defs = toArray<EventDef>(this.constructor[Symbol.metadata]?.[LISTENERS]);
+    const sheet = globalSheet();
+    if (sheet) {
+      this.shadowRoot.adoptedStyleSheets = [sheet];
+    }
+
+    this.mounted?.();
+
+    const defs = toArray<EventDef>(
+      this.constructor[Symbol.metadata]?.[LISTENERS],
+    );
     const listeners: BoundListener[] = [];
     for (const { selector, event, method } of defs) {
       const func = (this as Record<string | symbol, unknown>)[method];
       if (typeof func !== "function") {
         continue;
       }
-      const handler = func as (e: Event) => void;
+      const handler = func.bind(this) as (e: Event) => void;
       if (selector === null) {
-        this.addEventListener(event, handler);
-        listeners.push({ element: this, event, handler });
+        this.shadowRoot.addEventListener(event, handler);
+        listeners.push({ element: this.shadowRoot.host, event, handler });
       } else {
-        this.shadowRoot?.querySelectorAll(selector).forEach((element) => {
+        this.shadowRoot.querySelectorAll(selector).forEach((element) => {
           element.addEventListener(event, handler);
           listeners.push({ element, event, handler });
         });
@@ -96,8 +114,6 @@ export abstract class BaseElement extends HTMLElement {
     if (listeners.length > 0) {
       boundListeners.set(this, listeners);
     }
-
-    this.mounted?.();
   }
 
   disconnectedCallback() {
@@ -106,32 +122,39 @@ export abstract class BaseElement extends HTMLElement {
       for (const { element, event, handler } of listeners) {
         element.removeEventListener(event, handler);
       }
-      boundListeners.delete(this);
     }
     this.destroy?.();
   }
 
-  attributeChangedCallback(name: string, oldVal: string | null, newVal: string | null) {
+  attributeChangedCallback(
+    name: string,
+    oldVal: string | null,
+    newVal: string | null,
+  ) {
     attrCache.get(this)?.delete(name);
-    const onChange = toObject<AttrCallbackMap>(this.constructor[Symbol.metadata]?.[ATTR_CALLBACKS])[name];
+    const onChange = toObject<AttrCallbackMap>(
+      this.constructor[Symbol.metadata]?.[ATTR_CALLBACKS],
+    )[name];
     if (onChange) {
       const func = (this as Record<string | symbol, unknown>)[onChange];
-      if (typeof func === 'function') {
-        func(oldVal, newVal);
+      if (typeof func === "function") {
+        func.call(this, oldVal, newVal);
       }
     }
   }
 
-  override get innerHTML(): string {
-    return this.shadowRoot!.innerHTML;
+  override get innerHTML() {
+    return this.shadowRoot?.innerHTML ?? "";
   }
 
-  override set innerHTML(val: string) {
-    this.shadowRoot!.innerHTML = val;
+  override set innerHTML(html: string) {
+    if (this.shadowRoot) {
+      this.shadowRoot.setHTMLUnsafe(html);
+    }
   }
 
   $<T extends HTMLElement = HTMLElement>(id: string) {
-    return (this.shadowRoot?.getElementById(id) as T) ?? null;
+    return (this.shadowRoot?.querySelector(id) as T) ?? null;
   }
 }
 
@@ -202,11 +225,13 @@ export function property<
 }
 
 export function element(name: string) {
-  return function <T extends typeof BaseElement>(
-    target: T,
-    _context: ClassDecoratorContext<T>,
+  return function <T extends CustomElementConstructor>(
+    _target: T,
+    context: ClassDecoratorContext<T>,
   ) {
-    customElements.define(name, target as unknown as CustomElementConstructor);
+    context.addInitializer(function (this: T) {
+      customElements.define(name, this);
+    });
   };
 }
 

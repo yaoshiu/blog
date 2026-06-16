@@ -1,0 +1,22 @@
+<theme-switcher
+  class="flex items-center"
+>
+  <template shadowrootmode="open">
+    <button
+      type="button"
+      class="cursor-pointer hover:animate-spin"
+      aria-label="switch theme"
+    >
+      <img
+        src="{{ 'moon' |> icon('iconify', 'pixelarticons') }}"
+        class="dark:hidden"
+        inline
+      >
+      <img
+        src="{{ 'sun-alt' |> icon('iconify', 'pixelarticons') }}"
+        class="hidden dark:block"
+        inline
+      >
+    </button>
+  </template>
+</theme-switcher>

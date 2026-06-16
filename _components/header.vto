@@ -1,12 +1,57 @@
 <div class="w-full h-[50vh] bg-primary flex flex-col items-center">
   <div class="h-full w-full flex justify-center items-center">
-    {{ comp.typewriter({ text: ["Welcome", "Fay Ash"], speed: 150, decSpeed: 50 }) }}
+    {{
+      comp.typewriter({ text: ["Welcome", "Fay Ash"], speed: 150, dec_speed: 50 })
+    }}
   </div>
   <div class="font-pixel gap-4 py-2 flex justify-center">
     <nav>
-      <ul class="flex gap-4">
+      <ul class="flex gap-4 *:hover:underline *:flex *:items-center">
         <li><a href="/">cd ~</a></li>
+        <li><a href="/posts">/posts</a></li>
+        <li><a href="/feed.rss">/feed</a></li>
+        <li>
+          <a
+            href="mailto:{{ email }}"
+            aria-label="email"
+            class="hover:animate-flip"
+          >
+            <img
+              src="{{ 'contact' |> icon('iconify', 'pixelarticons') }}"
+              inline
+            >
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://github.com/{{ github }}"
+            aria-label="github"
+            class="hover:animate-wobble"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="{{ 'github' |> icon('iconify', 'pixelarticons') }}"
+              inline
+            >
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://steamcommunity.com/id/{{ steam }}"
+            aria-label="steam"
+            class="hover:animate-tada flex items-center"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="{{ 'gamepad' |> icon('iconify', 'pixelarticons') }}"
+              inline
+            >
+          </a>
+        </li>
       </ul>
     </nav>
+    {{ comp.theme_switcher() }}
   </div>
 </div>

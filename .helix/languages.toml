@@ -9,7 +9,6 @@ language-servers = [
   "deno-lsp",
   "tailwindcss-language-server",
   "vscode-html-language-server",
-  "superhtml",
 ]
 
 [language-server.deno-lsp]

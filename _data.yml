@@ -2,6 +2,9 @@ layout: layouts/base.vto
 
 site: Fay Ash's Blog
 lang: en
+github: yaoshiu
+steam: fayash
+email: root@fayash.me
 
 metas:
   site: =site
@@ -10,8 +13,12 @@ metas:
   description: =description
   robots: true
   generator: true
+  viewport: width=device-width
+  view-transition: same-origin
 
 jsonLd:
-  "@type": WebSite
-  url: =url
-  name: =title
+  author:
+    "@type": Person
+    name: Fay Ash
+    sameAs:
+      - https://github.com/yaoshiu

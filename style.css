@@ -1,24 +1,27 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (@container root style(--resolved-theme: dark));
 
 @theme {
-  --font-sans: 'Inter', 'Noto Sans SC', sans-serif;
-  --font-mono: 'Source Code Pro', monospace;
-  --font-pixel: 'VT323', monospace;
-  --font-handwrite: 'Caveat', cursive;
+  --font-sans: "Inter", "Noto Sans SC", sans-serif;
+  --font-mono: "Source Code Pro", monospace;
+  --font-pixel: "VT323", monospace;
+  --font-handwrite: "Caveat", cursive;
 
-  --color-primary: #ff6f61;
-  --color-accent-0: #006dff;
-  --color-accent-1: #ffd700;
-  --color-accent-2: #40e0d0;
-  --color-background-0: #f5f5f5;
-  --color-background-1: #e1f5fe;
-  --color-text-0: #2c2c2c;
-  --color-text-1: #696969;
+  --color-primary: light-dark(#ff6f61, #cc007b);
+  --color-accent-0: light-dark(#0044ff, #ccff00);
+  --color-accent-1: light-dark(#7700cc, #6a0dad);
+  --color-accent-2: light-dark(#008899, #00ffff);
+  --color-background-0: light-dark(#ffffff, #121212);
+  --color-background-1: light-dark(#f0f0f8, #1a1a2e);
+  --color-text-0: light-dark(#0a0a0a, #eaeaea);
+  --color-text-1: light-dark(#525252, #a8a8a8);
 
   --animate-blink: blink 1s step-end infinite;
+  --animate-flip: flip 0.8s ease-in-out;
+  --animate-wobble: wobble 0.8s ease-in-out;
+  --animate-tada: tada 0.8s ease-in-out;
 
   @keyframes blink {
 
@@ -31,15 +34,149 @@
       opacity: 0;
     }
   }
+
+  @keyframes flip {
+    from {
+      transform: perspective(400px) rotateY(0);
+    }
+
+    40% {
+      transform: perspective(400px) translateZ(150px) rotateY(-190deg);
+    }
+
+    50% {
+      transform: perspective(400px) translateZ(150px) rotateY(-170deg);
+    }
+
+    80% {
+      transform: perspective(400px) scale3d(0.95, 0.95, 0.95) rotateY(0);
+    }
+
+    to {
+      transform: perspective(400px) rotateY(0);
+    }
+  }
+
+  @keyframes wobble {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    15% {
+      transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+    }
+
+    30% {
+      transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+    }
+
+    45% {
+      transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+    }
+
+    60% {
+      transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
+    }
+
+    75% {
+      transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
+    }
+
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes tada {
+    from {
+      transform: scale3d(1, 1, 1);
+    }
+
+    10%,
+    20% {
+      transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    }
+
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    }
+
+    40%,
+    60%,
+    80% {
+      transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    }
+
+    to {
+      transform: scale3d(1, 1, 1);
+    }
+  }
 }
 
-.dark {
-  --color-primary: #cc007b;
-  --color-accent-0: #ccff00;
-  --color-accent-1: #6a0dad;
-  --color-accent-2: #00ffff;
-  --color-background-0: #121212;
-  --color-background-1: #1a1a2e;
-  --color-text-0: #eaeaea;
-  --color-text-1: #a8a8a8;
+@utility prose-color {
+  --tw-prose-body: var(--color-text-0);
+  --tw-prose-headings: var(--color-text-0);
+  --tw-prose-lead: var(--color-text-1);
+  --tw-prose-links: var(--color-text-1);
+  --tw-prose-bold: var(--color-text-0);
+  --tw-prose-counters: var(--color-text-1);
+  --tw-prose-bullets: var(--color-text-1);
+  --tw-prose-hr: var(--color-text-1);
+  --tw-prose-quotes: var(--color-text-1);
+  --tw-prose-quote-borders: var(--color-text-1);
+  --tw-prose-captions: var(--color-text-1);
+  --tw-prose-code: var(--color-text-1);
+  --tw-prose-th-borders: var(--color-text-1);
+  --tw-prose-td-borders: var(--color-text-1);
 }
+
+html {
+  container-name: root;
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    --resolved-theme: light;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    --resolved-theme: dark;
+  }
+}
+
+html.scheme-light {
+  --resolved-theme: light;
+}
+
+html.scheme-dark {
+  --resolved-theme: dark;
+}
+
+@keyframes slide-out {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+*:not(:defined) {
+  display: none;
+}
+
+/* ::view-transition-old(root) { */
+/* animation: 0.4s ease-in-out both slide-out; */
+/* } */
+
+/* ::view-transition-new(root) { */
+/* animation: 0.4s ease-in-out both slide-in; */
+/* } */

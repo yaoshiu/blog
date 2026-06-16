@@ -1,0 +1,29 @@
+<image-lightbox>
+  <template shadowrootmode="open">
+    <div class="gallery">
+      {{ content }}
+    </div>
+
+    <dialog
+      class="
+        m-auto max-w-[90vh] max-h-[90vh] bg-transparent overflow-visible outline-none
+        transition-all transition-discrete duration-300
+        scale-95 opacity-0
+        open:scale-100 open:opacity-100
+        starting:open:scale-95 starting:open:opacity-0
+        backdrop:transition-opacity backdrop:transition-discret backdrop:duration-300
+        backdrop:opacity-0 open:backdrop:opacity-100 starting:open:backdrop:opacity-0
+        backdrop:bg-black/10 backdrop:backdrop-blur-sm
+      "
+    >
+      <div class="flex flex-col items-center max-h-[90vh] gap-2">
+        <img
+          src="data:,,"
+          class="min-h-0 drop-shadow-2xl object-contain rounded-md bg-transparent"
+          alt="lightbox image"
+        >
+        <p class="caption text-white text-shadow-lg empty:hidden"></p>
+      </div>
+    </dialog>
+  </template>
+</image-lightbox>

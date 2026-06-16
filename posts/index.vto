@@ -1,0 +1,34 @@
+---
+layout: layouts/base.vto
+title: Posts - Fay Ash
+
+jsonLd:
+  "@type": Blog
+---
+
+<h1 class="hidden">Posts</h1>
+
+<ul>
+  {{ for post of search.pages("url^=/posts/ url!=/posts/", "date=desc") }}
+    <li class="mt-4">
+      <a class="opacity-80 hover:opacity-100" href="{{ post.url }}">
+        <span
+          class="text-lg md:text-xl font-semibold"
+          style="view-transition-name: post-title-{{ post.basename }}"
+        >{{ post.title }}</span>
+        <span
+          class="text-text-1 text-sm ml-4"
+          style="view-transition-name: post-reading-info-{{ post.basename }}"
+        >
+          {{ post.readingInfo.minutes }} mins read •
+        </span>
+        <span
+          class="text-text-1 text-sm"
+          style="view-transition-name: post-date-{{ post.basename }}"
+        >
+          {{ post.date |> date("HUMAN_DATE") }}
+        </span>
+      </a>
+    </li>
+  {{ /for }}
+</ul>

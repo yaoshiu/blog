@@ -44,7 +44,6 @@
               deno
               tailwindcss-language-server
               vscode-langservers-extracted
-              superhtml
             ];
           };
         };

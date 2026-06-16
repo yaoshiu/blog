@@ -1,15 +1,14 @@
 import { BaseElement, element, property } from "@/lib/base-element.ts";
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 @element("type-writer")
-export default class TypeWriter extends BaseElement {
-  #span!: HTMLSpanElement;
-  #destroyed = false;
+export class TypeWriter extends BaseElement {
+  #span: HTMLSpanElement | null = null;
+  #controller: AbortController | null = null;
 
   @property({
     fromAttr: (s) => (s ? s.split("|") : []),
     toAttr: (v) => v.join("|"),
+    onChange: "restart",
   })
   accessor text!: string[];
 
@@ -23,30 +22,63 @@ export default class TypeWriter extends BaseElement {
   accessor infinite!: boolean;
 
   override mounted() {
-    this.#span = this.$("span");
-    this.start();
+    this.#span = this.$(".text");
+    this.restart();
   }
 
-  async start() {
+  async restart() {
+    if (this.#span === null) {
+      return;
+    }
+
+    this.#controller?.abort();
+
+    this.#controller = new AbortController();
+    const signal = this.#controller.signal;
+
+    const sleep = (ms: number) => (new Promise<void>((resolve) => {
+      if (signal.aborted) {
+        return resolve();
+      }
+      const timer = setTimeout(() => {
+        signal.removeEventListener("abort", onAbort);
+        resolve();
+      }, ms);
+      function onAbort() {
+        clearTimeout(timer);
+        resolve();
+      }
+      signal.addEventListener("abort", onAbort);
+    }));
+
     let y = 0;
-    while (!this.#destroyed) {
+    while (!signal.aborted) {
       const word = this.text[y];
       for (let x = 0; x <= word.length; x++) {
-        if (this.#destroyed) return;
+        if (signal.aborted) {
+          return;
+        }
         this.#span.textContent = word.slice(0, x);
         await sleep(this.speed);
       }
-      if (y === this.text.length - 1 && !this.infinite) break;
+
+      if (y === this.text.length - 1 && !this.infinite) {
+        break;
+      }
+
       for (let x = word.length; x >= 0; x--) {
-        if (this.#destroyed) return;
+        if (signal.aborted) {
+          return;
+        }
         this.#span.textContent = word.slice(0, x);
         await sleep(this.decSpeed);
       }
+
       y = (y + 1) % this.text.length;
     }
   }
 
   override destroy() {
-    this.#destroyed = true;
+    this.#controller?.abort();
   }
 }

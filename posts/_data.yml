@@ -1,0 +1,8 @@
+layout: layouts/post.vto
+
+jsonLd:
+  "@type": BlogPosting
+  headline: =title
+  description: =description
+  datePublished: =date
+  url: =url

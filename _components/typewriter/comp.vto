@@ -1,12 +1,17 @@
 <type-writer
   class="text-xl font-handwrite"
-  text="{{ text.join('|') }}"
-  speed="{{ speed }}"
-  dec-speed="{{ decSpeed }}"
-  {{ infinite ? "infnite" : "" }}
+  {{
+    {
+      text: text.join("|"),
+      speed,
+      dec_speed,
+      infinite,
+    }
+    |> spread
+  }}
 >
   <template shadowrootmode="open">
-    <span id="span" class="whitespace-pre"></span>
+    <span class="text whitespace-pre"></span>
     <span class="animate-blink border-l border-text-0"></span>
   </template>
 </type-writer>

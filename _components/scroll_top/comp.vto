@@ -1,0 +1,22 @@
+<scroll-top>
+  <template shadowrootmode="open">
+    <div class="anchor absolute top-[256px] left-0 h-px w-px"></div>
+    <button
+      type="button"
+      data-hidden
+      class="
+        data-hidden:hidden data-hidden:opacity-0 data-hidden:translate-y-2
+        fixed bottom-4 right-4
+        size-10 rounded-full bg-transparent
+        flex items-center justify-center
+        text-text-1 hover:bg-text-1/25
+        transition-[display,opacity,translate] transition-discrete duration-300
+        starting:opacity-0 starting:translate-y-2
+        cursor-pointer
+      "
+      aria-label="scroll to top"
+    >
+      <img src="{{ 'chevron-up' |> icon('iconify', 'lucide') }}" inline>
+    </button>
+  </template>
+</scroll-top>

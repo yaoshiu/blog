@@ -1,0 +1,51 @@
+---
+layout: layouts/base.vto
+title: Fay Ash
+description: My personal website.
+
+jsonLd:
+  "@type": WebSite
+  name: =site
+  url: =url
+
+works:
+  - name: pretty-der6y
+    url: https://github.com/yaoshiu/pretty-der6y
+    icon: |
+      <!-- html-validate-disable-next no-inline-style -->
+      <img class="size-6" src="/assets/pretty-der6y.svg" inline>
+    description: Some hacks on my college running app. They made me do this tho :P.
+  - name: Opus
+    url: https://github.com/yaoshiu/opus
+    icon: 🎼
+    description: Kernel Lisp, reimagined.
+---
+
+<article
+  class="
+    prose prose-color
+    prose-pre:rounded prose-pre:border prose-pre:border-text-1/25
+  "
+>
+  <h1>About Me</h1>
+  <p>
+    <strong>Some works:</strong>
+    <ul class="not-prose list-disc">
+      {{ for work of works }}
+        <li class="gap-2 text-sm mt-2 ml-4">
+          <a
+            class="
+              inline-flex items-center gap-1 w-max h-max rounded-md
+              p-1 text-text-1 bg-text-1/10 hover:bg-text-1/25
+              align-middle
+            "
+            href="{{ work.url }}"
+          >
+            {{ work.icon }}
+            <strong>{{ work.name }}</strong>
+          </a><span class="align-middle">: {{ work.description }}</span>
+        </li>
+      {{ /for }}
+    </ul>
+  </p>
+</article>

@@ -1,0 +1,31 @@
+---
+layout: layouts/base.vto
+---
+
+<div class="flex gap-4 mb-8">
+  <h1
+    class="text-5xl w-full font-extrabold"
+    style="view-transition-name: post-title-{{ basename }}"
+  >
+    {{ title }}
+  </h1>
+  <div
+    class="border-l-4 flex flex-col justify-center gap-4 border-text-1/30 text-text-1 p-2 text-sm"
+  >
+    <span style="view-transition-name: post-reading-info-{{ basename }}">
+      {{ readingInfo.time }} words • {{ readingInfo.minutes }} mins read
+    </span>
+    <span style="view-transition-name: post-date-{{ basename }}">
+      {{ date |> date("HUMAN_DATE") }}
+    </span>
+  </div>
+</div>
+<!-- deno-fmt-ignore -->
+{{ comp lightbox }}
+<article
+  class="prose prose-color prose-pre:rounded prose-pre:border prose-pre:border-text-1/25"
+>
+  {{ content }}
+</article>
+<!-- deno-fmt-ignore -->
+{{ /comp }}

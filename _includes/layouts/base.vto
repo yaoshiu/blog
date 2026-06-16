@@ -1,28 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ lang }}">
+<html lang="{{ lang }}" class="scheme-light-dark">
   <head>
-    <title>{{ title }}</title>
-    <script src="/script.js" defer></script>
-    <script>
-      const mq = window.matchMedia("(prefers-color-scheme: dark)");
-
-      function applyTheme() {
-        const stored = localStorage.getItem("theme");
-        const isDark = stored == "dark";
-        if (isDark == mq.matches) {
-          localStorage.removeItem("theme");
-        }
-        document.documentElement.classList.toggle(
-          "dark",
-          stored ? isDark : mq.matches,
-        );
-      }
-
-      applyTheme();
-
-      mq.addEventListener("change", applyTheme);
-    </script>
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" crossorigin="anonymous">
+    <title>{{ title }}</title>
+    <script src="/script.js" type="module"></script>
+    <script src="/js/theme.js" inline></script>
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -30,15 +13,25 @@
       href="/feed.rss"
     >
   </head>
-  <body class="bg-background-0 font-sans text-text-0">
-    <header>
+  <body
+    class="bg-background-0 font-sans text-text-0 min-h-screen flex flex-col"
+  >
+    <header style="view-transition-name: header">
       {{ comp.header() }}
     </header>
-    <main class="p-4 w-full max-w-prose mx-auto">
+    <main class="p-4 w-full max-w-prose mx-auto flex-1">
+      <!-- deno-fmt-ignore -->
+      {{ comp native_router }}
       {{ content }}
+      <!-- deno-fmt-ignore -->
+      {{ /comp }}
     </main>
-    <footer class="p-4 w-full max-w-prose mx-auto">
+    <footer
+      class="p-4 w-full max-w-prose mx-auto"
+      style="view-transition-name: footer"
+    >
       {{ comp.footer() }}
     </footer>
+    {{ comp.scroll_top() }}
   </body>
 </html>
