@@ -2,6 +2,7 @@
   "imports": {
     "@mdit/plugin-katex": "npm:@mdit/plugin-katex@^0.25.2",
     "@shikijs/markdown-it": "npm:@shikijs/markdown-it@^4.2.0",
+    "@shikijs/transformers": "npm:@shikijs/transformers@^4.2.0",
     "@tailwindcss/typography": "npm:@tailwindcss/typography@^0.5.20",
     "katex": "npm:katex@^0.17.0",
 "lume/": "https://cdn.jsdelivr.net/gh/lumeland/lume@3.2.6/",

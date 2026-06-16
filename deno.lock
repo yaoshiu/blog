@@ -38,6 +38,7 @@
     "npm:@mdit/plugin-katex@~0.25.2": "0.25.2_markdown-it@14.1.1",
     "npm:@resvg/resvg-wasm@2.6.2": "2.6.2",
     "npm:@shikijs/markdown-it@^4.2.0": "4.2.0",
+    "npm:@shikijs/transformers@^4.2.0": "4.2.0",
     "npm:@tailwindcss/node@4.3.0": "4.3.0",
     "npm:@tailwindcss/oxide@4.3.0": "4.3.0",
     "npm:@tailwindcss/typography@*": "0.5.20_tailwindcss@4.3.0",
@@ -586,6 +587,13 @@
     "@shikijs/themes@4.2.0": {
       "integrity": "sha512-RX8IHYeLv8Cu2W6ruc3RxUqWn0IYCqSrMBzi/uRGAmfyDNOnNO5BF/Px7o97n4XTpmFTo5GbRaazuOWj+2ak2w==",
       "dependencies": [
+        "@shikijs/types"
+      ]
+    },
+    "@shikijs/transformers@4.2.0": {
+      "integrity": "sha512-pKrYVNUr1oPjJvs76gkPPirDySx3GKG9O88P2Y3AQ+7AjSFws9Y+Ry/Q/6Yg6QpyigzjdQ6H5JAMNAvLXZ63dw==",
+      "dependencies": [
+        "@shikijs/core",
         "@shikijs/types"
       ]
     },
@@ -1840,6 +1848,7 @@
     "dependencies": [
       "npm:@mdit/plugin-katex@~0.25.2",
       "npm:@shikijs/markdown-it@^4.2.0",
+      "npm:@shikijs/transformers@^4.2.0",
       "npm:@tailwindcss/typography@~0.5.20",
       "npm:katex@0.17"
     ]

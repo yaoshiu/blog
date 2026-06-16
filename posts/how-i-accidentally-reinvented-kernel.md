@@ -15,7 +15,7 @@ So I started this project, since a Lisp interpreter is something that can't go w
 
 If you'd like to try it first, here's a [live REPL](https://yaoshiu.github.io/opus):
 
-<iframe src="https://yaoshiu.github.io/opus" width="100%" height=500 loading="lazy"></iframe>
+<iframe src="https://yaoshiu.github.io/opus" title="Opus" class="w-full h-128 rounded-lg" loading="lazy"></iframe>
 
 ## How I Moved Away from Scheme
 

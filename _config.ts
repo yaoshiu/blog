@@ -1,4 +1,6 @@
+import { katex } from "@mdit/plugin-katex";
 import shiki from "@shikijs/markdown-it";
+import { transformerStyleToClass } from "@shikijs/transformers";
 import { Features } from "lume/deps/lightningcss.ts";
 import lume from "lume/mod.ts";
 import attributes from "lume/plugins/attributes.ts";
@@ -17,15 +19,15 @@ import minifyHTML from "lume/plugins/minify_html.ts";
 import ogImages from "lume/plugins/og_images.ts";
 import readingInfo from "lume/plugins/reading_info.ts";
 import robots from "lume/plugins/robots.ts";
-import seo from "lume/plugins/seo.ts";
 import sitemap from "lume/plugins/sitemap.ts";
 import sourceMaps from "lume/plugins/source_maps.ts";
 import svgo from "lume/plugins/svgo.ts";
 import tailwindcss from "lume/plugins/tailwindcss.ts";
 import validateHtml from "lume/plugins/validate_html.ts";
-import { katex } from "@mdit/plugin-katex";
 
 import { toKebab } from "@/lib/utils.ts";
+
+const shikiStyleToClass = transformerStyleToClass();
 
 const markdown = {
   plugins: [
@@ -36,6 +38,7 @@ const markdown = {
         dark: "solarized-dark",
       },
       defaultColor: "light-dark()",
+      transformers: [shikiStyleToClass],
     }),
   ],
 };
@@ -81,11 +84,18 @@ site
   .use(robots())
   .use(attributes())
   .use(checkUrls())
-  .use(seo())
   .use(validateHtml({
     rules: {
       "no-inline-style": ["error", {
-        allowedProperties: ["text-align", "view-transition-name", "color"],
+        allowedProperties: [
+          "text-align",
+          "view-transition-name",
+          "top",
+          "height",
+          "width",
+          "margin-right",
+          "vertical-align",
+        ],
       }],
       "attribute-boolean-style": "off",
     },
@@ -114,7 +124,16 @@ site
       return `${name}="${String(val).replace(/"/g, "&quot;")}"`;
     }).filter(Boolean).join(" ");
   })
+  .ignore("README.md")
   .add("assets")
   .add("npm:katex/dist/fonts/**", "/fonts");
+
+site.process([".css"], (files) => {
+  for (const file of files) {
+    if (file.outputPath === "/style.css") {
+      file.text += "\n" + shikiStyleToClass.getCSS();
+    }
+  }
+});
 
 export default site;
