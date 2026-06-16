@@ -113,6 +113,7 @@ site
       }
       return `${name}="${String(val).replace(/"/g, "&quot;")}"`;
     }).filter(Boolean).join(" ");
-  });
+  })
+  .add("npm:katex/dist/fonts/**", "/fonts");
 
 export default site;
