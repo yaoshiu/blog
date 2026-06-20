@@ -80,7 +80,13 @@ site
   .use(jsonLd())
   .use(svgo())
   .use(inline())
-  .use(feed())
+  .use(feed({
+    info: {
+      title: "=site",
+      description: "My personal website",
+      published: new Date(),
+    }
+  }))
   .use(readingInfo())
   .use(sitemap())
   .use(robots())
