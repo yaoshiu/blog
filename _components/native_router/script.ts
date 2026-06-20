@@ -19,15 +19,15 @@ export default class NativeRouter extends BaseElement {
 
     event.intercept({
       handler: async () => {
-        const response = await fetch(url);
-        const html = await response.text();
-
-        const doc = new DOMParser().parseFromString(html, "text/html");
-        const target = doc.querySelector<NativeRouter>(
-          this.tagName.toLowerCase(),
-        );
-
         try {
+          const response = await fetch(url);
+          const html = await response.text();
+
+          const doc = new DOMParser().parseFromString(html, "text/html");
+          const target = doc.querySelector<NativeRouter>(
+            this.tagName.toLowerCase(),
+          );
+
           if (target) {
             if (document.startViewTransition) {
               document.startViewTransition(() =>
@@ -37,10 +37,10 @@ export default class NativeRouter extends BaseElement {
               this.#update(target, doc.title);
             }
           } else {
-            document.title = doc.title;
+            location.assign(url);
           }
         } catch {
-          document.title = doc.title;
+          location.assign(url);
         }
       },
     });
