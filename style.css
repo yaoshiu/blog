@@ -25,7 +25,6 @@
   --animate-tada: tada 0.8s ease-in-out;
 
   @keyframes blink {
-
     0%,
     100% {
       opacity: 1;

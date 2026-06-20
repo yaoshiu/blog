@@ -43,7 +43,9 @@ const markdown = {
   ],
 };
 
-const site = lume({}, { markdown });
+const site = lume({
+  location: new URL("https://fayash.me"),
+}, { markdown });
 
 site
   .use(date())
