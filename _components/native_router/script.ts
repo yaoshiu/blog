@@ -24,17 +24,17 @@ export default class NativeRouter extends BaseElement {
           const html = await response.text();
 
           const doc = new DOMParser().parseFromString(html, "text/html");
-          const target = doc.querySelector<NativeRouter>(
-            this.tagName.toLowerCase(),
-          );
+          const target = doc.querySelector<NativeRouter>(this.tagName.toLowerCase());
+
 
           if (target) {
+            const content = target.innerHTML;
             if (document.startViewTransition) {
               document.startViewTransition(() =>
-                this.#update(target, doc.title)
+                this.#update(content, doc.title)
               );
             } else {
-              this.#update(target, doc.title);
+              this.#update(content, doc.title);
             }
           } else {
             location.assign(url);
@@ -46,9 +46,8 @@ export default class NativeRouter extends BaseElement {
     });
   };
 
-  #update(target: NativeRouter, title: string) {
+  #update(content: string, title: string) {
     document.title = title;
-    const tpl = target.querySelector<HTMLTemplateElement>("template");
-    this.innerHTML = tpl?.innerHTML ?? target.innerHTML;
+    this.setHTMLUnsafe(content);
   }
 }

@@ -143,16 +143,6 @@ export abstract class BaseElement extends HTMLElement {
     }
   }
 
-  override get innerHTML() {
-    return this.shadowRoot?.innerHTML ?? "";
-  }
-
-  override set innerHTML(html: string) {
-    if (this.shadowRoot) {
-      this.shadowRoot.setHTMLUnsafe(html);
-    }
-  }
-
   $<T extends HTMLElement = HTMLElement>(id: string) {
     return (this.shadowRoot?.querySelector(id) as T) ?? null;
   }

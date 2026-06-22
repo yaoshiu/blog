@@ -1,7 +1,7 @@
 <image-lightbox>
   <template shadowrootmode="open">
     <div class="gallery">
-      {{ content }}
+      <slot></slot>
     </div>
 
     <dialog
@@ -26,4 +26,5 @@
       </div>
     </dialog>
   </template>
+  {{ content }}
 </image-lightbox>

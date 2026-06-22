@@ -133,7 +133,7 @@ site
     }).filter(Boolean).join(" ");
   })
   .ignore("README.md")
-  .add("assets")
+  .add([".svg", ".jpg"])
   .add("npm:katex/dist/fonts/**", "/fonts");
 
 site.process([".css"], (files) => {
