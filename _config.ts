@@ -85,7 +85,7 @@ site
       title: "=site",
       description: "My personal website",
       published: new Date(),
-    }
+    },
   }))
   .use(readingInfo())
   .use(sitemap())

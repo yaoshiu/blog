@@ -3,7 +3,7 @@ import { toggleTheme } from "@/lib/theme.ts";
 
 @element("theme-switcher")
 export default class ThemeSwitcher extends BaseElement {
-  @listen("button", "click")
+  @listen("click", "button")
   toggle() {
     toggleTheme();
   }

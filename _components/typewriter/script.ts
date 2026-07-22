@@ -1,4 +1,9 @@
-import { BaseElement, element, property } from "@/lib/base-element.ts";
+import {
+  BaseElement,
+  element,
+  listenAttr,
+  property,
+} from "@/lib/base-element.ts";
 
 @element("type-writer")
 export class TypeWriter extends BaseElement {
@@ -8,7 +13,6 @@ export class TypeWriter extends BaseElement {
   @property({
     fromAttr: (s) => (s ? s.split("|") : []),
     toAttr: (v) => v.join("|"),
-    onChange: "restart",
   })
   accessor text!: string[];
 
@@ -26,6 +30,7 @@ export class TypeWriter extends BaseElement {
     this.restart();
   }
 
+  @listenAttr("text")
   async restart() {
     if (this.#span === null) {
       return;

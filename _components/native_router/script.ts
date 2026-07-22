@@ -24,8 +24,9 @@ export default class NativeRouter extends BaseElement {
           const html = await response.text();
 
           const doc = new DOMParser().parseFromString(html, "text/html");
-          const target = doc.querySelector<NativeRouter>(this.tagName.toLowerCase());
-
+          const target = doc.querySelector<NativeRouter>(
+            this.tagName.toLowerCase(),
+          );
 
           if (target) {
             const content = target.innerHTML;

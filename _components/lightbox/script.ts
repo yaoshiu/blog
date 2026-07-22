@@ -12,7 +12,7 @@ export default class ImageLightbox extends BaseElement {
     this.#caption = this.$(".caption");
   }
 
-  @listen(".gallery", "click")
+  @listen("click", ".gallery")
   onGalleryClick(e: MouseEvent) {
     const img = (e.target as HTMLElement).closest("img");
     if (img && this.#img && this.#caption) {
@@ -23,7 +23,7 @@ export default class ImageLightbox extends BaseElement {
     }
   }
 
-  @listen("dialog", "click")
+  @listen("click", "dialog")
   onDialogClick() {
     this.#dialog?.close();
   }

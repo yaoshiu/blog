@@ -10,7 +10,10 @@ function toArray<T>(a: unknown) {
   return Array.isArray(a) ? (a as T[]) : [];
 }
 
-type AttrCallbackMap = Record<string, string | symbol>;
+type AttrCallbackMap<T extends BaseElement> = Record<
+  string,
+  (this: T, prev: T[keyof T], next: T[keyof T]) => void
+>;
 
 function toObject<T>(v: unknown) {
   return v !== null && typeof v === "object" && !Array.isArray(v)
@@ -20,10 +23,10 @@ function toObject<T>(v: unknown) {
 
 const attrCache = new WeakMap<BaseElement, Map<string, unknown>>();
 
-interface EventDef {
-  selector: string | null;
-  event: string;
-  method: string | symbol;
+interface EventDef<T extends BaseElement, K extends keyof HTMLElementEventMap> {
+  selector: string | undefined;
+  event: K;
+  method: (this: T, e: HTMLElementEventMap[K]) => void;
 }
 
 interface BoundListener {
@@ -31,6 +34,14 @@ interface BoundListener {
   event: string;
   handler: EventListener;
 }
+
+type Attr<T extends BaseElement> = Record<
+  string,
+  {
+    fromAttr?: (s: string | null) => T[keyof T];
+    toAttr?: (v: T[keyof T]) => string | null;
+  }
+>;
 
 const boundListeners = new WeakMap<BaseElement, BoundListener[]>();
 
@@ -69,7 +80,9 @@ export abstract class BaseElement extends HTMLElement {
   destroy?(): void;
 
   static get observedAttributes(): string[] {
-    return toArray(this[Symbol.metadata]?.[ATTRS]);
+    return Object.keys(
+      toObject<Attr<BaseElement>>(this[Symbol.metadata]?.[ATTRS]),
+    );
   }
 
   constructor() {
@@ -91,17 +104,13 @@ export abstract class BaseElement extends HTMLElement {
 
     this.mounted?.();
 
-    const defs = toArray<EventDef>(
+    const defs = toArray<EventDef<BaseElement, keyof HTMLElementEventMap>>(
       this.constructor[Symbol.metadata]?.[LISTENERS],
     );
     const listeners: BoundListener[] = [];
     for (const { selector, event, method } of defs) {
-      const func = (this as Record<string | symbol, unknown>)[method];
-      if (typeof func !== "function") {
-        continue;
-      }
-      const handler = func.bind(this) as (e: Event) => void;
-      if (selector === null) {
+      const handler = method.bind(this);
+      if (selector === undefined) {
         this.shadowRoot.addEventListener(event, handler);
         listeners.push({ element: this.shadowRoot.host, event, handler });
       } else {
@@ -128,18 +137,20 @@ export abstract class BaseElement extends HTMLElement {
 
   attributeChangedCallback(
     name: string,
-    oldVal: string | null,
-    newVal: string | null,
+    prev: string | null,
+    next: string | null,
   ) {
     attrCache.get(this)?.delete(name);
-    const onChange = toObject<AttrCallbackMap>(
+    const onChange = toObject<AttrCallbackMap<BaseElement>>(
       this.constructor[Symbol.metadata]?.[ATTR_CALLBACKS],
     )[name];
     if (onChange) {
-      const func = (this as Record<string | symbol, unknown>)[onChange];
-      if (typeof func === "function") {
-        func.call(this, oldVal, newVal);
-      }
+      const { fromAttr } = toObject<Attr<BaseElement>>(
+        this.constructor[Symbol.metadata]?.[ATTRS],
+      )[name];
+      const prevVal = fromAttr ? fromAttr(prev) : prev;
+      const nextVal = fromAttr ? fromAttr(next) : next;
+      onChange.call(this, prevVal, nextVal);
     }
   }
 
@@ -151,26 +162,24 @@ export abstract class BaseElement extends HTMLElement {
 export function property<
   T extends BaseElement,
   P,
-  const OnChange extends keyof T,
 >(options?: {
-  onChange?: OnChange;
   fromAttr?: (s: string | null) => P;
   toAttr?: (v: P) => string | null;
 }) {
-  const { onChange, fromAttr, toAttr } = options ?? {};
+  const { fromAttr, toAttr } = options ?? {};
 
   return function (
     _target: ClassAccessorDecoratorTarget<T, P>,
     context: ClassAccessorDecoratorContext<T, P>,
   ) {
     const name = toKebab(String(context.name));
-    context.metadata[ATTRS] = [...toArray(context.metadata[ATTRS]), name];
-    if (onChange) {
-      context.metadata[ATTR_CALLBACKS] = {
-        ...toObject<AttrCallbackMap>(context.metadata[ATTR_CALLBACKS]),
-        [name]: onChange,
-      };
-    }
+    context.metadata[ATTRS] = {
+      ...toObject<Attr<T>>(context.metadata[ATTRS]),
+      [name]: {
+        fromAttr,
+        toAttr,
+      },
+    };
 
     return {
       init(this: T, value: P) {
@@ -226,16 +235,33 @@ export function element(name: string) {
 }
 
 export function listen<K extends keyof HTMLElementEventMap>(
-  selector: string | null,
   event: K,
+  selector?: string,
 ) {
   return function <T extends BaseElement>(
-    _method: (this: T, e: HTMLElementEventMap[K]) => void,
+    method: (this: T, e: HTMLElementEventMap[K]) => void,
     context: ClassMethodDecoratorContext<T>,
   ) {
     context.metadata[LISTENERS] = [
       ...toArray(context.metadata[LISTENERS]),
-      { selector, event: event as string, method: context.name },
+      { selector, event, method },
     ];
+  };
+}
+
+export function listenAttr<
+  T extends BaseElement,
+  const P extends keyof T,
+>(
+  property: P,
+) {
+  return function (
+    method: (this: T, prev: T[P], next: T[P]) => void,
+    context: ClassMethodDecoratorContext<T>,
+  ) {
+    context.metadata[ATTR_CALLBACKS] = {
+      ...toObject<AttrCallbackMap<T>>(context.metadata[ATTR_CALLBACKS]),
+      [toKebab(property.toString())]: method,
+    };
   };
 }

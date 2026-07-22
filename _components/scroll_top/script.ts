@@ -5,7 +5,7 @@ export default class ScrollTop extends BaseElement {
   #anchor: HTMLDivElement | null = null;
   #observer?: IntersectionObserver;
 
-  @listen("button", "click")
+  @listen("click", "button")
   scrollToTop() {
     scrollTo({ top: 0, behavior: "smooth" });
   }
