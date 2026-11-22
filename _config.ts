@@ -29,13 +29,59 @@ import { toKebab } from "@/lib/utils.ts";
 
 const shikiStyleToClass = transformerStyleToClass();
 
+// Zenbones is not bundled with Shiki, so define its restrained palette here.
+const zenbones = {
+  light: {
+    name: "zenbones-light",
+    type: "light",
+    colors: {
+      "editor.background": "#f0ede5",
+      "editor.foreground": "#41403b",
+      "editorLineNumber.foreground": "#a6a39b",
+      "editor.selectionBackground": "#d9d5ca",
+    },
+    tokenColors: [
+      { scope: ["comment", "punctuation.definition.comment"], settings: { foreground: "#9a978f", fontStyle: "italic" } },
+      { scope: ["keyword", "storage", "storage.type", "keyword.control"], settings: { foreground: "#41403b", fontStyle: "bold" } },
+      { scope: ["string", "constant.character"], settings: { foreground: "#77746d", fontStyle: "italic" } },
+      { scope: ["constant.numeric", "constant.language"], settings: { foreground: "#77746d", fontStyle: "italic" } },
+      { scope: ["entity.name.function", "support.function"], settings: { foreground: "#41403b" } },
+      { scope: ["entity.name.type", "support.type"], settings: { foreground: "#77746d" } },
+      { scope: ["variable", "meta.object-literal.key"], settings: { foreground: "#73716b" } },
+      { scope: ["punctuation", "meta.brace"], settings: { foreground: "#96938b" } },
+      { scope: ["entity.name.tag", "support.constant"], settings: { foreground: "#77746d", fontStyle: "bold" } },
+    ],
+  },
+  dark: {
+    name: "zenbones-dark",
+    type: "dark",
+    colors: {
+      "editor.background": "#1b1917",
+      "editor.foreground": "#c4c2bd",
+      "editorLineNumber.foreground": "#696762",
+      "editor.selectionBackground": "#393632",
+    },
+    tokenColors: [
+      { scope: ["comment", "punctuation.definition.comment"], settings: { foreground: "#85827c", fontStyle: "italic" } },
+      { scope: ["keyword", "storage", "storage.type", "keyword.control"], settings: { foreground: "#c4c2bd", fontStyle: "bold" } },
+      { scope: ["string", "constant.character"], settings: { foreground: "#99968f", fontStyle: "italic" } },
+      { scope: ["constant.numeric", "constant.language"], settings: { foreground: "#99968f", fontStyle: "italic" } },
+      { scope: ["entity.name.function", "support.function"], settings: { foreground: "#c4c2bd" } },
+      { scope: ["entity.name.type", "support.type"], settings: { foreground: "#99968f" } },
+      { scope: ["variable", "meta.object-literal.key"], settings: { foreground: "#96938d" } },
+      { scope: ["punctuation", "meta.brace"], settings: { foreground: "#77746e" } },
+      { scope: ["entity.name.tag", "support.constant"], settings: { foreground: "#99968f", fontStyle: "bold" } },
+    ],
+  },
+};
+
 const markdown = {
   plugins: [
     katex,
     await shiki({
       themes: {
-        light: "solarized-light",
-        dark: "solarized-dark",
+        light: zenbones.light,
+        dark: zenbones.dark,
       },
       defaultColor: "light-dark()",
       transformers: [shikiStyleToClass],

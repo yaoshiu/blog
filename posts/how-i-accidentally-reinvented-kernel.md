@@ -10,7 +10,7 @@ found [here](https://klisp.org/).
 
 I've been interested in Haskell for quite a long time, but didn't manage to
 write a single line of code. I've been reading
-_LYAH([Lear You a Haskell for Great Good!](https://learnyouahaskell.github.io/))_
+_LYAH([Learn You a Haskell for Great Good!](https://learnyouahaskell.github.io/))_
 for almost a year and got stuck before the Monad chapter. Back then every single
 section in LYAH seemed so complex for me that I would need hours to understand
 it. Actually I've restarted the book about twice or three times.
